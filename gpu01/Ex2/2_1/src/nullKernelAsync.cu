@@ -46,14 +46,16 @@ __global__ void NullKernel()
 
 int main()
 {
+    const int max_th_per_block = 1024;
+    const int max_num_blocks = 16384;
     const int cIterations = 10000;
     const int meas_iterations = 10;
 
     chTimerTimestamp start, stop;
 
 
-    for(int tpb = 1; tpb <= 1024; tpb+=100) {
-	for(int nb = 1; nb < 16384; nb+=100) {
+    for(int tpb = 1; tpb <= max_th_per_block; tpb+=100) {
+	for(int nb = 1; nb < max_num_blocks; nb+=100) {
 	    for(int j = 0; j < meas_iterations; j++) {
 
 		printf( "SYNC - NB: %d, TPB: %d\t-> ", nb, tpb); fflush( stdout );
@@ -63,11 +65,11 @@ int main()
 		for ( int i = 0; i < cIterations; i++ ) {
 		    // numBlocks, threadsPerBlock
 		    NullKernel <<< nb, tpb >>>();
-		    cudaDeviceSynchronize();
+		    // cudaDeviceSynchronize();
 		}
 
 		// Wait for all previous threads to complete
-		// cudaDeviceSynchronize();
+		cudaDeviceSynchronize();
 
 		chTimerGetTime( &stop );
 
