@@ -10,7 +10,8 @@ LOCAL_INC_PATH=./inc
 
 LIB=-L$(CUDA_ROOT)/lib64
 INC=-I$(CUDA_ROOT)/include -I$(LOCAL_INC_PATH)
-NVCC_FLAGS=-O2 --compiler-options "-O2 -Wall -Wextra" --default-stream per-thread
+# NVCC_FLAGS= --default-stream per-thread -O2 --compiler-options "-O2 -Wall -Wextra"
+NVCC_FLAGS= -O2 --compiler-options "-O2 -Wall -Wextra"
 OBJ_FLAGS := $(NVCC_FLAGS) -c
 
 # path macros

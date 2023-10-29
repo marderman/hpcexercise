@@ -37,50 +37,89 @@
  */
 
 #include <stdio.h>
-
 #include "chTimer.h"
 
-__global__ void NullKernel()
-{
-}
+__global__ void NullKernel() {}
 
-int main()
+int main (int argc, char *argv[])
 {
     const int max_th_per_block = 1024;
     const int max_num_blocks = 16384;
-    const int cIterations = 10000;
-    const int meas_iterations = 10;
+    const int cIterations = 100;
 
+    if (argc != 3) {
+	fprintf (stderr, "Wrong number of arguments, there should be 2!\n");
+	exit(1);
+    }
+
+    int act;
+    int nb;
+    int tpb;
+
+    for ( int i = 1; i < argc; i++ ) {
+
+	if (sscanf(argv[i], "%d", &act) != 1) {           //tests if input arguments are integers
+	    fprintf( stderr, "Parameter %d is not an ineger!\n", i);
+	    exit(EXIT_FAILURE);
+	}
+
+	act = atoi(argv[i]);
+
+	if (i == 1) {
+	    if (!(act > 0 && act < max_num_blocks)) {
+		fprintf (stderr, "Wrong block number, the value should be between 1 and %d (exclusively)!\n", max_num_blocks);
+		exit(1);
+	    }
+	    nb = act;
+	} else if (i == 2) {
+	    if (!(act > 0 && act < max_th_per_block)) {
+		fprintf (stderr, "Wrong amount of threads per block, the value should be between 1 and %d (exclusively)!\n", max_th_per_block);
+		exit(1);
+	    }
+	    tpb = act;
+	}
+
+    }
+
+    double microseconds;
+    double usPerLaunch;
     chTimerTimestamp start, stop;
 
+    // printf( "SYNC - NB: %-5d | TPB: %-5d-> ", nb, tpb); fflush( stdout );
+    printf("%d,%d", nb, tpb);
 
-    for(int tpb = 1; tpb <= max_th_per_block; tpb+=100) {
-	for(int nb = 1; nb < max_num_blocks; nb+=100) {
-	    for(int j = 0; j < meas_iterations; j++) {
+    chTimerGetTime( &start );
 
-		printf( "SYNC - NB: %d, TPB: %d\t-> ", nb, tpb); fflush( stdout );
+    for ( int i = 0; i < cIterations; i++ ) {
+	NullKernel <<< nb, tpb>>>();
+	cudaDeviceSynchronize();
+    }
 
-		chTimerGetTime( &start );
+    chTimerGetTime( &stop );
 
-		for ( int i = 0; i < cIterations; i++ ) {
-		    // numBlocks, threadsPerBlock
-		    NullKernel <<< nb, tpb >>>();
-		    // cudaDeviceSynchronize();
-		}
+    {
+	microseconds = 1e6*chTimerElapsedTime( &start, &stop );
+	usPerLaunch = microseconds / (float) cIterations;
 
-		// Wait for all previous threads to complete
-		cudaDeviceSynchronize();
+	printf( ",%.2f", usPerLaunch );
+    }
 
-		chTimerGetTime( &stop );
+    chTimerGetTime( &start );
 
-		{
-		    double microseconds = 1e6*chTimerElapsedTime( &start, &stop );
-		    double usPerLaunch = microseconds / (float) cIterations;
+    for ( int i = 0; i < cIterations; i++ ) {
+	NullKernel <<< nb, tpb>>>();
+    }
 
-		    printf( "%.2f us\n", usPerLaunch );
-		}
-	    }
-	}
+    // Wait for all previous threads to complete
+    cudaDeviceSynchronize();
+
+    chTimerGetTime( &stop );
+
+    {
+	microseconds = 1e6*chTimerElapsedTime( &start, &stop );
+	usPerLaunch = microseconds / (float) cIterations;
+
+	printf( ",%.2f\n", usPerLaunch );
     }
 
     return 0;
