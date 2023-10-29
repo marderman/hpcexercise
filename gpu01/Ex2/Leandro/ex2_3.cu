@@ -11,6 +11,7 @@ void *dmem;
 void *hmem;
 const int count = 10;
 double times[count];
+//FILE *f;
 
 double calculate_avg_time(double times[], int n){
     double temp = 0;
@@ -21,8 +22,15 @@ double calculate_avg_time(double times[], int n){
 }
 
 void gpu_test(int amount, int size, bool pinned, bool todevice){
+/*FILE *f = fopen("results.txt", "w");
+if (f == NULL)
+{
+    printf("Error opening file!\n");
+    exit(1);
+}*/
 if(pinned == false && todevice == false){
-    printf("Read from Device (non pinned memory)\n");
+    printf("Read %d bytes from Device (non pinned memory)\n", (int)(amount * 1024 * pow(1024,size)));
+    //fprintf(f, "Read %d bytes from Device (non pinned memory) ", (int)(amount * 1024 * pow(1024,size)));
     for (size_t i = 0; i < count; i++)
     {
         hmem = malloc(amount * 256 * pow(1024,size)* sizeof(int));
@@ -38,9 +46,10 @@ if(pinned == false && todevice == false){
         free(hmem);
     }
     printf( "Average %.2f us\n", calculate_avg_time(times, sizeof(times)/sizeof(times[0])));
+    //fprintf(f, "Average %.2f us\n", calculate_avg_time(times, sizeof(times)/sizeof(times[0])));
 }
 if(pinned == false && todevice == true){
-    printf("Write to Device (non pinned memory)\n");
+    printf("Write %d bytes to Device (non pinned memory)\n", (int)(amount * 1024 * pow(1024,size)));
     for (size_t i = 0; i < count; i++)
     {
         hmem = malloc(amount * 256 * pow(1024,size)* sizeof(int));
@@ -58,7 +67,7 @@ if(pinned == false && todevice == true){
     printf( "Average %.2f us\n", calculate_avg_time(times, sizeof(times)/sizeof(times[0])));
 }
 if(pinned == true && todevice == false){
-    printf("Read from Device (pinned memory)\n");
+    printf("Read %d bytes from Device (pinned memory)\n", (int)(amount * 1024 * pow(1024,size)));
     for (size_t i = 0; i < count; i++)
     {
         cudaMallocHost(&hmem, amount * 256 * pow(1024,size)* sizeof(int));
@@ -76,7 +85,7 @@ if(pinned == true && todevice == false){
     printf( "Average %.2f us\n", calculate_avg_time(times, sizeof(times)/sizeof(times[0])));
 }
 if(pinned == true && todevice == true){
-    printf("Write to Device (pinned memory)\n");
+    printf("Write %d bytes to Device (pinned memory)\n", (int)(amount * 1024 * pow(1024,size)));
     for (size_t i = 0; i < count; i++)
     {
         cudaMallocHost(&hmem, amount * 256 * pow(1024,size)* sizeof(int));
@@ -93,6 +102,7 @@ if(pinned == true && todevice == true){
     }
     printf( "Average %.2f us\n", calculate_avg_time(times, sizeof(times)/sizeof(times[0])));
 }
+//fclose(f);
 }
 
 int main()
