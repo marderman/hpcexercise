@@ -44,16 +44,15 @@
 
 // }
 
-__global__ void TimeKernel(long long int endtime, int n)
+__global__ void TimeKernel(long long int* endtime, int n)
 {
-    endtime = 0;
+    // endtime = 0;
     int i = threadIdx.x;
     if (i < n)
     {
         long long int start = clock64();
 
-        endtime = clock64() - start;
-        printf("endtime: %lld", endtime);
+        *endtime = clock64() - start;
     }
 }
 
@@ -74,22 +73,22 @@ __global__ void ActiveWaitKernel(long long int timethd, long long int* endtime, 
 int main()
 {
     long long int h_time = 0;
-    long long int hh_time = 0;
+    long long int h_waited_time = 0;
     long long int* d_time;
-    long long int* dd_time;
+    long long int* d_waited_time;
     long long int h_clockcycleswait = 0;
     long long int* d_clockcycleswait;
-    int N = 1;
+    int N = 1000;
 
     cudaMalloc(&d_time, sizeof(long long int));
-    cudaMalloc(&dd_time, sizeof(long long int));
+    cudaMalloc(&d_waited_time, sizeof(long long int));
     cudaMalloc(&d_clockcycleswait, sizeof(long long int));
 
-    cudaMemcpy(&d_time, &h_time, sizeof(long long int), cudaMemcpyHostToDevice);
-    cudaMemcpy(&dd_time, &hh_time, sizeof(long long int), cudaMemcpyHostToDevice);
-    cudaMemcpy(&d_clockcycleswait, &h_clockcycleswait, sizeof(long long int), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_time, &h_time, sizeof(long long int), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_waited_time, &h_waited_time, sizeof(long long int), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_clockcycleswait, &h_clockcycleswait, sizeof(long long int), cudaMemcpyHostToDevice);
 
-    const int cIterations = 1;
+    const int cIterations = 1000;
     printf( "Measuring asynchronous launch time... " ); fflush( stdout );
 
     chTimerTimestamp start, stop;
@@ -97,11 +96,13 @@ int main()
     chTimerGetTime( &start );
     for ( int i = 0; i < cIterations; i++ ) 
     {
-        TimeKernel<<<1,N>>>(*dd_time, N);
+        TimeKernel<<<1,N>>>(d_waited_time, N);
     }
     cudaDeviceSynchronize();
     chTimerGetTime( &stop );
+    cudaMemcpy(&h_waited_time, d_waited_time, sizeof(long long int), cudaMemcpyDeviceToHost);
     
+    printf("h_waited_time: %lld", h_waited_time);
 
     double microseconds = 1e6*chTimerElapsedTime( &start, &stop );
     double usPerLaunch = microseconds / (float) cIterations;
@@ -112,21 +113,22 @@ int main()
     
     do
     {
-        h_clockcycleswait += 2000;
-        cudaMemcpy(&d_clockcycleswait, &h_clockcycleswait, sizeof(long long int), cudaMemcpyHostToDevice);
+        h_clockcycleswait += 100;
+        printf("h_clockcycleswait: %lld ", h_clockcycleswait);
+        cudaMemcpy(d_clockcycleswait, &h_clockcycleswait, sizeof(long long int), cudaMemcpyHostToDevice);
 
         chTimerGetTime( &start );
         for ( int i = 0; i < cIterations; i++ ) 
         {
             ActiveWaitKernel<<<1,N>>>(*d_clockcycleswait, d_time, N);
-            TimeKernel<<<1,N>>>(*dd_time, N);
+            // ActiveWaitKernel(*d_clockcycleswait, d_time, N);
         }
         cudaDeviceSynchronize();
         chTimerGetTime( &stop );
-        cudaMemcpy(&h_time, &d_time, sizeof(long long int), cudaMemcpyDeviceToHost);
+        cudaMemcpy(&h_time, d_time, sizeof(long long int), cudaMemcpyDeviceToHost);
         // cudaMemcpy(&hh_time, &dd_time, sizeof(long long int), cudaMemcpyDeviceToHost);
         
-        printf( "count: %lld \n", h_time );
+        // printf( "count: %lld \n", h_time );
         microseconds = 1e6*chTimerElapsedTime( &start, &stop );
         usPerLaunch2Kernel = microseconds / (float) cIterations;
         
