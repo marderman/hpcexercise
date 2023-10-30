@@ -1,0 +1,1 @@
+/var/spool/slurmd/job895005/slurm_script: line 11: 35357 Segmentation fault      ./test
