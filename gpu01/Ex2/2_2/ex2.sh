@@ -8,4 +8,4 @@
 #SBATCH --gres=gpu:1
 
 module load devtoolset/9 cuda/12.0
-./test
+./bin/breakEvenKernelStartupTime
