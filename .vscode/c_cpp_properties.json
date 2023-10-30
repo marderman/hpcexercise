@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/local/include/cuda",
+                "/share/bsoproni/openmpi4/include/"
+            ],
+            "defines": [],
+            "compilerPath": "/opt/cuda-9.0/bin/nvcc",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
