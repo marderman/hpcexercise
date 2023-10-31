@@ -1,1 +1,18 @@
 mpi(8):ERROR:105: Unable to locate a modulefile for 'mpi/open-mpi-4.1.6'
+[octane001:18229] *** Process received signal ***
+[octane001:18229] Signal: Segmentation fault (11)
+[octane001:18229] Signal code: Address not mapped (1)
+[octane001:18229] Failing at address: 0x7f1cbc087008
+[octane001:18229] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7f1cbf4f4630]
+[octane001:18229] [ 1] /lib64/libc.so.6(cfree+0x1c)[0x7f1cbf19cb7c]
+[octane001:18229] [ 2] ./bin/measureLatency[0x4016dc]
+[octane001:18229] [ 3] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f1cbf139555]
+[octane001:18229] [ 4] ./bin/measureLatency[0x401139]
+[octane001:18229] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 18229 on node octane001 exited on signal 11 (Segmentation fault).
+--------------------------------------------------------------------------

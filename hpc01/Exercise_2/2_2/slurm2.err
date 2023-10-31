@@ -1,2 +1,34 @@
 mpi(8):ERROR:105: Unable to locate a modulefile for 'mpi/open-mpi-4.1.6'
-slurmstepd: error: *** JOB 895409 ON octane001 CANCELLED AT 2023-10-30T16:35:54 ***
+[octane001:18332] *** Process received signal ***
+[octane001:18332] Signal: Segmentation fault (11)
+[octane001:18332] Signal code: Address not mapped (1)
+[octane001:18332] Failing at address: 0x7fc2a92a0008
+[octane001:18332] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7fc2b524f630]
+[octane001:18332] [ 1] /lib64/libc.so.6(cfree+0x1c)[0x7fc2b4ef7b7c]
+[octane001:18332] [ 2] ./bin/measureLatency[0x4016dc]
+[octane001:18332] [ 3] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7fc2b4e94555]
+[octane001:18332] [ 4] ./bin/measureLatency[0x401139]
+[octane001:18332] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+An MPI communication peer process has unexpectedly disconnected.  This
+usually indicates a failure in the peer process (e.g., a crash or
+otherwise exiting without calling MPI_FINALIZE first).
+
+Although this local MPI process will likely now behave unpredictably
+(it may even hang or crash), the root cause of this problem is the
+failure of the peer -- that is what you need to investigate.  For
+example, there may be a core file that you can examine.  More
+generally: such peer hangups are frequently caused by application bugs
+or other external events.
+
+  Local host: octane002
+  Local PID:  5980
+  Peer host:  octane001
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node octane001 exited on signal 11 (Segmentation fault).
+--------------------------------------------------------------------------

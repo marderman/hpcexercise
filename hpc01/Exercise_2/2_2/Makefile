@@ -1,6 +1,17 @@
 
 MPICC=mpicc
 
+# List of modules to load
+MODULES := devtoolset/10 mpi/open-mpi-4.1.6
+
+load:
+	@echo "Loading modules..."
+	@for module in $(MODULES); do \
+		module load $$module; \
+	done
+	@echo "Modules loaded successfully"
+
+.PHONY: load
 
 .PHONY: build
 build: ./bin/measureLatency
