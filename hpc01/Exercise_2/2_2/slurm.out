@@ -1,0 +1,6 @@
+Average full roundtrip time 0.000692 for message size of 1.000000 bytes
+Average half roundtrip time 0.000346 for message size of 1.000000 bytes
+Average full roundtrip time 0.001438 for message size of 1024.000000 bytes
+Average half roundtrip time 0.000719 for message size of 1024.000000 bytes
+Average full roundtrip time 0.291155 for message size of 1048576.000000 bytes
+Average half roundtrip time 0.145577 for message size of 1048576.000000 bytes
