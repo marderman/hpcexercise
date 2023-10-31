@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
-#define iterations 1000
+#define iterations 20000
 
 int main(int argc, char **argv)
 {
@@ -28,19 +28,20 @@ int main(int argc, char **argv)
 
     // Var
     for (size_t h = 0; h < 3; h++) {
-        inbuffer = (char*) malloc(1*pow(1024,h)*sizeof(char));
-        outbuffer= (char*) malloc(1*pow(1024,h)*sizeof(char));
+    for (size_t j = 0; j < 4; j++){        
+        inbuffer = (char*) malloc((j+1)*pow(1024,h)*sizeof(char));
+        outbuffer= (char*) malloc((j+1)*pow(1024,h)*sizeof(char));
         //printf("%d",h);
 
         for (size_t i = 0; i < iterations; i++) {
             if (rank == 0 && start == 1) {
 
                 round_start = MPI_Wtime();
-                MPI_Send(outbuffer,1*pow(1024,h)*sizeof(char),MPI_CHAR,(rank + 1) % n_process,0,MPI_COMM_WORLD );
+                MPI_Send(outbuffer,(j+1)*pow(1024,h)*sizeof(char),MPI_CHAR,(rank + 1) % n_process,0,MPI_COMM_WORLD );
                 start = 0;
 
             } else {
-                MPI_Recv(inbuffer,1*pow(1024,h)*sizeof(char),MPI_CHAR,MPI_ANY_SOURCE,0,MPI_COMM_WORLD, &status);
+                MPI_Recv(inbuffer,(j+1)*pow(1024,h)*sizeof(char),MPI_CHAR,MPI_ANY_SOURCE,0,MPI_COMM_WORLD, &status);
 
                 if (rank == 0) {
                     round_end = MPI_Wtime();
@@ -50,7 +51,7 @@ int main(int argc, char **argv)
                 }
                 //printf("Hello from Process %d\n", rank); printf("Nachricht %s von Prozess %d\n",inbuffer, rank); fflush(stdout);
                 outbuffer = inbuffer;
-                MPI_Send(outbuffer,1*pow(1024,h)*sizeof(char),MPI_CHAR,(rank + 1) % n_process,0,MPI_COMM_WORLD );
+                MPI_Send(outbuffer,(j+1)*pow(1024,h)*sizeof(char),MPI_CHAR,(rank + 1) % n_process,0,MPI_COMM_WORLD );
             }
         }
 
@@ -63,14 +64,15 @@ int main(int argc, char **argv)
 
             average_round /= iterations;
             average_half_round = average_round/2;
-            printf("Average full roundtrip time %lf for message size of %f bytes\n", average_round*1000,pow(1024,h));
-            printf("Average half roundtrip time %lf for message size of %f bytes\n", average_half_round*1000,pow(1024,h));
+            printf("Average full roundtrip time %lf for message size of %f bytes\n", average_round*1000,(j+1)*pow(1024,h));
+            printf("Average half roundtrip time %lf for message size of %f bytes\n", average_half_round*1000,(j+1)*pow(1024,h));
         }
             //printf("%d", h);
+        }
     }
-
     free(inbuffer);
     free(outbuffer);
+    free(time_measurements_round);
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
 
