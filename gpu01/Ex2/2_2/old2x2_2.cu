@@ -52,6 +52,8 @@ __global__ void TimeKernel(long long int* endtime, int n)
     {
         long long int start = clock64();
 
+        long long int end = clock64();
+
         *endtime = clock64() - start;
     }
 }
