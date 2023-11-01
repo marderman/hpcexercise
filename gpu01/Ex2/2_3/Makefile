@@ -5,7 +5,7 @@ NVCC=nvcc
 NVCC_FLAGS=-O2 --compiler-options "-O2 -Wall -Wextra"
 
 .PHONY: build
-build: ./ex2_3.exe
+build: ./bin/ex2_3
 
 .PHONY: clean
 clean:
@@ -14,5 +14,5 @@ clean:
 .PHONY: rebuild
 rebuild: clean build
 
-./ex2_3.exe: ./ex2_3.cu
+./bin/ex2_3: ./bin/ex2_3.cu
 	$(NVCC) $(NVCC_FLAGS) -o $@ $^ $(INC) $(LIB)
