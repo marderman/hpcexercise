@@ -56,22 +56,37 @@ int main(int argc, char **argv)
 			if (rank == 0) {
 				total_data_size = pkt_size_root(h)*iterations;
 
-				MPI_Request send_statuses[iterations];
-
+				// --------------------------------------------------------------------------
+				// Blocking send
+				// --------------------------------------------------------------------------
 				round_start = MPI_Wtime();
 
 				for (int i = 0; i < iterations; i++) {
-					ret = MPI_Isend(outbuffer,pkt_size_root(h),MPI_CHAR,1,0,MPI_COMM_WORLD, &send_statuses[i]);
-					/* printf("%d/%d: %.0f B message sent, ret: %d\n", rank, i, pow(1024,h), ret); */
+					ret = MPI_Send(outbuffer,pkt_size_root(h),MPI_CHAR,1,0,MPI_COMM_WORLD);
 					if (ret)
 						errx(ret, "Failed to send on rank %d!", rank);
 				}
+				// --------------------------------------------------------------------------
 
-				MPI_Waitall(iterations, send_statuses, MPI_STATUSES_IGNORE);
+				// --------------------------------------------------------------------------
+				// Non-blocking send
+				// --------------------------------------------------------------------------
+				/* MPI_Request send_statuses[iterations]; */
+
+				/* round_start = MPI_Wtime(); */
+
+				/* for (int i = 0; i < iterations; i++) { */
+				/* 	ret = MPI_Isend(outbuffer,pkt_size_root(h),MPI_CHAR,1,0,MPI_COMM_WORLD, &send_statuses[i]); */
+				/* 	/\* printf("%d/%d: %.0f B message sent, ret: %d\n", rank, i, pow(1024,h), ret); *\/ */
+				/* 	if (ret) */
+				/* 		errx(ret, "Failed to send on rank %d!", rank); */
+				/* } */
+
+				/* MPI_Waitall(iterations, send_statuses, MPI_STATUSES_IGNORE); */
+				// --------------------------------------------------------------------------
 				round_end = MPI_Wtime();
 
 				// Take end time and calculate
-				/* printf("Transferred %ld B of data in %f seconds.\n", total_data_size, round_end - round_start); */
 				double calc_throughput = (total_data_size/(round_end - round_start))/1000000;
 				printf("Pkt size: %.0f -> Throughput %f MBps\n",
 				pkt_size_root(h), calc_throughput);
@@ -79,7 +94,6 @@ int main(int argc, char **argv)
 			} else if (rank == 1) {
 				for (int i = 0; i < iterations; i++) {
 					ret = MPI_Recv(inbuffer,pkt_size_root(h),MPI_CHAR,0,0,MPI_COMM_WORLD, &status);
-					/* printf("%d/%d: %.0f B message receive from %d, ret: %d\n", rank, i,  pow(1024,h), status.MPI_SOURCE,ret); */
 					if (ret)
 						errx(ret, "Failed to receive on rank %d!", rank);
 				}
