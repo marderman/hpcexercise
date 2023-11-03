@@ -1,27 +1,28 @@
+#Define the shell
+SHELL:=/bin/bash
 
-MPICC=mpicc
+# Define the MPI compiler
+MPICC = mpicc
 
-.PHONY: build
-build: ./bin/ownBarrier
+# Define the source and output files
+SRC = main.c
+OUT = ./bin/ownBarrier
 
-.PHONY: clean
+# List the modules you need to load
+MODULES = module load devtoolset/10 mpi/open-mpi-4.1.6
+
+# Compilation flags
+#CFLAGS = -O3 -g
+
+all: build
+
+build:
+    # Load the required modules
+	$(MODULES)
+
+    # Compile the MPI program
+	$(MPICC) $(CFLAGS) -o $(OUT) $(SRC)
+
 clean:
-	rm ./bin/*
-
-.PHONY: rebuild
-rebuild: clean build
-
-# List of modules to load
-MODULES := devtoolset/10 mpi/open-mpi-4.1.6
-
-load:
-	@echo "Loading modules..."
-	@for module in $(MODULES); do \
-		module load $$module; \
-	done
-	@echo "Modules loaded successfully"
-
-.PHONY: load
-
-./bin/ownBarrier: ./main.c
-	$(MPICC) -lm -o $@ $^ $(INC) $(LIB)
+    # Remove the executable
+	rm -f $(OUT)

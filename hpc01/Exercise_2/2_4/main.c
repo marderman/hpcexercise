@@ -88,8 +88,8 @@ int main(int argc, char *argv[]) {
 
             average_round /= iterations;
             average_mpi_round /= iterations;
-            printf("Average time when using own implementation of barrier %lf for %d iterations\n", average_round*1000,iterations);
-            printf("Average time when using MPI_BARRIER %lf for %d iterations\n", average_mpi_round*1000,iterations);
+            printf("Average time when using own implementation of barrier %lf for %d iterations\n", average_round*1e6,iterations);
+            printf("Average time when using MPI_BARRIER %lf for %d iterations\n", average_mpi_round*1e6,iterations);
     }
     
     free(time_measurements_mpi);

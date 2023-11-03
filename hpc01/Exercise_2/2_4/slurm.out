@@ -1,2 +1,2 @@
-Average time when using own implementation of barrier 0.014371 for 10000 iterations
-Average time when using MPI_BARRIER 0.165312 for 10000 iterations
+Average time when using own implementation of barrier 0.158772 for 10000 iterations
+Average time when using MPI_BARRIER 0.256117 for 10000 iterations

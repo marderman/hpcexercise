@@ -7,7 +7,7 @@
 int main() {
     const int minSize = 1024;  // 1 KB
     const int maxSize = 1024 * 1024 * 1024;  // 1 GB
-    const int numIterations = 100;
+    const int numIterations = 500;
     chTimerTimestamp start,stop;
 
     for (long size = minSize; size <= maxSize; size *= 2) {

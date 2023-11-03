@@ -1,6 +1,6 @@
 NVCC=nvcc
-INC=-I./inc -I/usr/local/cuda/include
-LIB=-L/usr/local/cuda/lib64
+INC=-I./inc #-I/usr/local/cuda/include
+#LIB=-L/usr/local/cuda/lib64
 
 .PHONY: build
 build: ./bin/memCpy
