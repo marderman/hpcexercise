@@ -1,7 +1,6 @@
 
 MPICC=mpicc
 
-
 .PHONY: build
 build: ./bin/measureBandwith
 
@@ -13,4 +12,4 @@ clean:
 rebuild: clean build
 
 ./bin/measureBandwith: ./main.c
-	$(MPICC) -lm -o $@ $^ $(INC) $(LIB)
+	$(MPICC) -Wall -lm -o $@ $^ $(INC) $(LIB)
