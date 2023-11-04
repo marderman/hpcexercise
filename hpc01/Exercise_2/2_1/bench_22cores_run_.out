@@ -1,26 +1,2 @@
-Zeit: 0.000000 ;Anzahl Prozesse 22
-Zeit: 0.000000; Prozess 10 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 11 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 12 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 13 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 14 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 15 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 16 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 17 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 18 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 19 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 20 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 21 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 22 von 22 läuft auf octane005.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 2 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 3 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 4 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 5 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 6 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 7 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 8 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 9 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.000021; Prozess 1 von 22 läuft auf octane004.ziti.uni-heidelberg.de
-Zeit: 0.014207; START
-Zeit: 0.014210; Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
-Zeit: 2.429599;22;2.387876;0.000119;0.000005
+Zeit 0.000000;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
+Zeit: 2.547730;22;2.505065;0.000125;0.000006

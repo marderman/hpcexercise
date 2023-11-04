@@ -1,12 +1,2 @@
-Zeit: 0.000000 ;Anzahl Prozesse 8
-Zeit: 0.000000; Prozess 2 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 3 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 4 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 5 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 6 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 7 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 8 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000021; Prozess 1 von 8 läuft auf octane008.ziti.uni-heidelberg.de
-Zeit: 0.000055; START
-Zeit: 0.000056; Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
-Zeit: 0.091079;8;0.079434;0.000004;0.000000
+Zeit 0.000000;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
+Zeit: 0.098202;8;0.083080;0.000004;0.000001
