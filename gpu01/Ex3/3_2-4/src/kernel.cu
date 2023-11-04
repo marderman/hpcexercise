@@ -2,7 +2,7 @@
  *
  *        Computer Engineering Group, Heidelberg University - GPU Computing Exercise 03
  *
- *                           Group : 01
+ *                           Group : TBD
  *
  *                            File : main.cu
  *
@@ -14,49 +14,47 @@
 // Kernels
 //
 
-#include <stdio.h>
-
 __global__ void 
-globalMemCoalescedKernel(int *src, int *dest,int elementCount, int elementsPerThread)
+globalMemCoalescedKernel(int* source, int* destination, int size)
 {
-    int iStart = threadIdx.x + blockDim.x*blockIdx.x;
-    int i;
-    for (int j = 0; j < elementsPerThread; j++)
-    {
-        i = iStart + blockDim.x*gridDim.x*j;
-        //printf("i: %d\n",i);
-        if (i<elementCount){
-            dest[i] = src[i];
-        }
-    }
+    const int tid = threadIdx.x + blockIdx.x * blockDim.x;
+
+    if (tid >= size) return;
+
+    destination[tid] = source[tid];      
 }
 
 void 
-globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int *src, int *dest,int elementCount) {
-    int elementsPerThread = (elementCount + blockDim.x*gridDim.x - 1) / (blockDim.x*gridDim.x);
-	globalMemCoalescedKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(src,dest,elementCount,elementsPerThread);
+globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size) {
+	globalMemCoalescedKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size);
 }
 
 __global__ void 
-globalMemStrideKernel(int *src, int *dest, int stride)
+globalMemStrideKernel(int* source, int* destination, int size, int stride)
 {
-    int i = (threadIdx.x + blockDim.x*blockIdx.x)*stride;
-    dest[i] = src[i];
+    const int tid = threadIdx.x + blockIdx.x * blockDim.x;
+
+    if (tid >= size) return;
+
+    destination[tid] = source[tid*stride]; 
 }
 
 void 
-globalMemStrideKernel_Wrapper(dim3 gridDim, dim3 blockDim, int *src, int *dest, int stride) {
-	globalMemStrideKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(src, dest, stride);
+globalMemStrideKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size, int stride) {
+	globalMemStrideKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size, stride);
 }
 
 __global__ void 
-globalMemOffsetKernel(int *src, int *dest, int offset)
+globalMemOffsetKernel(int* source, int* destination, int size, int offset)
 {
-    int i = (threadIdx.x + blockDim.x*blockIdx.x)+offset;
-    dest[i] = src[i];
+    const int tid = threadIdx.x + blockIdx.x * blockDim.x;
+
+    if (tid >= size) return;
+
+    destination[tid] = source[tid*offset]; 
 }
 
 void 
-globalMemOffsetKernel_Wrapper(dim3 gridDim, dim3 blockDim, int *src, int *dest, int offset) {
-	globalMemOffsetKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(src, dest, offset);
+globalMemOffsetKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size, int offset) {
+	globalMemOffsetKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size, offset);
 }
