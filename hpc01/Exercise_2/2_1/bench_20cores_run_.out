@@ -1,24 +1,4 @@
-Zeit: 0.000000 ;Anzahl Prozesse 20
-Zeit: 0.000000; Prozess 10 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 11 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 12 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 13 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 14 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 15 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 16 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 17 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 18 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 19 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 20 von 20 läuft auf octane007.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 2 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 3 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 4 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 5 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 6 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 7 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 8 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000000; Prozess 9 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.000023; Prozess 1 von 20 läuft auf octane006.ziti.uni-heidelberg.de
-Zeit: 0.011731; START
-Zeit: 0.011733; Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
-Zeit: 2.600078;20;2.558084;0.000128;0.000006
+Zeit: 0.000000;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
+Zeit: 2.698696;20;2.658395;0.000133;0.000007
+Zeit: 2.376699;20;2.338401;0.000117;0.000006
+Zeit;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time

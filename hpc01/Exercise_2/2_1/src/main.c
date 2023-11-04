@@ -34,24 +34,23 @@ int main(int argc, char** argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0)
     {
-        printf("Zeit: %lf ;Anzahl Prozesse %d\n",MPI_Wtime(), n_process);
-    }
+        printf("Zeit;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time\n",MPI_Wtime());
+        fflush(stdout);
 
+    }
+    MPI_Barrier(MPI_COMM_WORLD);
     char hostname[256];
     gethostname(hostname, 256);
     for (size_t i = 0; i < n_process; i++)
     {
         if (rank == i){
-       printf("Zeit: %lf; Prozess %d von %d läuft auf %s\n", MPI_Wtime(),rank+1,n_process,hostname);
+       //printf("Zeit: %lf; Prozess %d von %d läuft auf %s\n", MPI_Wtime(),rank+1,n_process,hostname);
         }
     }
     
-
-
     MPI_Barrier(MPI_COMM_WORLD); 
     if (rank == 0) {
-    printf("Zeit: %lf; START\n", MPI_Wtime());
-    printf("Zeit: %lf; Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time\n",MPI_Wtime());
+    //printf("Zeit: %lf Start\n", MPI_Wtime());
     fflush(stdout);
 }
     MPI_Barrier(MPI_COMM_WORLD);

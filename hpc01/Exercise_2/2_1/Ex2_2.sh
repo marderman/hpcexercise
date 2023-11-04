@@ -21,6 +21,6 @@ module load devtoolset/10 mpi/open-mpi-4.1.6
 for irun in "$(seq 1 ${nruns})"
 do
     timestamp=\$(seq 1 ${nruns})
-    srun  --distribution=block:block bin/ringCommunication | sort  > "bench_${ncores}cores_run${irun}_${timestamp}.out"
+    srun  --distribution=block:block bin/ringCommunication | sort  >> "bench_${ncores}cores_run${irun}_${timestamp}.out"
 done
 EOF
