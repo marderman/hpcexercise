@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define iterations 20000
+#define iterations 200000
 
 
 int main(int argc, char** argv)
