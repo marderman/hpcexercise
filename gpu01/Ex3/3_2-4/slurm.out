@@ -2,6 +2,6 @@
 *** Starting ...
 ***
 *** Using pageable memory
-[31m***
-***ERROR*** 35 - CUDA driver version is insufficient for CUDA runtime version
-***[0m
+Results for cudaMemcpy:
+Size:   10485760B, H2D: 116508.44 GB/s, D2H: 349525.33 GB/s, D2D: 262144.00 GB/s
+Coalesced copy of global memory, size=  10485760, gDim=   16, bDim=  128, bw=152.40GB/s

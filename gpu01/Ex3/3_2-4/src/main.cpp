@@ -124,6 +124,8 @@ main ( int argc, char * argv[] )
         chCommandLineGet <int> ( &optMemorySize, "size", argc, argv );
         optMemorySize = optMemorySize != 0 ? optMemorySize : DEFAULT_MEM_SIZE;
     }
+	
+	std::cout << "*** Allocating memory of following size=" << optMemorySize << std::endl;
 
     //
     // Host Memory
@@ -140,7 +142,8 @@ main ( int argc, char * argv[] )
         h_memoryB = static_cast <int*> ( malloc ( static_cast <size_t> ( optMemorySize ) ) );
     } else { // Pinned
         std::cout << "***" << " Using pinned memory" << std::endl;
-        // Allocation of pinned host memory
+        cudaMallocHost(&h_memoryA, static_cast <size_t> ( optMemorySize ));
+        cudaMallocHost(&h_memoryB, static_cast <size_t> ( optMemorySize ));
     }
 
     //
@@ -148,9 +151,8 @@ main ( int argc, char * argv[] )
     //
     int* d_memoryA = NULL;
     int* d_memoryB = NULL;
-    // Allocation of device memory
-    d_memoryA = static_cast <int*> ( malloc ( static_cast <size_t> ( optMemorySize ) ) ); //Added
-    d_memoryB = static_cast <int*> ( malloc ( static_cast <size_t> ( optMemorySize ) ) );
+    cudaMalloc( (void**) &d_memoryA, static_cast <size_t> ( optMemorySize ));
+    cudaMalloc( (void**) &d_memoryB, static_cast <size_t> ( optMemorySize ));
 
     if ( !h_memoryA || !h_memoryB || !d_memoryA || !d_memoryB ) {
         std::cout << "\033[31m***" << std::endl
@@ -171,21 +173,24 @@ main ( int argc, char * argv[] )
     // Host To Device
     memCpyH2DTimer.start ();
     for ( int i = 0; i < optMemCpyIterations; i ++ ) {
-        // H2D copy
+        cudaMemcpy(d_memoryA, h_memoryA, optMemorySize, cudaMemcpyHostToDevice );
+        cudaDeviceSynchronize();
     }
     memCpyH2DTimer.stop ();
 
     // Device To Device
     memCpyD2DTimer.start ();
     for ( int i = 0; i < optMemCpyIterations; i ++ ) {
-        // D2D copy
+        cudaMemcpy(d_memoryB, d_memoryA, optMemorySize, cudaMemcpyDeviceToDevice );
+        cudaDeviceSynchronize();
     }
     memCpyD2DTimer.stop ();
 
     // Device To Host
     memCpyD2HTimer.start ();
     for ( int i = 0; i < optMemCpyIterations; i ++ ) {
-        // D2H copy
+        cudaMemcpy(h_memoryB, d_memoryB, optMemorySize, cudaMemcpyDeviceToHost );
+        cudaDeviceSynchronize();
     }
     memCpyD2HTimer.stop ();
 
@@ -211,11 +216,11 @@ main ( int argc, char * argv[] )
         // Launch Kernel
         //
         if ( chCommandLineGetBool ( "global-coalesced", argc, argv ) ) {
-			globalMemCoalescedKernel_Wrapper(grid_dim, block_dim, h_memoryA, d_memoryA, optMemorySize);
+			globalMemCoalescedKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optMemorySize);
         } else if ( chCommandLineGetBool ( "global-stride", argc, argv ) ) {
-            globalMemStrideKernel_Wrapper(grid_dim, block_dim, h_memoryA, d_memoryA, optMemorySize, optStride /*TODO Parameters*/);
+            globalMemStrideKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optMemorySize, optStride /*TODO Parameters*/);
         } else if ( chCommandLineGetBool ( "global-offset", argc, argv ) ) {
-            globalMemOffsetKernel_Wrapper(grid_dim, block_dim, h_memoryA, d_memoryA, optMemorySize, optOffset /*TODO Parameters*/);
+            globalMemOffsetKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optMemorySize, optOffset /*TODO Parameters*/);
         } else {
             break;
         }

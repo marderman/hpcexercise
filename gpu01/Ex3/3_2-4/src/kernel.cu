@@ -15,18 +15,22 @@
 //
 
 __global__ void 
-globalMemCoalescedKernel(int* source, int* destination, int size)
+globalMemCoalescedKernel(int* source, int* destination, int size, int itemsperthread)
 {
     const int tid = threadIdx.x + blockIdx.x * blockDim.x;
+    
+    for(int i = 0; i < itemsperthread; i++){
+    
+        if (tid >= size) return;
 
-    if (tid >= size) return;
-
-    destination[tid] = source[tid];      
+    destination[tid] = source[tid+i];
+    }      
 }
 
 void 
 globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size) {
-	globalMemCoalescedKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size);
+    int itemsperthread = (size / sizeof(int)) / (gridDim.x * blockDim.x);
+	globalMemCoalescedKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size, itemsperthread);
 }
 
 __global__ void 

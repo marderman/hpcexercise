@@ -7,4 +7,4 @@
 #SBATCH -o slurm.out
 #SBATCH --error=slurm.err      # file to collect standard errors
 
-bin/memCpy
+bin/memCpy --global-coalesced
