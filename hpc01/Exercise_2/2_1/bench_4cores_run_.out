@@ -1,0 +1,8 @@
+Zeit: 0.000000 ;Anzahl Prozesse 4
+Zeit: 0.000000; Prozess 2 von 4 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 3 von 4 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 4 von 4 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000021; Prozess 1 von 4 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000056; START
+Zeit: 0.000057; Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
+Zeit: 0.056340;4;0.049089;0.000002;0.000001

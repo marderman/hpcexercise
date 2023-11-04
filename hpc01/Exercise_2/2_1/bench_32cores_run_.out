@@ -1,0 +1,36 @@
+Zeit: 0.000000 ;Anzahl Prozesse 32
+Zeit: 0.000000; Prozess 10 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 11 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 12 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 13 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 14 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 15 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 16 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 17 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 18 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 19 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 20 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 21 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 22 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 23 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 24 von 32 läuft auf octane002.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 25 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 26 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 27 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 28 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 29 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 2 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 30 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 31 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 32 von 32 läuft auf octane003.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 3 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 4 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 5 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 6 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 7 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 8 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000000; Prozess 9 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000052; Prozess 1 von 32 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.012141; START
+Zeit: 0.012143; Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
+Zeit: 3.551706;32;3.500160;0.000175;0.000005

@@ -1,0 +1,6 @@
+Zeit: 0.000000 ;Anzahl Prozesse 2
+Zeit: 0.000000; Prozess 2 von 2 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000036; Prozess 1 von 2 läuft auf octane001.ziti.uni-heidelberg.de
+Zeit: 0.000080; START
+Zeit: 0.000081; Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time
+Zeit: 0.067841;2;0.041501;0.000002;0.000001
