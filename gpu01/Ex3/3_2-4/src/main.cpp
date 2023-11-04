@@ -34,9 +34,9 @@ void printHelp(char *);
 //
 
 
-extern void globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int *src, int *dest, int elementCount);
-extern void globalMemStrideKernel_Wrapper(dim3 gridDim, dim3 blockDim, int *src, int *dest, int stride);
-extern void globalMemOffsetKernel_Wrapper(dim3 gridDim, dim3 blockDim, int *src, int *dest, int offset);
+extern void globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size);
+extern void globalMemStrideKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size, int stride);
+extern void globalMemOffsetKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size, int offset);
 
 //
 // Main
@@ -79,10 +79,10 @@ main ( int argc, char * argv[] )
     optBlockSize = optBlockSize != 0 ? optBlockSize : DEFAULT_BLOCK_DIM;
 
     if ( optBlockSize > 1024 ) {
-		std::cout << "\033[31m***" 
+        std::cout << "\033[31m***"
                   << "*** Error - The number of threads per block is too big" 
-                  << std::endl
-		  << "***\033[0m" << std::endl;
+                    << std::endl
+                  << "***\033[0m" << std::endl;
 
         exit(-1);
     }
@@ -124,8 +124,6 @@ main ( int argc, char * argv[] )
         chCommandLineGet <int> ( &optMemorySize, "size", argc, argv );
         optMemorySize = optMemorySize != 0 ? optMemorySize : DEFAULT_MEM_SIZE;
     }
-	
-	std::cout << "*** Allocating memory of following size=" << optMemorySize << std::endl;
 
     //
     // Host Memory
@@ -142,8 +140,7 @@ main ( int argc, char * argv[] )
         h_memoryB = static_cast <int*> ( malloc ( static_cast <size_t> ( optMemorySize ) ) );
     } else { // Pinned
         std::cout << "***" << " Using pinned memory" << std::endl;
-        cudaMallocHost(&h_memoryA, static_cast <size_t> ( optMemorySize ));
-        cudaMallocHost(&h_memoryB, static_cast <size_t> ( optMemorySize ));
+        // Allocation of pinned host memory
     }
 
     //
@@ -151,8 +148,9 @@ main ( int argc, char * argv[] )
     //
     int* d_memoryA = NULL;
     int* d_memoryB = NULL;
-    cudaMalloc( (void**) &d_memoryA, static_cast <size_t> ( optMemorySize ));
-    cudaMalloc( (void**) &d_memoryB, static_cast <size_t> ( optMemorySize ));
+    // Allocation of device memory
+    d_memoryA = static_cast <int*> ( malloc ( static_cast <size_t> ( optMemorySize ) ) ); //Added
+    d_memoryB = static_cast <int*> ( malloc ( static_cast <size_t> ( optMemorySize ) ) );
 
     if ( !h_memoryA || !h_memoryB || !d_memoryA || !d_memoryB ) {
         std::cout << "\033[31m***" << std::endl
@@ -170,36 +168,24 @@ main ( int argc, char * argv[] )
     chCommandLineGet <int> ( &optMemCpyIterations, "memory-copy-iterations", argc, argv );
     optMemCpyIterations = optMemCpyIterations != 0 ? optMemCpyIterations : 1;
 
-    // generate some data
-    for (size_t i = 0; i < optMemorySize/sizeof(int) - 1; i++)
-    {
-        h_memoryA[i] = i;
-    }
-
     // Host To Device
     memCpyH2DTimer.start ();
     for ( int i = 0; i < optMemCpyIterations; i ++ ) {
-        cudaMemcpy(d_memoryA, h_memoryA, optMemorySize, cudaMemcpyHostToDevice );
-        cudaDeviceSynchronize();
+        // H2D copy
     }
     memCpyH2DTimer.stop ();
 
     // Device To Device
-    // copy one time before the benchmark to prevent initialization latency
-    cudaMemcpy(d_memoryB, d_memoryA, optMemorySize, cudaMemcpyDeviceToDevice );
-    cudaDeviceSynchronize();
     memCpyD2DTimer.start ();
     for ( int i = 0; i < optMemCpyIterations; i ++ ) {
-        cudaMemcpy(d_memoryB, d_memoryA, optMemorySize, cudaMemcpyDeviceToDevice );
-        cudaDeviceSynchronize();
+        // D2D copy
     }
     memCpyD2DTimer.stop ();
 
     // Device To Host
     memCpyD2HTimer.start ();
     for ( int i = 0; i < optMemCpyIterations; i ++ ) {
-        cudaMemcpy(h_memoryB, d_memoryB, optMemorySize, cudaMemcpyDeviceToHost );
-        cudaDeviceSynchronize();
+        // D2H copy
     }
     memCpyD2HTimer.stop ();
 
@@ -219,27 +205,17 @@ main ( int argc, char * argv[] )
     //
     // Global Memory Tests
     //
-
-    // prevent startup latencies
-    if ( chCommandLineGetBool ( "global-coalesced", argc, argv ) ) {
-        globalMemCoalescedKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optMemorySize/sizeof(int));
-    } else if ( chCommandLineGetBool ( "global-stride", argc, argv ) ) {
-        globalMemStrideKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optStride);
-    } else if ( chCommandLineGetBool ( "global-offset", argc, argv ) ) {
-        globalMemOffsetKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optOffset);
-    }
-
     kernelTimer.start();
     for ( int i = 0; i < optNumIterations; i++ ) {
         //
         // Launch Kernel
         //
         if ( chCommandLineGetBool ( "global-coalesced", argc, argv ) ) {
-            globalMemCoalescedKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optMemorySize/sizeof(int));
+			globalMemCoalescedKernel_Wrapper(grid_dim, block_dim, h_memoryA, d_memoryA, optMemorySize);
         } else if ( chCommandLineGetBool ( "global-stride", argc, argv ) ) {
-            globalMemStrideKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optStride);
+            globalMemStrideKernel_Wrapper(grid_dim, block_dim, h_memoryA, d_memoryA, optMemorySize, optStride /*TODO Parameters*/);
         } else if ( chCommandLineGetBool ( "global-offset", argc, argv ) ) {
-            globalMemOffsetKernel_Wrapper(grid_dim, block_dim, d_memoryA, d_memoryB, optOffset);
+            globalMemOffsetKernel_Wrapper(grid_dim, block_dim, h_memoryA, d_memoryA, optMemorySize, optOffset /*TODO Parameters*/);
         } else {
             break;
         }
