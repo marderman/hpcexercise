@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0)
     {
-        printf("Zeit;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time\n",MPI_Wtime());
+        printf("Zeit %lf;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time\n",MPI_Wtime());
         fflush(stdout);
 
     }
