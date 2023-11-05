@@ -29,7 +29,7 @@ globalMemCoalescedKernel(int* source, int* destination, int size, int itemsperth
 
 void 
 globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size) {
-    int itemsperthread = (size / sizeof(int)) / (gridDim.x * blockDim.x);
+    int itemsperthread = (size / sizeof(int)) / ((gridDim.x * blockDim.x)-1);
 	globalMemCoalescedKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size, itemsperthread);
 }
 
@@ -55,7 +55,7 @@ globalMemOffsetKernel(int* source, int* destination, int size, int offset)
 
     if (tid >= size) return;
 
-    destination[tid] = source[tid*offset]; 
+    destination[tid] = source[tid+offset]; 
 }
 
 void 
