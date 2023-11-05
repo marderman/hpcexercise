@@ -1,0 +1,500 @@
+*** Ignoring size parameter; using kernel launch parameters and stride, size=131072
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:     131072B, H2D:   2.04 GB/s, D2H:   1.72 GB/s, D2D:   4.49 GB/s
+Strided;1;copy of global memory, size;131072;gDim;32;bDim;1024;bw;47.02;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=262144
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:     262144B, H2D:   3.06 GB/s, D2H:   2.03 GB/s, D2D:  10.49 GB/s
+Strided;2;copy of global memory, size;262144;gDim;32;bDim;1024;bw;50.39;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=393216
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:     393216B, H2D:   3.43 GB/s, D2H:   2.04 GB/s, D2D:  15.18 GB/s
+Strided;3;copy of global memory, size;393216;gDim;32;bDim;1024;bw;50.50;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=524288
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:     524288B, H2D:   3.62 GB/s, D2H:   2.24 GB/s, D2D:  20.31 GB/s
+Strided;4;copy of global memory, size;524288;gDim;32;bDim;1024;bw;50.77;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=655360
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:     655360B, H2D:   3.75 GB/s, D2H:   2.26 GB/s, D2D:  21.08 GB/s
+Strided;5;copy of global memory, size;655360;gDim;32;bDim;1024;bw;48.01;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=786432
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:     786432B, H2D:   3.85 GB/s, D2H:   2.27 GB/s, D2D:  28.95 GB/s
+Strided;6;copy of global memory, size;786432;gDim;32;bDim;1024;bw;45.21;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=917504
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:     917504B, H2D:   3.93 GB/s, D2H:   2.31 GB/s, D2D:  33.66 GB/s
+Strided;7;copy of global memory, size;917504;gDim;32;bDim;1024;bw;43.68;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1048576
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1048576B, H2D:   3.96 GB/s, D2H:   2.63 GB/s, D2D:  39.23 GB/s
+Strided;8;copy of global memory, size;1048576;gDim;32;bDim;1024;bw;39.74;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1179648
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1179648B, H2D:   4.11 GB/s, D2H:   2.31 GB/s, D2D:  42.12 GB/s
+Strided;9;copy of global memory, size;1179648;gDim;32;bDim;1024;bw;40.34;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1310720
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1310720B, H2D:   4.55 GB/s, D2H:   2.40 GB/s, D2D:  46.53 GB/s
+Strided;10;copy of global memory, size;1310720;gDim;32;bDim;1024;bw;40.92;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1441792
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1441792B, H2D:   4.84 GB/s, D2H:   2.41 GB/s, D2D:  49.78 GB/s
+Strided;11;copy of global memory, size;1441792;gDim;32;bDim;1024;bw;41.10;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1572864
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1572864B, H2D:   4.93 GB/s, D2H:   2.70 GB/s, D2D:  54.71 GB/s
+Strided;12;copy of global memory, size;1572864;gDim;32;bDim;1024;bw;40.77;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1703936
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1703936B, H2D:   5.07 GB/s, D2H:   2.48 GB/s, D2D:  58.98 GB/s
+Strided;13;copy of global memory, size;1703936;gDim;32;bDim;1024;bw;40.66;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1835008
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1835008B, H2D:   5.10 GB/s, D2H:   2.63 GB/s, D2D:  63.72 GB/s
+Strided;14;copy of global memory, size;1835008;gDim;32;bDim;1024;bw;40.29;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=1966080
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    1966080B, H2D:   5.02 GB/s, D2H:   2.52 GB/s, D2D:  66.18 GB/s
+Strided;15;copy of global memory, size;1966080;gDim;32;bDim;1024;bw;40.15;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=2097152
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    2097152B, H2D:   4.98 GB/s, D2H:   2.51 GB/s, D2D:  70.54 GB/s
+Strided;16;copy of global memory, size;2097152;gDim;32;bDim;1024;bw;36.01;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=2228224
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    2228224B, H2D:   5.16 GB/s, D2H:   2.94 GB/s, D2D:  73.54 GB/s
+Strided;17;copy of global memory, size;2228224;gDim;32;bDim;1024;bw;38.96;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=2359296
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    2359296B, H2D:   5.13 GB/s, D2H:   2.49 GB/s, D2D:  75.76 GB/s
+Strided;18;copy of global memory, size;2359296;gDim;32;bDim;1024;bw;36.99;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=2490368
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    2490368B, H2D:   5.40 GB/s, D2H:   2.95 GB/s, D2D:  78.96 GB/s
+Strided;19;copy of global memory, size;2490368;gDim;32;bDim;1024;bw;36.71;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=2621440
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    2621440B, H2D:   5.64 GB/s, D2H:   2.59 GB/s, D2D:  81.28 GB/s
+Strided;20;copy of global memory, size;2621440;gDim;32;bDim;1024;bw;35.92;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=2752512
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    2752512B, H2D:   5.58 GB/s, D2H:   2.78 GB/s, D2D:  84.30 GB/s
+Strided;21;copy of global memory, size;2752512;gDim;32;bDim;1024;bw;34.88;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=2883584
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    2883584B, H2D:   5.58 GB/s, D2H:   4.29 GB/s, D2D:  88.45 GB/s
+Strided;22;copy of global memory, size;2883584;gDim;32;bDim;1024;bw;33.06;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3014656
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3014656B, H2D:   5.43 GB/s, D2H:   2.60 GB/s, D2D:  87.28 GB/s
+Strided;23;copy of global memory, size;3014656;gDim;32;bDim;1024;bw;31.26;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3145728
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3145728B, H2D:   7.48 GB/s, D2H:   2.62 GB/s, D2D:  94.10 GB/s
+Strided;24;copy of global memory, size;3145728;gDim;32;bDim;1024;bw;30.19;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3276800
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3276800B, H2D:   7.58 GB/s, D2H:   3.91 GB/s, D2D:  94.76 GB/s
+Strided;25;copy of global memory, size;3276800;gDim;32;bDim;1024;bw;28.86;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3407872
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3407872B, H2D:   7.74 GB/s, D2H:   4.07 GB/s, D2D:  97.65 GB/s
+Strided;26;copy of global memory, size;3407872;gDim;32;bDim;1024;bw;26.17;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3538944
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3538944B, H2D:   7.81 GB/s, D2H:   3.78 GB/s, D2D: 101.34 GB/s
+Strided;27;copy of global memory, size;3538944;gDim;32;bDim;1024;bw;21.14;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3670016
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3670016B, H2D:   7.93 GB/s, D2H:   3.72 GB/s, D2D: 101.92 GB/s
+Strided;28;copy of global memory, size;3670016;gDim;32;bDim;1024;bw;18.37;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3801088
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3801088B, H2D:   5.85 GB/s, D2H:   3.95 GB/s, D2D: 108.41 GB/s
+Strided;29;copy of global memory, size;3801088;gDim;32;bDim;1024;bw;17.80;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=3932160
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    3932160B, H2D:   7.55 GB/s, D2H:   3.67 GB/s, D2D: 108.56 GB/s
+Strided;30;copy of global memory, size;3932160;gDim;32;bDim;1024;bw;16.52;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4063232
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4063232B, H2D:   7.41 GB/s, D2H:   3.66 GB/s, D2D: 111.02 GB/s
+Strided;31;copy of global memory, size;4063232;gDim;32;bDim;1024;bw;16.23;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4194304
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4194304B, H2D:   7.18 GB/s, D2H:   3.63 GB/s, D2D: 112.00 GB/s
+Strided;32;copy of global memory, size;4194304;gDim;32;bDim;1024;bw;14.70;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4325376
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4325376B, H2D:   7.22 GB/s, D2H:   3.54 GB/s, D2D: 116.43 GB/s
+Strided;33;copy of global memory, size;4325376;gDim;32;bDim;1024;bw;16.43;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4456448
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4456448B, H2D:   7.23 GB/s, D2H:   3.59 GB/s, D2D: 117.55 GB/s
+Strided;34;copy of global memory, size;4456448;gDim;32;bDim;1024;bw;15.10;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4587520
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4587520B, H2D:   7.55 GB/s, D2H:   3.86 GB/s, D2D: 124.49 GB/s
+Strided;35;copy of global memory, size;4587520;gDim;32;bDim;1024;bw;16.73;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4718592
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4718592B, H2D:   7.49 GB/s, D2H:   3.52 GB/s, D2D: 125.13 GB/s
+Strided;36;copy of global memory, size;4718592;gDim;32;bDim;1024;bw;15.74;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4849664
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4849664B, H2D:   7.35 GB/s, D2H:   4.92 GB/s, D2D: 125.38 GB/s
+Strided;37;copy of global memory, size;4849664;gDim;32;bDim;1024;bw;15.20;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=4980736
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    4980736B, H2D:   7.39 GB/s, D2H:   5.24 GB/s, D2D: 129.57 GB/s
+Strided;38;copy of global memory, size;4980736;gDim;32;bDim;1024;bw;14.79;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=5111808
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    5111808B, H2D:   7.07 GB/s, D2H:   4.80 GB/s, D2D: 132.36 GB/s
+Strided;39;copy of global memory, size;5111808;gDim;32;bDim;1024;bw;14.37;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=5242880
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    5242880B, H2D:   7.16 GB/s, D2H:   4.67 GB/s, D2D: 134.36 GB/s
+Strided;40;copy of global memory, size;5242880;gDim;32;bDim;1024;bw;14.60;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=5373952
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    5373952B, H2D:   8.87 GB/s, D2H:   3.41 GB/s, D2D: 132.65 GB/s
+Strided;41;copy of global memory, size;5373952;gDim;32;bDim;1024;bw;14.17;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=5505024
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    5505024B, H2D:   7.24 GB/s, D2H:   5.30 GB/s, D2D: 135.69 GB/s
+Strided;42;copy of global memory, size;5505024;gDim;32;bDim;1024;bw;13.86;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=5636096
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    5636096B, H2D:   9.17 GB/s, D2H:   4.49 GB/s, D2D: 140.76 GB/s
+Strided;43;copy of global memory, size;5636096;gDim;32;bDim;1024;bw;14.15;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=5767168
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    5767168B, H2D:   9.18 GB/s, D2H:   4.76 GB/s, D2D: 141.11 GB/s
+Strided;44;copy of global memory, size;5767168;gDim;32;bDim;1024;bw;14.02;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=5898240
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    5898240B, H2D:   8.96 GB/s, D2H:   4.34 GB/s, D2D: 142.78 GB/s
+Strided;45;copy of global memory, size;5898240;gDim;32;bDim;1024;bw;13.80;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6029312
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6029312B, H2D:   8.71 GB/s, D2H:   4.35 GB/s, D2D: 146.87 GB/s
+Strided;46;copy of global memory, size;6029312;gDim;32;bDim;1024;bw;13.71;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6160384
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6160384B, H2D:   8.66 GB/s, D2H:   4.45 GB/s, D2D: 148.44 GB/s
+Strided;47;copy of global memory, size;6160384;gDim;32;bDim;1024;bw;13.43;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6291456
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6291456B, H2D:   8.27 GB/s, D2H:   4.32 GB/s, D2D: 149.44 GB/s
+Strided;48;copy of global memory, size;6291456;gDim;32;bDim;1024;bw;13.56;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6422528
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6422528B, H2D:   8.46 GB/s, D2H:   5.74 GB/s, D2D: 148.32 GB/s
+Strided;49;copy of global memory, size;6422528;gDim;32;bDim;1024;bw;13.36;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6553600
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6553600B, H2D:   8.57 GB/s, D2H:   4.41 GB/s, D2D: 153.12 GB/s
+Strided;50;copy of global memory, size;6553600;gDim;32;bDim;1024;bw;13.18;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6684672
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6684672B, H2D:   8.60 GB/s, D2H:   4.08 GB/s, D2D: 155.93 GB/s
+Strided;51;copy of global memory, size;6684672;gDim;32;bDim;1024;bw;13.02;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6815744
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6815744B, H2D:  10.58 GB/s, D2H:   4.08 GB/s, D2D: 155.90 GB/s
+Strided;52;copy of global memory, size;6815744;gDim;32;bDim;1024;bw;13.31;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=6946816
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    6946816B, H2D:  10.33 GB/s, D2H:   4.04 GB/s, D2D: 151.94 GB/s
+Strided;53;copy of global memory, size;6946816;gDim;32;bDim;1024;bw;13.09;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7077888
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7077888B, H2D:  10.05 GB/s, D2H:   4.04 GB/s, D2D: 159.66 GB/s
+Strided;54;copy of global memory, size;7077888;gDim;32;bDim;1024;bw;12.95;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7208960
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7208960B, H2D:   8.17 GB/s, D2H:   5.11 GB/s, D2D: 161.09 GB/s
+Strided;55;copy of global memory, size;7208960;gDim;32;bDim;1024;bw;12.92;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7340032
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7340032B, H2D:   8.19 GB/s, D2H:   5.14 GB/s, D2D: 158.02 GB/s
+Strided;56;copy of global memory, size;7340032;gDim;32;bDim;1024;bw;13.06;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7471104
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7471104B, H2D:   9.66 GB/s, D2H:   3.93 GB/s, D2D: 162.62 GB/s
+Strided;57;copy of global memory, size;7471104;gDim;32;bDim;1024;bw;12.54;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7602176
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7602176B, H2D:   9.75 GB/s, D2H:   5.23 GB/s, D2D: 164.69 GB/s
+Strided;58;copy of global memory, size;7602176;gDim;32;bDim;1024;bw;12.89;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7733248
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7733248B, H2D:   9.82 GB/s, D2H:   4.91 GB/s, D2D: 162.16 GB/s
+Strided;59;copy of global memory, size;7733248;gDim;32;bDim;1024;bw;12.74;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7864320
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7864320B, H2D:   9.82 GB/s, D2H:   5.17 GB/s, D2D: 163.26 GB/s
+Strided;60;copy of global memory, size;7864320;gDim;32;bDim;1024;bw;12.81;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=7995392
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    7995392B, H2D:   9.27 GB/s, D2H:   3.83 GB/s, D2D: 166.26 GB/s
+Strided;61;copy of global memory, size;7995392;gDim;32;bDim;1024;bw;12.96;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=8126464
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    8126464B, H2D:   9.55 GB/s, D2H:   5.05 GB/s, D2D: 171.01 GB/s
+Strided;62;copy of global memory, size;8126464;gDim;32;bDim;1024;bw;12.84;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=8257536
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    8257536B, H2D:   7.92 GB/s, D2H:   4.87 GB/s, D2D: 167.80 GB/s
+Strided;63;copy of global memory, size;8257536;gDim;32;bDim;1024;bw;13.30;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=8388608
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    8388608B, H2D:   9.04 GB/s, D2H:   4.64 GB/s, D2D: 167.43 GB/s
+Strided;64;copy of global memory, size;8388608;gDim;32;bDim;1024;bw;15.94;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=8519680
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    8519680B, H2D:   9.23 GB/s, D2H:   4.55 GB/s, D2D: 170.32 GB/s
+Strided;65;copy of global memory, size;8519680;gDim;32;bDim;1024;bw;13.26;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=8650752
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    8650752B, H2D:   9.27 GB/s, D2H:   5.76 GB/s, D2D: 169.12 GB/s
+Strided;66;copy of global memory, size;8650752;gDim;32;bDim;1024;bw;12.86;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=8781824
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    8781824B, H2D:   9.28 GB/s, D2H:   4.74 GB/s, D2D: 174.03 GB/s
+Strided;67;copy of global memory, size;8781824;gDim;32;bDim;1024;bw;12.78;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=8912896
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    8912896B, H2D:  10.91 GB/s, D2H:   4.41 GB/s, D2D: 173.40 GB/s
+Strided;68;copy of global memory, size;8912896;gDim;32;bDim;1024;bw;12.48;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9043968
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9043968B, H2D:   9.18 GB/s, D2H:   4.41 GB/s, D2D: 177.16 GB/s
+Strided;69;copy of global memory, size;9043968;gDim;32;bDim;1024;bw;12.37;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9175040
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9175040B, H2D:   8.95 GB/s, D2H:   4.64 GB/s, D2D: 172.75 GB/s
+Strided;70;copy of global memory, size;9175040;gDim;32;bDim;1024;bw;12.26;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9306112
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9306112B, H2D:   8.77 GB/s, D2H:   5.59 GB/s, D2D: 175.19 GB/s
+Strided;71;copy of global memory, size;9306112;gDim;32;bDim;1024;bw;12.14;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9437184
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9437184B, H2D:  10.21 GB/s, D2H:   4.60 GB/s, D2D: 175.84 GB/s
+Strided;72;copy of global memory, size;9437184;gDim;32;bDim;1024;bw;12.06;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9568256
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9568256B, H2D:  10.19 GB/s, D2H:   5.48 GB/s, D2D: 178.88 GB/s
+Strided;73;copy of global memory, size;9568256;gDim;32;bDim;1024;bw;11.98;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9699328
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9699328B, H2D:  10.22 GB/s, D2H:   5.21 GB/s, D2D: 180.11 GB/s
+Strided;74;copy of global memory, size;9699328;gDim;32;bDim;1024;bw;12.02;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9830400
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9830400B, H2D:  10.23 GB/s, D2H:   5.19 GB/s, D2D: 180.77 GB/s
+Strided;75;copy of global memory, size;9830400;gDim;32;bDim;1024;bw;11.96;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=9961472
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:    9961472B, H2D:  10.17 GB/s, D2H:   5.66 GB/s, D2D: 181.11 GB/s
+Strided;76;copy of global memory, size;9961472;gDim;32;bDim;1024;bw;11.84;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=10092544
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   10092544B, H2D:  10.14 GB/s, D2H:   5.32 GB/s, D2D: 181.03 GB/s
+Strided;77;copy of global memory, size;10092544;gDim;32;bDim;1024;bw;11.72;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=10223616
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   10223616B, H2D:  10.00 GB/s, D2H:   5.30 GB/s, D2D: 180.66 GB/s
+Strided;78;copy of global memory, size;10223616;gDim;32;bDim;1024;bw;11.92;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=10354688
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   10354688B, H2D:   9.64 GB/s, D2H:   4.92 GB/s, D2D: 181.91 GB/s
+Strided;79;copy of global memory, size;10354688;gDim;32;bDim;1024;bw;11.86;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=10485760
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   10485760B, H2D:   9.69 GB/s, D2H:   5.14 GB/s, D2D: 180.75 GB/s
+Strided;80;copy of global memory, size;10485760;gDim;32;bDim;1024;bw;12.00;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=10616832
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   10616832B, H2D:  11.06 GB/s, D2H:   4.86 GB/s, D2D: 180.96 GB/s
+Strided;81;copy of global memory, size;10616832;gDim;32;bDim;1024;bw;12.47;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=10747904
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   10747904B, H2D:   9.74 GB/s, D2H:   5.05 GB/s, D2D: 183.06 GB/s
+Strided;82;copy of global memory, size;10747904;gDim;32;bDim;1024;bw;12.07;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=10878976
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   10878976B, H2D:  10.89 GB/s, D2H:   4.75 GB/s, D2D: 183.98 GB/s
+Strided;83;copy of global memory, size;10878976;gDim;32;bDim;1024;bw;11.84;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11010048
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11010048B, H2D:   9.81 GB/s, D2H:   6.25 GB/s, D2D: 185.13 GB/s
+Strided;84;copy of global memory, size;11010048;gDim;32;bDim;1024;bw;11.78;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11141120
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11141120B, H2D:  10.72 GB/s, D2H:   4.72 GB/s, D2D: 183.84 GB/s
+Strided;85;copy of global memory, size;11141120;gDim;32;bDim;1024;bw;12.25;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11272192
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11272192B, H2D:  10.82 GB/s, D2H:   4.68 GB/s, D2D: 185.24 GB/s
+Strided;86;copy of global memory, size;11272192;gDim;32;bDim;1024;bw;12.07;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11403264
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11403264B, H2D:   9.29 GB/s, D2H:   5.76 GB/s, D2D: 186.08 GB/s
+Strided;87;copy of global memory, size;11403264;gDim;32;bDim;1024;bw;12.04;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11534336
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11534336B, H2D:   9.30 GB/s, D2H:   5.57 GB/s, D2D: 185.59 GB/s
+Strided;88;copy of global memory, size;11534336;gDim;32;bDim;1024;bw;12.28;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11665408
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11665408B, H2D:   9.31 GB/s, D2H:   5.73 GB/s, D2D: 188.30 GB/s
+Strided;89;copy of global memory, size;11665408;gDim;32;bDim;1024;bw;11.83;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11796480
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11796480B, H2D:  10.57 GB/s, D2H:   4.53 GB/s, D2D: 187.66 GB/s
+Strided;90;copy of global memory, size;11796480;gDim;32;bDim;1024;bw;12.02;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=11927552
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   11927552B, H2D:  10.33 GB/s, D2H:   4.49 GB/s, D2D: 187.42 GB/s
+Strided;91;copy of global memory, size;11927552;gDim;32;bDim;1024;bw;11.91;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12058624
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12058624B, H2D:   9.42 GB/s, D2H:   5.29 GB/s, D2D: 192.01 GB/s
+Strided;92;copy of global memory, size;12058624;gDim;32;bDim;1024;bw;11.76;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12189696
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12189696B, H2D:   9.19 GB/s, D2H:   5.23 GB/s, D2D: 189.66 GB/s
+Strided;93;copy of global memory, size;12189696;gDim;32;bDim;1024;bw;11.52;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12320768
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12320768B, H2D:  10.32 GB/s, D2H:   5.23 GB/s, D2D: 190.75 GB/s
+Strided;94;copy of global memory, size;12320768;gDim;32;bDim;1024;bw;11.52;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12451840
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12451840B, H2D:  10.06 GB/s, D2H:   5.16 GB/s, D2D: 191.62 GB/s
+Strided;95;copy of global memory, size;12451840;gDim;32;bDim;1024;bw;11.41;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12582912
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12582912B, H2D:  10.01 GB/s, D2H:   5.40 GB/s, D2D: 194.45 GB/s
+Strided;96;copy of global memory, size;12582912;gDim;32;bDim;1024;bw;11.79;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12713984
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12713984B, H2D:  10.07 GB/s, D2H:   5.08 GB/s, D2D: 194.31 GB/s
+Strided;97;copy of global memory, size;12713984;gDim;32;bDim;1024;bw;11.31;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12845056
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12845056B, H2D:  10.05 GB/s, D2H:   5.04 GB/s, D2D: 195.03 GB/s
+Strided;98;copy of global memory, size;12845056;gDim;32;bDim;1024;bw;11.10;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=12976128
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   12976128B, H2D:  11.32 GB/s, D2H:   5.01 GB/s, D2D: 196.13 GB/s
+Strided;99;copy of global memory, size;12976128;gDim;32;bDim;1024;bw;11.59;GB/s
+*** Ignoring size parameter; using kernel launch parameters and stride, size=13107200
+*** Using pageable memory
+Results for cudaMemcpy:
+Size:   13107200B, H2D:  11.05 GB/s, D2H:   5.07 GB/s, D2D: 193.83 GB/s
+Strided;100;copy of global memory, size;13107200;gDim;32;bDim;1024;bw;11.70;GB/s
