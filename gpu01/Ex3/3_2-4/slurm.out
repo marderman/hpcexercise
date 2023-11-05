@@ -1,7 +1,11 @@
-***
-*** Starting ...
-***
-*** Using pageable memory
-[31m***
-***ERROR*** 35 - CUDA driver version is insufficient for CUDA runtime version
-***[0m
+Host memory type, Memory check status, Copy type, Size [B], # of Blocks, # of Threads per Block, Throughput [GBps]
+Pageable,MEMCHECK_SUCCESS,Coalesced,      1024,    1,   32,  0.03
+Pageable,MEMCHECK_SUCCESS,Coalesced,      1024,    1,  280,  0.12
+Pageable,MEMCHECK_SUCCESS,Coalesced,      1024,    1,  528,  0.12
+Pageable,MEMCHECK_SUCCESS,Coalesced,      1024,    1,  776,  0.11
+Pageable,MEMCHECK_SUCCESS,Coalesced,      1024,    1, 1024,  0.11
+Pageable,MEMCHECK_SUCCESS,Coalesced,   1048576,    1,   32,  0.05
+Pageable,MEMCHECK_SUCCESS,Coalesced,   1048576,    1,  280,  0.45
+Pageable,MEMCHECK_SUCCESS,Coalesced,   1048576,    1,  528,  0.83
+Pageable,MEMCHECK_SUCCESS,Coalesced,   1048576,    1,  776,  1.20
+Pageable,MEMCHECK_SUCCESS,Coalesced,   1048576,    1, 1024,  1.55

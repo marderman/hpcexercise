@@ -14,47 +14,34 @@
 // Kernels
 //
 
-__global__ void 
-globalMemCoalescedKernel(int* source, int* destination, int size)
-{
+__global__ void globalMemCoalescedKernel(int* dest, int* src, size_t nbytes) {
+
     const int tid = threadIdx.x + blockIdx.x * blockDim.x;
 
-    if (tid >= size) return;
-
-    destination[tid] = source[tid];      
+    for (int i = tid; i < nbytes/sizeof(int); i += blockDim.x*gridDim.x) {
+	dest[i] = src[i];
+    }
 }
 
-void 
-globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size) {
-	globalMemCoalescedKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size);
+void globalMemCoalescedKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* dest, int* src, size_t nbytes) {
+
+    // Amount of data computed by each thread
+    globalMemCoalescedKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(dest,src,nbytes);
 }
 
-__global__ void 
-globalMemStrideKernel(int* source, int* destination, int size, int stride)
-{
-    const int tid = threadIdx.x + blockIdx.x * blockDim.x;
-
-    if (tid >= size) return;
-
-    destination[tid] = source[tid*stride]; 
+__global__ void globalMemStrideKernel(/*TODO Parameters*/) {
+    /*TODO Kernel Code*/
 }
 
-void 
-globalMemStrideKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size, int stride) {
-	globalMemStrideKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size, stride);
+void globalMemStrideKernel_Wrapper(dim3 gridDim, dim3 blockDim /*TODO Parameters*/) {
+	globalMemStrideKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>( /*TODO Parameters*/);
 }
 
-__global__ void 
-globalMemOffsetKernel(int* source, int* destination, int size, int offset)
-{
-    const int tid = threadIdx.x + blockIdx.x * blockDim.x;
-
-    if (tid >= size) return;
-
-    destination[tid] = source[tid*offset]; 
+__global__ void globalMemOffsetKernel(/*TODO Parameters*/) {
+    /*TODO Kernel Code*/
 }
 
-void 
-globalMemOffsetKernel_Wrapper(dim3 gridDim, dim3 blockDim, int* source, int* destination, int size, int offset) {
-	globalMemOffsetKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>(source, destination, size, offset);
+void globalMemOffsetKernel_Wrapper(dim3 gridDim, dim3 blockDim /*TODO Parameters*/) {
+	globalMemOffsetKernel<<< gridDim, blockDim, 0 /*Shared Memory Size*/ >>>( /*TODO Parameters*/);
 }
+
