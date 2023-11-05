@@ -1,26 +1,26 @@
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-#define iterations 200
+#define iterations 200000
 
 
 int main(int argc, char** argv)
 {
-    double total_start, total_end, round_start,round_end;
 
+    double total_start, total_end, round_start,round_end;
     int start = 1;
 
     double* time_measurements;
     time_measurements = (double*)malloc(iterations*sizeof(double));
 
-
-
     char* inbuffer;
     char* outbuffer;
 
-    inbuffer = (char*) malloc(100*sizeof(char));
-    outbuffer= (char*) malloc(100*sizeof(char));
+    inbuffer = (char*) malloc(1*1024*1024*sizeof(char));
+    outbuffer= (char*) malloc(1*1024*1024*sizeof(char));
+
 
     MPI_Status status;
     outbuffer = "Hello dies ist eine Testnachricht";
@@ -34,11 +34,26 @@ int main(int argc, char** argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0)
     {
-        printf("Anzahl Prozesse %d\n", n_process);
+        printf("Zeit %lf;Tasks;Runtime;Average Message Roundtrip Time;Average Message Send Time\n",MPI_Wtime());
+        fflush(stdout);
+
     }
-
-
+    MPI_Barrier(MPI_COMM_WORLD);
+    char hostname[256];
+    gethostname(hostname, 256);
+    for (size_t i = 0; i < n_process; i++)
+    {
+        if (rank == i){
+       //printf("Zeit: %lf; Prozess %d von %d läuft auf %s\n", MPI_Wtime(),rank+1,n_process,hostname);
+        }
+    }
+    
     MPI_Barrier(MPI_COMM_WORLD); 
+    if (rank == 0) {
+    //printf("Zeit: %lf Start\n", MPI_Wtime());
+    fflush(stdout);
+}
+    MPI_Barrier(MPI_COMM_WORLD);
     total_start = MPI_Wtime();
 
 
@@ -80,7 +95,7 @@ int main(int argc, char** argv)
     MPI_Finalize();
 
     if (rank == 0) { /* use time on master node */
-        printf("Runtime = %f\n", total_end-total_start);
+        //printf("Runtime = %f\n", total_end-total_start);
         double average;
         for (size_t i = 0; i < iterations; i++)
         {
@@ -88,9 +103,10 @@ int main(int argc, char** argv)
         average += time_measurements[i];
         }
         average /= iterations;
-        printf("Average Message Rounttrip Tiem %lf\n", average);
+        //printf("Average Message Rounttrip Tiem %lf\n", average);
         double average_per_message = average / ((double) n_process);
-        printf("Average Message Send Time %lf",average_per_message);
+        //printf("Average Message Send Time %lf",average_per_message);
+        printf("Zeit: %lf;%d;%f;%f;%f\n",MPI_Wtime(),n_process,total_end - total_start,average,average_per_message);
     }
     
 }
