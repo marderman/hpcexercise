@@ -1,5 +1,6 @@
 
 NVCC=nvcc
+INC= ./inc
 
 .PHONY: build
 build: ./bin/globalMemory
@@ -12,7 +13,7 @@ clean:
 rebuild: clean build
 
 # List of modules to load
-MODULES := devtoolset/10 cuda/12.0
+MODULES = "devtoolset/10" "cuda/12.0"
 
 load:
 	@#!/bin/bash
@@ -25,4 +26,4 @@ load:
 .PHONY: load
 
 ./bin/globalMemory: ./main.cu
-	$(NVCC) -o $@ $^ $(INC) $(LIB)
+	$(NVCC) -o $@ $^ -I $(INC) $(LIB); gcc --version
