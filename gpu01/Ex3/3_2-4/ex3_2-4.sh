@@ -2,8 +2,9 @@
 
 #SBATCH --job-name=memCpyWalli
 #SBATCH --partition=exercise   # partition (queue)
-#SBATCH -t 0-1:00              # time limit: (D-HH:MM)
+#SBATCH -t 0-6:00              # time limit: (D-HH:MM)
 #SBATCH --gres=gpu:1
+#SBATCH -w ceg-brook01
 #SBATCH -o slurm.out
 #SBATCH --error=slurm.err      # file to collect standard errors
 
@@ -62,7 +63,7 @@ max_tpb=1024
 tpbs_num=5
 pkt_sizes_num=3
 
-echo "Host memory type, Memory check status, Copy type, Size [B], # of Blocks, # of Threads per Block, Throughput [GBps]"
+echo "Host_memory type,Memory check status, Copy type, Size [B], # of Blocks, # of Threads per Block, Throughput [GBps]"
 
 tpbs=$(linspace $min_tpb $max_tpb $tpbs_num)
 pkt_sizes=$(logspace $min_pkt_size $max_pkt_size $pkt_sizes_num 2)
