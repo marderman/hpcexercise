@@ -2,4 +2,6 @@ bin/
 obj/
 slurm*
 error*
+build/
+
 /.venv
