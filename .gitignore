@@ -2,4 +2,5 @@ bin/
 obj/
 slurm*
 error*
+build/
 

@@ -13,8 +13,7 @@ sbatch <<EOF
 #SBATCH --time=00:10:00
 #SBATCH --nodes=${nodes}
 #SBATCH --partition=exercise_hpc
-#SBATCH --distribution=block:cyclic
-
+#SBATCH --distribution=block:block
 
 module load devtoolset/10 mpi/open-mpi-4.1.6
 
@@ -22,6 +21,6 @@ module load devtoolset/10 mpi/open-mpi-4.1.6
 for irun in "$(seq 1 ${nruns})"
 do
     timestamp=\$(seq 1 ${nruns})
-    srun bin/ringCommunication | sort  > "bench_${ncores}cores_run${irun}_${timestamp}_cyclic.out"
+    srun  bin/ringCommunication | sort  > "bench_${ncores}cores_run${irun}_${timestamp}_block.out"
 done
 EOF
