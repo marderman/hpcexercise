@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.27)
 
 find_package(EnvModules REQUIRED)
 env_module(purge)
-env_module(load devtoolset/10)
+env_module(load devtoolset/8)
 env_module(load cuda/11.4)
 env_module_list(my_modules_found)
 message(modules=${my_modules_found})
@@ -11,7 +11,6 @@ message(modules=${my_modules_found})
 
 
 project(Exercise4_2 LANGUAGES CXX CUDA) 
-
 
 
 # Request that particles be built with -std=c++11
@@ -46,6 +45,23 @@ target_sources(programm PRIVATE
 set_source_files_properties(src/kernel.cu PROPERTIES LANGUAGE CUDA)
 
 target_include_directories(programm PRIVATE ${CMAKE_SOURCE_DIR}/inc /opt/cuda-11.4/include)
+
+link_directories(${CMAKE_SOURCE_DIR}/lib /opt/cuda-11.4/lib64)
+target_link_libraries(programm CUDA::cudart)
+
+
+
+include(CheckLanguage)
+check_language(CUDA)
+find_package(CUDAToolkit)
+if(CMAKE_CUDA_COMPILER)
+enable_language(CUDA)
+find_package(CUDAToolkit)
+target_link_libraries(programm CUDA::cudart)
+target_link_libraries(programm CUDA::cuda_driver)
+else()
+message(STATUS "No CUDA compiler found")
+endif()
 
 
 
