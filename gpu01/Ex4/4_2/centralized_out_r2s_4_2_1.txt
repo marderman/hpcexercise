@@ -1,0 +1,788 @@
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=   32, bw=  2.21GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=   32, bw=  3.36GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=   32, bw=  3.76GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=   32, bw=  3.92GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=   32, bw=  4.08GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=   32, bw=  4.14GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=   64, bw=  2.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=   64, bw=  5.02GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=   64, bw=  5.87GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=   64, bw=  6.64GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=   64, bw=  7.07GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=   64, bw=  7.34GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=   96, bw=  3.03GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=   96, bw=  5.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=   96, bw=  7.51GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=   96, bw=  9.11GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=   96, bw=  9.47GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=   96, bw=  9.64GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  128, bw=  3.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  128, bw=  5.92GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  128, bw=  8.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  128, bw= 10.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  128, bw= 11.34GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  128, bw= 11.46GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  160, bw=  3.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  160, bw=  5.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  160, bw=  8.87GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  160, bw= 11.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  160, bw= 11.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  160, bw= 12.58GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  192, bw=  2.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  192, bw=  5.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  192, bw=  9.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  192, bw= 12.09GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  192, bw= 13.65GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  192, bw= 14.04GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  224, bw=  2.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  224, bw=  5.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  224, bw=  8.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  224, bw= 12.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  224, bw= 14.58GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  224, bw= 15.57GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  256, bw=  3.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  256, bw=  6.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  256, bw=  8.81GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  256, bw= 12.02GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  256, bw= 13.91GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  256, bw= 14.79GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  288, bw=  2.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  288, bw=  6.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  288, bw=  8.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  288, bw= 12.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  288, bw= 15.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  288, bw= 17.18GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  320, bw=  2.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  320, bw=  5.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  320, bw=  8.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  320, bw= 12.03GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  320, bw= 14.66GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  320, bw= 17.61GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  352, bw=  2.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  352, bw=  5.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  352, bw=  8.87GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  352, bw= 12.11GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  352, bw= 14.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  352, bw= 17.55GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  384, bw=  2.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  384, bw=  5.92GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  384, bw=  9.05GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  384, bw= 11.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  384, bw= 14.76GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  384, bw= 16.79GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  416, bw=  3.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  416, bw=  5.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  416, bw=  8.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  416, bw= 11.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  416, bw= 13.25GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  416, bw= 18.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  448, bw=  3.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  448, bw=  5.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  448, bw=  8.93GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  448, bw= 11.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  448, bw= 14.79GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  448, bw= 18.05GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  480, bw=  2.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  480, bw=  6.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  480, bw=  8.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  480, bw=  9.13GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  480, bw= 14.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  480, bw= 18.03GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  512, bw=  3.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  512, bw=  5.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  512, bw=  9.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  512, bw= 11.92GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  512, bw= 14.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  512, bw= 17.42GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  544, bw=  3.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  544, bw=  5.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  544, bw=  8.89GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  544, bw= 11.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  544, bw= 14.76GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  544, bw= 17.54GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  576, bw=  2.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  576, bw=  5.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  576, bw=  9.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  576, bw= 12.08GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  576, bw= 14.88GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  576, bw= 17.91GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  608, bw=  2.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  608, bw=  5.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  608, bw=  8.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  608, bw= 11.87GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  608, bw=  9.60GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  608, bw= 17.84GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  640, bw=  3.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  640, bw=  5.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  640, bw=  8.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  640, bw= 11.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  640, bw= 14.88GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  640, bw= 17.77GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  672, bw=  3.02GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  672, bw=  5.93GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  672, bw=  9.08GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  672, bw= 12.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  672, bw= 15.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  672, bw= 17.76GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  704, bw=  2.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  704, bw=  5.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  704, bw=  9.05GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  704, bw= 11.99GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  704, bw= 14.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  704, bw= 17.83GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  736, bw=  3.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  736, bw=  5.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  736, bw=  9.04GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  736, bw= 11.89GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  736, bw= 14.83GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  736, bw=  9.91GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  768, bw=  2.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  768, bw=  5.93GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  768, bw=  8.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  768, bw= 11.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  768, bw= 14.86GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  768, bw= 17.86GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  800, bw=  2.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  800, bw=  5.93GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  800, bw=  8.92GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  800, bw= 11.93GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  800, bw= 14.83GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  800, bw= 17.75GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  832, bw=  3.01GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  832, bw=  5.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  832, bw=  8.93GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  832, bw= 11.94GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  832, bw= 14.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  832, bw= 17.75GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  864, bw=  3.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  864, bw=  5.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  864, bw=  8.93GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  864, bw= 11.89GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  864, bw= 15.03GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  864, bw= 17.91GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  896, bw=  2.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  896, bw=  5.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  896, bw=  8.92GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  896, bw= 12.02GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  896, bw= 14.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  896, bw= 18.05GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  928, bw=  2.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  928, bw=  5.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  928, bw=  9.02GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  928, bw= 11.96GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  928, bw= 14.82GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  928, bw= 18.18GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  960, bw=  2.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  960, bw=  5.90GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  960, bw=  8.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  960, bw= 11.76GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  960, bw= 14.89GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  960, bw= 18.05GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim=  992, bw=  2.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim=  992, bw=  5.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim=  992, bw=  9.04GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim=  992, bw= 11.98GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim=  992, bw= 14.75GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim=  992, bw= 17.75GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8000, gDim=    1, bDim= 1024, bw=  3.00GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16000, gDim=    1, bDim= 1024, bw=  5.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24000, gDim=    1, bDim= 1024, bw=  9.06GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32000, gDim=    1, bDim= 1024, bw= 12.07GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40000, gDim=    1, bDim= 1024, bw= 14.97GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     48000, gDim=    1, bDim= 1024, bw= 17.86GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=      8192, gDim=    1, bDim=   32, bw=  2.95GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     16384, gDim=    1, bDim=   32, bw=  3.53GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     24576, gDim=    1, bDim=   32, bw=  3.79GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     32768, gDim=    1, bDim=   32, bw=  4.03GB/s
+***
+*** Starting ...
+***
+Copy register->shared, size=     40960, gDim=    1, bDim=   32, bw=  4.17GB/s
