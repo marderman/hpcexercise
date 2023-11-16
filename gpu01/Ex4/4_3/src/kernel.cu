@@ -64,7 +64,6 @@ __global__ void bankConflictsRead(float* dummy, const int shmSize, int stride, l
 {
 	long long int begin_cycles = clock64();
 	extern __shared__ float s[];
-	int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
 	float t_reg = 0;
 
@@ -76,6 +75,7 @@ __global__ void bankConflictsRead(float* dummy, const int shmSize, int stride, l
 	// // }
 
 	long long int end_cycles = clock64();
+
 	*dummy = t_reg;
 	*clocks = end_cycles - begin_cycles;
 }

@@ -12,4 +12,4 @@ clean:
 rebuild: clean build
 
 ./bin/matrixMultiplyP: ./main.c
-	$(MPICC) -lm -o $@ $^ $(INC) $(LIB)
+	$(MPICC) -g -lm -o $@ $^ $(INC) $(LIB)
