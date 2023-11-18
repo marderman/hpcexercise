@@ -4,7 +4,7 @@
 #include <time.h>
 #include <math.h>
 
-#define N 8192
+#define N 128
 
 void matrix_multiply(double *a, double *b, double *c, int rows_per_process) {
     for (int i = 0; i < rows_per_process; i++) {
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     int *sendcounts, *offset;
     int rows_per_process, remainder_rows;
     double start, stop;
-    printf("Process %d is starting up....\n", rank);
+    //printf("Process %d is starting up....\n", rank);
 
     a = (double *)malloc(N * N * sizeof(double));   //I dont understand why this cannot be inside if rank == 0???!!!
     b = (double *)malloc(N * N * sizeof(double));
@@ -41,11 +41,9 @@ int main(int argc, char *argv[]) {
         srand(time(NULL));
  
         //Fill arrays with random data
-        for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
-                a[i*j] = ((double)rand()) / RAND_MAX;
-                b[i*j] = ((double)rand()) / RAND_MAX;
-            }
+        for (int i = 0; i < N*N; i++) {
+                a[i] = ((double)rand()) / RAND_MAX;
+                b[i] = ((double)rand()) / RAND_MAX;
         }
         printf("Random fill is working\n");
     }
