@@ -1,0 +1,792 @@
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=   32, bw=  1.44GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=   32, bw=  2.00GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=   32, bw=  2.09GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=   32, bw=  2.18GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=   32, bw=  2.23GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=   32, bw=  2.24GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=   64, bw=  2.34GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=   64, bw=  3.24GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=   64, bw=  3.69GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=   64, bw=  3.90GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=   64, bw=  3.88GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=   64, bw=  4.09GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=   96, bw=  2.90GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=   96, bw=  4.18GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=   96, bw=  4.73GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=   96, bw=  4.96GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=   96, bw=  5.14GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=   96, bw=  5.73GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  128, bw=  2.83GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  128, bw=  4.04GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  128, bw=  4.75GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  128, bw=  5.30GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  128, bw=  4.88GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  128, bw=  5.71GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  160, bw=  3.09GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  160, bw=  4.25GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  160, bw=  4.92GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  160, bw=  5.09GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  160, bw=  5.10GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  160, bw=  5.58GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  192, bw=  2.90GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  192, bw=  4.42GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  192, bw=  4.81GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  192, bw=  5.38GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  192, bw=  5.43GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  192, bw=  5.91GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  224, bw=  3.07GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  224, bw=  4.36GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  224, bw=  4.97GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  224, bw=  5.32GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  224, bw=  5.63GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  224, bw=  5.35GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  256, bw=  3.12GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  256, bw=  4.26GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  256, bw=  4.92GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  256, bw=  5.33GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  256, bw=  5.52GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  256, bw=  5.74GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  288, bw=  3.07GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  288, bw=  4.34GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  288, bw=  5.06GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  288, bw=  5.39GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  288, bw=  5.67GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  288, bw=  5.85GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  320, bw=  3.15GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  320, bw=  4.32GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  320, bw=  5.02GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  320, bw=  4.91GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  320, bw=  5.64GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  320, bw=  5.86GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  352, bw=  3.12GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  352, bw=  4.27GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  352, bw=  4.90GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  352, bw=  5.44GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  352, bw=  5.68GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  352, bw=  5.83GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  384, bw=  3.08GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  384, bw=  4.27GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  384, bw=  5.03GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  384, bw=  5.45GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  384, bw=  5.59GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  384, bw=  5.83GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  416, bw=  3.09GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  416, bw=  4.35GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  416, bw=  4.98GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  416, bw=  5.34GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  416, bw=  5.53GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  416, bw=  5.88GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  448, bw=  3.14GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  448, bw=  4.29GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  448, bw=  4.91GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  448, bw=  5.47GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  448, bw=  5.64GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  448, bw=  5.88GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  480, bw=  3.10GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  480, bw=  4.10GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  480, bw=  4.92GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  480, bw=  5.20GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  480, bw=  5.73GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  480, bw=  5.72GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  512, bw=  3.07GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  512, bw=  4.78GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  512, bw=  5.01GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  512, bw=  5.41GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  512, bw=  5.64GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  512, bw=  5.82GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  544, bw=  3.10GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  544, bw=  4.54GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  544, bw=  4.83GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  544, bw=  5.42GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  544, bw=  5.63GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  544, bw=  5.73GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  576, bw=  3.09GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  576, bw=  5.17GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  576, bw=  4.96GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  576, bw=  5.51GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  576, bw=  5.58GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  576, bw=  5.90GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  608, bw=  3.13GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  608, bw=  4.95GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  608, bw=  5.08GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  608, bw=  5.25GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  608, bw=  5.16GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  608, bw=  5.86GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  640, bw=  3.11GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  640, bw=  4.71GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  640, bw=  4.89GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  640, bw=  5.31GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  640, bw=  5.68GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  640, bw=  5.89GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  672, bw=  3.08GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  672, bw=  4.39GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  672, bw=  4.87GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  672, bw=  5.50GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  672, bw=  5.72GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  672, bw=  5.90GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  704, bw=  3.07GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  704, bw=  5.51GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  704, bw=  4.77GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  704, bw=  5.27GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  704, bw=  5.50GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  704, bw=  5.66GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  736, bw=  3.08GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  736, bw=  5.35GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  736, bw=  4.49GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  736, bw=  5.47GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  736, bw=  5.61GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  736, bw=  5.05GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  768, bw=  3.10GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  768, bw=  5.25GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  768, bw=  5.44GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  768, bw=  5.28GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  768, bw=  5.42GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  768, bw=  5.78GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  800, bw=  3.11GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  800, bw=  5.06GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  800, bw=  5.35GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  800, bw=  5.12GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  800, bw=  5.57GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  800, bw=  5.65GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  832, bw=  3.10GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  832, bw=  5.93GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  832, bw=  5.21GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  832, bw=  5.36GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  832, bw=  5.40GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  832, bw=  5.76GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  864, bw=  3.08GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  864, bw=  5.77GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  864, bw=  6.01GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  864, bw=  5.19GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  864, bw=  5.61GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  864, bw=  5.89GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  896, bw=  3.08GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  896, bw=  5.65GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  896, bw=  5.90GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  896, bw=  5.29GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  896, bw=  5.44GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  896, bw=  5.71GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  928, bw=  3.13GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  928, bw=  5.69GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  928, bw=  5.80GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  928, bw=  5.22GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  928, bw=  5.68GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  928, bw=  5.91GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  960, bw=  3.13GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  960, bw=  5.51GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  960, bw=  5.70GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  960, bw=  5.07GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  960, bw=  5.51GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  960, bw=  5.75GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim=  992, bw=  3.08GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim=  992, bw=  5.42GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim=  992, bw=  5.52GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim=  992, bw=  4.88GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim=  992, bw=  5.38GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim=  992, bw=  5.58GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8000, gDim=    1, bDim= 1024, bw=  3.49GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16000, gDim=    1, bDim= 1024, bw=  6.23GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24000, gDim=    1, bDim= 1024, bw=  6.69GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32000, gDim=    1, bDim= 1024, bw=  5.96GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40000, gDim=    1, bDim= 1024, bw=  5.67GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     48000, gDim=    1, bDim= 1024, bw=  5.78GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=      8192, gDim=    1, bDim=   32, bw=  1.54GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     16384, gDim=    1, bDim=   32, bw=  2.11GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     24576, gDim=    1, bDim=   32, bw=  2.18GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     32768, gDim=    1, bDim=   32, bw=  2.29GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     40960, gDim=    1, bDim=   32, bw=  2.31GB/s
+***
+*** Starting ...
+***
+Copy global->shared, size=     49152, gDim=    1, bDim=   32, bw=  2.35GB/s

@@ -14,4 +14,4 @@ clean:
 rebuild: clean build
 
 ./bin/memCpy: ./src/main.cpp ./src/kernel.cu
-	$(NVCC) -arch=compute_60 -code=sm_70 -O2 --compiler-options "-O2 -Wall -Wextra" -o $@ $^ $(INC) $(LIB)
+	$(NVCC) --ptxas-options=-v -Xptxas -dlcm=cg -arch=compute_60 -code=sm_70 -O2 --compiler-options "-O2 -Wall -Wextra" -o $@ $^ $(INC) $(LIB)

@@ -28,14 +28,15 @@ const static int DEFAULT_GRID_DIM       =           16;
 // Function Prototypes
 //
 void printHelp(char *);
+void getCudaDeviceInfo();
 
 //
 // Kernel Wrappers
 //
-extern void globalMem2SharedMem_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize /* TODO Parameters*/);
-extern void SharedMem2globalMem_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize /* TODO Parameters*/);
-extern void SharedMem2Registers_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize /* TODO Parameters*/);
-extern void Registers2SharedMem_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize /* TODO Parameters*/);
+extern void globalMem2SharedMem_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize,float* d_mem_a, float* d_mem_b  /* TODO Parameters*/);
+extern void SharedMem2globalMem_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize,float* d_mem_a, float* d_mem_b  /* TODO Parameters*/);
+extern void SharedMem2Registers_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize,float* d_mem_a /* TODO Parameters*/);
+extern void Registers2SharedMem_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize,float* d_mem_a /* TODO Parameters*/);
 extern void bankConflictsRead_Wrapper(dim3 gridSize, dim3 blockSize, int shmSize /* TODO Parameters*/);
 
 
@@ -53,6 +54,13 @@ main ( int argc, char * argv[] )
 	if ( optShowHelp ) {
 		printHelp ( argv[0] );
 		exit (0);
+	}
+
+	bool optDevInfo = chCommandLineGetBool("device",argc, argv);
+	if (optDevInfo)
+	{
+		getCudaDeviceInfo();
+		exit(0);
 	}
 
 	std::cout << "***" << std::endl
@@ -116,8 +124,10 @@ main ( int argc, char * argv[] )
 	float* d_memoryA = NULL;
 	cudaMalloc ( &d_memoryA, static_cast <size_t> ( optMemorySize ) ); // optMemorySize is in bytes
 
-	float *outFloat = NULL;  // dummy variable to prevent compiler optimizations
-	cudaMalloc ( &outFloat, static_cast <float> ( sizeof ( float ) ) );
+	cudaMemset(d_memoryA, 0, static_cast <size_t> ( optMemorySize ));
+
+	float *d_memoryB = NULL;  // dummy variable to prevent compiler optimizations
+	cudaMalloc ( &d_memoryB, static_cast <float> ( sizeof ( float ) ) );
 		
 	long hClocks = 0;
 	long *dClocks = NULL;
@@ -132,34 +142,35 @@ main ( int argc, char * argv[] )
 		exit (-1);
 	}
 	
-	//
 	// Tests
 	//
 	kernelTimer.start();
-	//for ( int i = 0; i < optNumIterations; i++ )
+	for ( int i = 0; i < optNumIterations; i++ )
 	{
+		//printf("Global Iteration %d\n", i);
 		//
 		// Launch Kernel
 		//
-		std::cout << "Starting kernel: " << grid_dim.x << "x" << block_dim.x << " threads, " << optMemorySize << "B shared memory" << ", " << optNumIterations << " iterations" << std::endl;
+		//std::cout << "Starting kernel: " << grid_dim.x << "x" << block_dim.x << " threads, " << optMemorySize << "B shared memory" << ", " << optNumIterations << " iterations" << std::endl;
 		if ( chCommandLineGetBool ( "global2shared", argc, argv ) )
 		{
-			globalMem2SharedMem_Wrapper( grid_dim, block_dim, 0 /*Shared Memory Size*/
+			globalMem2SharedMem_Wrapper( grid_dim, block_dim, optMemorySize, d_memoryA ,d_memoryB/*Shared Memory Size*/
 					/*TODO Parameters*/);
 		}
 		else if ( chCommandLineGetBool ( "shared2global", argc, argv ) )
 		{
-			SharedMem2globalMem_Wrapper( grid_dim, block_dim, 0 /*Shared Memory Size*/
+			SharedMem2globalMem_Wrapper( grid_dim, block_dim, optMemorySize ,d_memoryA, d_memoryB
+			/*Shared Memory Size*/
 					/*TODO Parameters*/);
 		}
 		else if ( chCommandLineGetBool ( "shared2register", argc, argv ) )
 		{
-			SharedMem2Registers_Wrapper( grid_dim, block_dim, 0 /*Shared Memory Size*/
+			SharedMem2Registers_Wrapper( grid_dim, block_dim, optMemorySize, d_memoryA /*Shared Memory Size*/
 					/*TODO Parameters*/);
 		}
 		else if ( chCommandLineGetBool ( "register2shared", argc, argv ) )
 		{
-			Registers2SharedMem_Wrapper( grid_dim, block_dim, 0 /*Shared Memory Size*/
+			Registers2SharedMem_Wrapper( grid_dim, block_dim, optMemorySize, d_memoryA /*Shared Memory Size*/
 					/*TODO Parameters*/);
 		}
 		else if ( chCommandLineGetBool ( "shared2register_conflict", argc, argv ) )
@@ -254,4 +265,15 @@ printHelp(char * programName)
 		<< "  -offset <offset>" << std::endl
 		<< "     Offset parameter for global-offset test. Not that size parameter is ignored then." << std::endl
 		<< "" << std::endl;
+}
+
+void 
+getCudaDeviceInfo()
+{
+	cudaDeviceProp prop;
+    cudaGetDeviceProperties(&prop, 0); // Assuming device 0
+
+    std::cout << "Shared Memory Per Block: " << prop.sharedMemPerBlock << " bytes\n";
+
+    return;
 }

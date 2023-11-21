@@ -160,7 +160,7 @@ int main ( int argc, char * argv[] )
 		}
 		else if ( chCommandLineGetBool ( "shared2register_conflict", argc, argv ) )
 		{
-			bankConflictsRead_Wrapper( grid_dim, block_dim, block_dim.x*sizeof(float), outFloat, optStride, dClocks);
+			bankConflictsRead_Wrapper( grid_dim, block_dim, optStride*block_dim.x*sizeof(float), outFloat, optStride, dClocks);
 		}
 	}
 
@@ -216,10 +216,14 @@ int main ( int argc, char * argv[] )
 			return 1;
 		}
 
-		std::cout << "Shared memory bank conflict test, size=" << std::setw(10) << optMemorySize << ", gDim=" << std::setw(5) << grid_dim.x << ", bDim=" << std::setw(5) << block_dim.x;
-		// std::cout << ", kernel_time=" << kernelTimer.getTime(optNumIterations);
-		std::cout << ", stride=" << std::setw(6) << optStride << ", modulo=" << std::setw(6) << optModulo;
-		std::cout << ", clocks=" << std::setw(10) << hClocks << std::endl;
+		// std::cout << "Shared memory bank conflict test, size=" << std::setw(10) << optMemorySize << ", gDim=" << std::setw(5) << grid_dim.x << ", bDim=" << std::setw(5) << block_dim.x;
+		// // std::cout << ", kernel_time=" << kernelTimer.getTime(optNumIterations);
+		// std::cout << ", stride=" << std::setw(6) << optStride << ", modulo=" << std::setw(6) << optModulo;
+		// std::cout << ", clocks=" << std::setw(10) << hClocks << std::endl;
+
+		std::cout << block_dim.x;
+		std::cout << "," << optStride;
+		std::cout << "," << hClocks << std::endl;
 	}
 	
 	return 0;

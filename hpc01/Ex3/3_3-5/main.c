@@ -1,96 +1,116 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <mpi.h>
 #include <time.h>
 #include <math.h>
-#include <stdbool.h>
-#include <mpi.h>
 
-#define N 2048
+#define N 128
 
-//Function to multiply matrices
-void multiply_matrix(double matrix_a[N][N], double matrix_b[N][N], double result[N][N], int start_row, int end_row, bool transposed){
-    //Multiplication for a transposed matrix
-    if(transposed == true){
-    for (int i = start_row; i < end_row; i++) {
+void matrix_multiply(double *a, double *b, double *c, int rows_per_process) {
+    for (int i = 0; i < rows_per_process; i++) {
         for (int j = 0; j < N; j++) {
-            for (int h = 0; h < N; h++) {
-                result[i][j] += matrix_a[i][h] * matrix_b[j][h];
+            for (int k = 0; k < N; k++) {
+                c[i * N + j] += a[i * N + k] * b[k * N + j];
             }
         }
-    }        
-    }
-    else{
-    //Multiplication for regualar matrices
-    for (int i = start_row; i < end_row; i++) {
-        for (int j = 0; j < N; j++) {
-            for (int h = 0; h < N; h++) {
-                result[i][j] += matrix_a[i][h] * matrix_b[h][j];
-            }
-        }
-    }
     }
 }
 
 int main(int argc, char *argv[]) {
-    
     int rank, size;
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    //Divide the rows among the threads
-    int rows_per_process = N / size;
-    int start_row = rank * rows_per_process;
-    int end_row = (rank + 1) * rows_per_process;
+    double *a, *b, *c;
+    double *local_a, *local_c;
+    int *sendcounts, *offset;
+    int rows_per_process, remainder_rows;
+    double start, stop;
+    //printf("Process %d is starting up....\n", rank);
 
-    //Initialize the arrays
-    double matrix_a[N][N];
-    double matrix_b[N][N];
-    double result[N][N];
-    time_t start, stop;
+    a = (double *)malloc(N * N * sizeof(double));   //I dont understand why this cannot be inside if rank == 0???!!!
+    b = (double *)malloc(N * N * sizeof(double));
+    c = (double *)malloc(N * N * sizeof(double));
 
-    if(rank == 0){
-        // Generate random seed
+    // Allocate memory for matrices
+    if (rank == 0) {
+
+        //Generate random seed
         srand(time(NULL));
-    
-        // Fill arrays with random data
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                matrix_a[i][j] = ((double)rand()) / RAND_MAX;
-                matrix_b[i][j] = ((double)rand()) / RAND_MAX;
-            }
+ 
+        //Fill arrays with random data
+        for (int i = 0; i < N*N; i++) {
+                a[i] = ((double)rand()) / RAND_MAX;
+                b[i] = ((double)rand()) / RAND_MAX;
+        }
+        printf("Random fill is working\n");
+    }
+
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    rows_per_process = N / size;
+    remainder_rows = N % size;
+
+    sendcounts = (int *)malloc(size * sizeof(double));
+    offset = (int *)malloc(size * sizeof(double));
+
+    // Calculate sendcounts and offset for uneven distribution of rows
+    for (int i = 0; i < size; i++) {
+        if (i < remainder_rows) {
+            sendcounts[i] = (rows_per_process + 1) * N;
+            offset[i] = i * (rows_per_process + 1) * N;
+        } else {
+            sendcounts[i] = rows_per_process * N;
+            offset[i] = (i - remainder_rows) * rows_per_process * N + remainder_rows * (rows_per_process + 1) * N;
         }
     }
 
-    //Distribute the matrices among the threads
-    MPI_Bcast(matrix_a, N * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(matrix_b, N * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    //Set a start point capturing the start of the calculation in time
-    if (rank == 0) {
-       start = time(NULL); 
+    // Scatter matrix 'a' to all processes
+    local_a = (double *)malloc(sendcounts[rank] * sizeof(double));
+    MPI_Scatterv(a, sendcounts, offset, MPI_DOUBLE, local_a, sendcounts[rank], MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    // Allocate memory for local result matrix 'c'
+    local_c = (double *)malloc(rows_per_process * N * sizeof(double));
+
+    // Scatter matrix 'b' to all processes
+    MPI_Bcast(b, N * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    // Perform local matrix multiplication
+    if(rank==0){
+        start = MPI_Wtime();
+    }
+    matrix_multiply(local_a, b, local_c, rows_per_process);
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    
+    if(rank==0){
+        stop = MPI_Wtime();
     }
 
-    //Each process performs a part of the matrix multiplication
-    multiply_matrix(matrix_a, matrix_b, result, start_row, end_row, false);
+    // Gather results back to the master process
+    MPI_Gatherv(local_c, rows_per_process * N, MPI_DOUBLE, c, sendcounts, offset, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    //Make sure to synchronize
+    // Clean up
+    free(local_a);
+    free(local_c);
+    free(sendcounts);
+    free(offset);
+    free(a);    //This also cannot be in if rank == 0
+    free(b);
+    free(c);
+
+    if (rank == 0) {
+        double time_taken = stop-start;
+        double gflops = (2 *pow(N, 3)) / (time_taken*1e9); 
+        printf("It took %lf seconds to calculate the matrix multiply without transposing the %d-size matrix, with %d threads, the performance was %lf GFLOPS/s\n", time_taken, N, size, gflops);
+    }
+
     MPI_Barrier(MPI_COMM_WORLD);
 
-    //Gather the results back to the root process (process 0)
-    MPI_Gather(result + start_row, rows_per_process * N, MPI_DOUBLE, result, rows_per_process * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
     MPI_Finalize();
-
-    //Set a stop point capturing the end of the calculation in time and output the time and GFLOPS
-    if (rank == 0) {
-        stop = time(NULL);
-        double time_taken = (double) difftime(stop, start);
-        double gflops = (2 * pow(N, 3)) / (time_taken*1e9); 
-        printf("It took %f seconds to calculate the matrix multiply without transposing the matrix, the performance was %f GFLOPS/s\n", time_taken, gflops);
-    }
 
     return 0;
 }

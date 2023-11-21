@@ -1,0 +1,2 @@
+This code does not require any make file, since it can directly be run, the given are 2 .c files, where one can compute the given matrix sizes and give out the results
+The second file, computes gflops as well, and is with execution time. Both the files should be run with the .sh file to ensure it runs on the compute node
