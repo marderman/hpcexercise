@@ -66,8 +66,7 @@ __global__ void shMatMul_Kernel(int matrixSize, float* matrixA, float* matrixB, 
 
     for (int i = 0; i < matrixSize; i += blockDim.x) {
         sh_MatrixA[threadIdx.y * blockDim.x + threadIdx.x] = matrixA[elementIdy * matrixSize + i + threadIdx.x];
-        sh_MatrixB[threadIdx.y * blockDim.x + threadIdx.x] = matrixB[i * matrixSize + threadIdx.y * matrixSize + elementIdy];
-
+        sh_MatrixB[threadIdx.y * blockDim.x + threadIdx.x] = matrixB[i * matrixSize + threadIdx.y * matrixSize + elementIdx];
         __syncthreads();
 
         for (int j = 0; j < blockDim.x; j++) {
@@ -77,6 +76,7 @@ __global__ void shMatMul_Kernel(int matrixSize, float* matrixA, float* matrixB, 
         __syncthreads();
     }
     matrixC[elementId] = temp_val;
+    __syncthreads();
 }
 
 
