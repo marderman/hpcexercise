@@ -11,4 +11,14 @@ module load devtoolset/10 cuda/11.4
 
 make rebuild
 
-bin/matMul --shared
+#5.3.3
+for ((size = 32; size <= 1024; size*=2))
+do
+    bin/matMul -s $size -t 32 --shared >> out_5_3_3.txt
+done
+    
+# 5.3.2
+# for ((threads = 2; threads <= 32; threads+=2))
+#     do
+#         bin/matMul -s 1024 -t $threads --shared >> out_5_3_2.txt
+#     done

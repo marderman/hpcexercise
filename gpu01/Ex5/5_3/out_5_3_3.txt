@@ -1,0 +1,6 @@
+Grid Dim;1;Block Dim;32;Matrix Size;1024;Time to Copy to Device;0.02362;ms;Copy Bandwidth;0.693649;GB/s;Time to Copy from Device;0.013341;ms;Copy Bandwidth;0.614047;GB/s;Time for Matrix Multiplication;0.03543;ms
+Grid Dim;2;Block Dim;32;Matrix Size;4096;Time to Copy to Device;0.025931;ms;Copy Bandwidth;2.52732;GB/s;Time to Copy from Device;0.01509;ms;Copy Bandwidth;2.1715;GB/s;Time for Matrix Multiplication;0.03833;ms
+Grid Dim;4;Block Dim;32;Matrix Size;16384;Time to Copy to Device;0.038351;ms;Copy Bandwidth;6.83539;GB/s;Time to Copy from Device;0.034841;ms;Copy Bandwidth;3.762;GB/s;Time for Matrix Multiplication;0.04556;ms
+Grid Dim;8;Block Dim;32;Matrix Size;65536;Time to Copy to Device;0.076611;ms;Copy Bandwidth;13.687;GB/s;Time to Copy from Device;0.127671;ms;Copy Bandwidth;4.10656;GB/s;Time for Matrix Multiplication;0.066101;ms
+Grid Dim;16;Block Dim;32;Matrix Size;262144;Time to Copy to Device;0.221163;ms;Copy Bandwidth;18.9648;GB/s;Time to Copy from Device;0.496597;ms;Copy Bandwidth;4.22305;GB/s;Time for Matrix Multiplication;0.338114;ms
+Grid Dim;32;Block Dim;32;Matrix Size;1048576;Time to Copy to Device;0.721799;ms;Copy Bandwidth;23.2436;GB/s;Time to Copy from Device;1.2252;ms;Copy Bandwidth;6.84675;GB/s;Time for Matrix Multiplication;2.00383;ms
