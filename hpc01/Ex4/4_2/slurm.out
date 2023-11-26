@@ -1,0 +1,10 @@
+Grid size set to 128, iterations: 100
+Ops: 130560,  0.006961 s, 0.000070 s/it, 1.875563 GFLOPS/s
+Grid size set to 512, iterations: 100
+Ops: 2095104,  0.091811 s, 0.000918 s/it, 2.281963 GFLOPS/s
+Grid size set to 1024, iterations: 100
+Ops: 8384512,  0.302654 s, 0.003027 s/it, 2.770326 GFLOPS/s
+Grid size set to 2048, iterations: 100
+Ops: 33546240,  1.102275 s, 0.011023 s/it, 3.043365 GFLOPS/s
+Grid size set to 4096, iterations: 100
+Ops: 134201344,  4.226313 s, 0.042263 s/it, 3.175376 GFLOPS/s
