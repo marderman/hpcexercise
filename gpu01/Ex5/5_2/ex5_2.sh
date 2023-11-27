@@ -9,7 +9,9 @@
 
 module load devtoolset/10 cuda/11.4
 
-bin/matMul -s 10 --shared
+make
+
+bin/matMul
 
 if [ -f "output_5_2_2.txt" ]; then
     rm "output_5_2_2.txt"

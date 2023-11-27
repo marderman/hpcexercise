@@ -9,6 +9,6 @@
 
 module load devtoolset/10 cuda/11.4
 
-make rebuild
+make
 
-bin/matMul --shared
+bin/matMul --shared --print-matrix
