@@ -128,6 +128,7 @@ void performComputation(float *currentGrid, float *outputGrid, int localSize, in
     double ret = 0;
     if (numIteration != 0)
     {
+        // Check for edgecase, pun intended
         if (rightNeighbor != -2 && leftNeighbor != -2)
         {
             MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &requestDown);      // Send last row
@@ -147,14 +148,15 @@ void performComputation(float *currentGrid, float *outputGrid, int localSize, in
         }
     }
 
-    // For loop to go through the row of the partial grid
+    // For loop to go through the row of the partial grid and perform calculation
     for (size_t i = columns; i < (localSize * columns) - columns; i++)
     {
-        if (i % columns == 0)
+        // Check for edgecase
+        if (i % columns == 0)   // No element to the left
         {
             outputGrid[i] = currentGrid[i] + 0.24 * ((-4.0) * currentGrid[i] + currentGrid[i + 1] + currentGrid[i - columns] + currentGrid[i + columns]);
         }
-        else if (i % columns == columns - 1)
+        else if (i % columns == columns - 1)    // No element to the right
         {
             outputGrid[i] = currentGrid[i] + 0.24 * ((-4.0) * currentGrid[i] + currentGrid[i - 1] + currentGrid[i - columns] + currentGrid[i + columns]);
         }
