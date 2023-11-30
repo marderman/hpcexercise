@@ -118,25 +118,32 @@ void output(MPI_Comm comm, float *partialGrid, int localSize)
 
 void performComputation(float *currentGrid, float *outputGrid, int localSize, int leftNeighbor, int rightNeighbor, int numIteration)
 {
+
+    MPI_Request requestDown;
+    MPI_Request requestUp;
+
+    MPI_Status statusUp;
+    MPI_Status statusDown;
+
     double ret = 0;
     if (numIteration != 0)
     {
         if (rightNeighbor != -2 && leftNeighbor != -2)
         {
-            MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL);      // Send last row
-            MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL); // Receive right ghost layer
-            MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL);                   // Send first row
-            MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL);                       // Receive left ghost layer
+            MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &requestDown);      // Send last row
+            MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &requestUp);                   // Send first row
+            MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &statusDown); // Receive right ghost layer
+            MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &statusUp);                       // Receive left ghost layer
         }
         else if (rightNeighbor == -2)
         {
-            MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL); // Send first row
-            MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL);     // Receive left ghost layer
+            MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &requestUp); // Send first row
+            MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &statusUp);     // Receive left ghost layer
         }
         else if (leftNeighbor == -2)
         {
-            MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL);      // Send last row
-            MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL); // Receive right ghost layer
+            MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &requestDown);      // Send last row
+            MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &statusDown); // Receive right ghost layer
         }
     }
 
