@@ -4,14 +4,15 @@
 #include <mpi.h>
 #include <getopt.h>
 #include <ncurses.h>
+#include <math.h>
 
-#define rows 8
-#define columns 8
+#define rows 12
+#define columns 12
 #define N_ITERATIONS 1000
 
-void performComputation(float *currentGrid, float *outputGrid, int localSize);
+void performComputation(float *currentGrid, float *outputGrid, int localSize, int leftNeighbor, int rightNeighbor, int numIteration);
 void output(MPI_Comm comm, float *partialGrid, int localSize);
-void initialDistribution(float* previousGrid, float* previousPartialGrid);
+void initialDistribution(float *previousGrid, float *previousPartialGrid);
 
 MPI_Comm row_comm;
 int n_processes, rank, rows_per_process;
@@ -25,6 +26,17 @@ int main(int argc, char *argv[])
 
     MPI_Comm_size(MPI_COMM_WORLD, &n_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    // Dont even start if there are too many processes
+    if (n_processes > rows)
+    {
+        if (rank == 0)
+        {
+            printf("Too many processes or too little gridsize. How dare you!\n");
+        }
+        MPI_Finalize();
+        return 1;
+    }
 
     // Calculate the amount of rows each process has to compute (Set to minimum of 1)
     rows_per_process = std::max(rows / n_processes, 1);
@@ -43,7 +55,6 @@ int main(int argc, char *argv[])
     // Get neighbor information
     int leftNeighbor, rightNeighbor;
     MPI_Cart_shift(row_comm, 0, 1, &leftNeighbor, &rightNeighbor);
-
     printf("Hello from process %d, my neighbors are %d and %d\n", rank, leftNeighbor, rightNeighbor);
 
     // Each Process allocates the memory it is working on
@@ -51,7 +62,7 @@ int main(int argc, char *argv[])
     float *previousPartialGrid = (float *)malloc((2 + rows_per_process) * (columns) * sizeof(float)); // For calculating matrices without extra copy
     printf("Allocated Memory\n");
 
-    initialDistribution(partialGrid, previousPartialGrid);      // Initialize arrays
+    initialDistribution(partialGrid, previousPartialGrid); // Initialize arrays
     MPI_Barrier(row_comm);
 
     printf("Initialized Memory\n");
@@ -61,9 +72,10 @@ int main(int argc, char *argv[])
     // Calculate the dissipation
     for (size_t i = 0; i < N_ITERATIONS; i++)
     {
-        // performComputation(currentGrid,previousGrid,rows_per_process);
+        if(i % 2 == 0){performComputation(partialGrid, previousPartialGrid, rows_per_process, leftNeighbor, rightNeighbor, i);}
+        if(i % 2 == 1){performComputation(previousPartialGrid, partialGrid, rows_per_process, leftNeighbor, rightNeighbor, i);}
     }
-
+    MPI_Barrier(row_comm);
     output(row_comm, partialGrid, rows_per_process * columns);
 
     // Get back the results
@@ -84,9 +96,12 @@ void output(MPI_Comm comm, float *partialGrid, int localSize)
     }
     MPI_Barrier(comm);
     // Get the rows of each process (partial Grids) and combine to one large grid
-    MPI_Gather(partialGrid, rows_per_process * columns, MPI_FLOAT,
-               recv_wholeGrid, rows_per_process * columns, MPI_FLOAT,
-               0, row_comm);
+    if (rank < rows)
+    {
+        MPI_Gather(partialGrid, rows_per_process * columns, MPI_FLOAT,
+                   recv_wholeGrid, rows_per_process * columns, MPI_FLOAT,
+                   0, row_comm);
+    }
     MPI_Barrier(comm);
 
     if (rank == 0)
@@ -101,25 +116,49 @@ void output(MPI_Comm comm, float *partialGrid, int localSize)
     }
 }
 
-void performComputation(float *currentGrid, float *outputGrid, int localSize)
+void performComputation(float *currentGrid, float *outputGrid, int localSize, int leftNeighbor, int rightNeighbor, int numIteration)
 {
-    int cart_rank, cart_size;
-
-    MPI_Comm_rank(row_comm, &cart_rank);
-    MPI_Comm_size(row_comm, &cart_size);
-
-    if (cart_rank == 0)
+    double ret = 0;
+    if (numIteration != 0)
     {
+        if (rightNeighbor != -2 && leftNeighbor != -2)
+        {
+            MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL);      // Send last row
+            MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL); // Receive right ghost layer
+            MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL);                   // Send first row
+            MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL);                       // Receive left ghost layer
+        }
+        else if (rightNeighbor == -2)
+        {
+            MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL); // Send first row
+            MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, NULL);     // Receive left ghost layer
+        }
+        else if (leftNeighbor == -2)
+        {
+            MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL);      // Send last row
+            MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, NULL); // Receive right ghost layer
+        }
     }
-    else if (cart_rank < cart_size)
+
+    // For loop to go through the row of the partial grid
+    for (size_t i = columns; i < (localSize * columns) - columns; i++)
     {
-    }
-    else
-    {
+        if (i % columns == 0)
+        {
+            outputGrid[i] = currentGrid[i] + 0.24 * ((-4.0) * currentGrid[i] + currentGrid[i + 1] + currentGrid[i - columns] + currentGrid[i + columns]);
+        }
+        else if (i % columns == columns - 1)
+        {
+            outputGrid[i] = currentGrid[i] + 0.24 * ((-4.0) * currentGrid[i] + currentGrid[i - 1] + currentGrid[i - columns] + currentGrid[i + columns]);
+        }
+        else
+        {
+            outputGrid[i] = currentGrid[i] + 0.24 * ((-4.0) * currentGrid[i] + currentGrid[i + 1] + currentGrid[i - 1] + currentGrid[i - columns] + currentGrid[i + columns]);
+        }
     }
 }
 
-void initialDistribution(float* partialGrid, float* previousPartialGrid)
+void initialDistribution(float *partialGrid, float *previousPartialGrid)
 {
     for (size_t i = 0; i < rows_per_process * columns; i++)
     {
