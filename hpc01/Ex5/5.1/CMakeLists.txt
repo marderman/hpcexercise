@@ -33,7 +33,7 @@ add_executable(programm src/main.cpp)
 
 target_sources(programm PRIVATE
     src/main.cpp
-    src/grid.cpp
+    #src/grid.cpp
 )
 
 target_include_directories(programm PRIVATE ${CMAKE_SOURCE_DIR}/inc)
