@@ -21,6 +21,8 @@ message(modules=${my_modules_found})
 find_package(MPI REQUIRED)
 message(STATUS "Run: ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${MPIEXEC_MAX_NUMPROCS} ${MPIEXEC_PREFLAGS} EXECUTABLE ${MPIEXEC_POSTFLAGS} ARGS")
 
+
+
 # Request that particles be built with -std=c++11
 # As this is a public compile feature anything that links to 
 # particles will also build with -std=c++11
@@ -36,11 +38,18 @@ target_sources(programm PRIVATE
     #src/grid.cpp
 )
 
+
+#Find Math Library
+find_library(MATH_LIBRARY m)
+if(MATH_LIBRARY)
+    target_link_libraries(programm PUBLIC ${MATH_LIBRARY})
+endif()
+
+
 target_include_directories(programm PRIVATE ${CMAKE_SOURCE_DIR}/inc)
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
-target_link_libraries(programm PUBLIC MPI::MPI_CXX)
-
+target_link_libraries(programm PUBLIC MPI::MPI_CXX) 
 
 
 
