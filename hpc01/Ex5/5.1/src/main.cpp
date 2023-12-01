@@ -7,7 +7,7 @@
 #include <math.h>
 #include <unistd.h>
 
-//#define DEBUG
+// #define DEBUG
 
 void performComputation(float *currentGrid, float *outputGrid, int localSize, int leftNeighbor, int rightNeighbor, int numIteration);
 void output(MPI_Comm comm, float *partialGrid, int localSize);
@@ -19,32 +19,33 @@ int columns, rows, N_ITERATIONS;
 
 int main(int argc, char *argv[])
 {
+    double start, stop;
     columns = 128;
     rows = 128;
     N_ITERATIONS = 100;
 
     int opt;
     while ((opt = getopt(argc, argv, "hw:l:n:")) != -1)
+    {
+        switch (opt)
         {
-            switch (opt)
-            {
-            case 'h':
-                std::cout << "example -w <grid_width> -l <grid_length> -n <num_iterations>" << std::endl;
-                std::exit(EXIT_SUCCESS);
-            case 'w':
-                columns = std::atoi(optarg);
-                break;
-            case 'l':
-                rows = std::atoi(optarg);
-                break;
-            case 'n':
-                N_ITERATIONS = std::atoi(optarg);
-                break;
-            default:
-                std::cerr << "Usage: example -w <grid_width> -l <grid_length> -n <num_iterations>" << std::endl;
-                std::exit(EXIT_FAILURE);
-            }
+        case 'h':
+            std::cout << "example -w <grid_width> -l <grid_length> -n <num_iterations>" << std::endl;
+            std::exit(EXIT_SUCCESS);
+        case 'w':
+            columns = std::atoi(optarg);
+            break;
+        case 'l':
+            rows = std::atoi(optarg);
+            break;
+        case 'n':
+            N_ITERATIONS = std::atoi(optarg);
+            break;
+        default:
+            std::cerr << "Usage: example -w <grid_width> -l <grid_length> -n <num_iterations>" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
+    }
 
     MPI_Init(&argc, &argv);
 
@@ -81,9 +82,9 @@ int main(int argc, char *argv[])
     // Get neighbor information
     int leftNeighbor, rightNeighbor;
     MPI_Cart_shift(row_comm, 0, 1, &leftNeighbor, &rightNeighbor);
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("Hello from process %d, my neighbors are %d and %d\n", rank, leftNeighbor, rightNeighbor);
-    #endif
+#endif
 
     // Each Process allocates the memory it is working on
     float *partialGrid = (float *)malloc((2 + rows_per_process) * (columns) * sizeof(float));         // +2 for ghost rows
@@ -91,11 +92,15 @@ int main(int argc, char *argv[])
 
     initialDistribution(partialGrid, previousPartialGrid); // Initialize arrays
     MPI_Barrier(row_comm);
-
+#ifdef DEBUG
     fflush(stdout);
     output(row_comm, partialGrid, rows_per_process * columns);
+#endif
 
-    MPI_Barrier(row_comm);
+    if (rank == 0)
+    {
+        start = MPI_Wtime();
+    }
 
     // Calculate the dissipation
     for (size_t i = 0; i < N_ITERATIONS; i++)
@@ -110,9 +115,18 @@ int main(int argc, char *argv[])
         }
     }
     MPI_Barrier(row_comm);
-    output(row_comm, partialGrid, rows_per_process * columns);
 
-    // Get back the results
+    if (rank == 0)
+    {
+        stop = MPI_Wtime();
+        double time_taken = (stop - start) / N_ITERATIONS;
+        printf("The average time for a size %d matrix took %lf seconds\n", rows, time_taken);
+    }
+
+// Get back the results
+#ifdef DEBUG
+    output(row_comm, partialGrid, rows_per_process * columns);
+#endif
 
     free(partialGrid);
     free(previousPartialGrid);
@@ -171,58 +185,59 @@ void performComputation(float *currentGrid, float *outputGrid, int localSize, in
     double ret = 0;
     if (numIteration != 0)
     {
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("Iteration %d\n", numIteration);
         fflush(stdout);
-        #endif
+#endif
         // Check for edgecase, pun intended
         if (rightNeighbor != -2 && leftNeighbor != -2)
         {
             MPI_Isend(currentGrid + (localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &requestDown);     // Send last row
             MPI_Isend(currentGrid + rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &requestUp);                      // Send first row
             MPI_Recv(currentGrid + ((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &statusDown); // Receive right ghost layer
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("I am Process %d and received Message received from Down Process\n", rank);
             outputPartialGrid(currentGrid, rows_per_process + 1, columns);
             fflush(stdout);
-            #endif
+#endif
             MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &statusUp); // Receive left ghost layer
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("I am Process %d and received Message from Upper Process\n", rank);
             outputPartialGrid(currentGrid, 0, columns);
             fflush(stdout);
-            #endif
+#endif
         }
         else if (rightNeighbor == -2)
         {
             MPI_Isend(currentGrid + rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &requestUp); // Send first row
             MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &statusUp);          // Receive left ghost layer
-            #ifdef DEBUG
+#ifdef DEBUG
             outputPartialGrid(currentGrid, 0, columns);
             printf("I am Process %d and received Message from Upper Process\n", rank);
-            #endif
+#endif
         }
         else if (leftNeighbor == -2)
         {
             MPI_Isend(currentGrid + (localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &requestDown);     // Send last row
             MPI_Recv(currentGrid + ((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &statusDown); // Receive right ghost layer
-            #ifdef DEBUG
+#ifdef DEBUG
             outputPartialGrid(currentGrid, rows_per_process + 1, columns);
             printf("I am Process %d and received Message from Down Process\n", rank);
-            #endif
+#endif
         }
     }
-    MPI_Barrier(row_comm);
-    // After Receive output Grid
-    #ifdef DEBUG
+
+// After Receive output Grid
+#ifdef DEBUG
     for (size_t i = 0; i < (2 + rows_per_process) * columns; i++)
     {
         printf("Process %d: Grid Data %f\n", rank, currentGrid[i]);
     }
     fflush(stdout);
-    #endif
+#endif
 
     MPI_Barrier(row_comm);
+
     // For loop to go through the row of the partial grid and perform calculation
     for (size_t i = columns + 1; i < ((1 + localSize) * columns) - 1; i++)
     {
@@ -231,15 +246,19 @@ void performComputation(float *currentGrid, float *outputGrid, int localSize, in
         // Do not compute edges
         if (rank == 0 && i < 2 * columns && i > columns)
         {
+            continue;
         }
         else if (rank == n_processes - 1 && i < 2 * columns * localSize && i > columns * localSize)
         {
+            continue;
         }
         else if (i % columns == 0) // No element to the left
         {
+            continue;
         }
         else if (i % columns == columns - 1) // No element to the right
         {
+            continue;
         }
         else
         {
@@ -264,9 +283,9 @@ void initialDistribution(float *partialGrid, float *previousPartialGrid)
         // partialGrid[i] = rank; // Check if process writes in correct addresspace
         if (rank == 0 && (double)i >= ((columns) / 4.0) && (double)i <= ((columns) * 3.0) / 4.0)
         {
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("%d Initializing add Memory Point in row 0", i);
-            #endif
+#endif
             partialGrid[i + columns] = 127.0;
         }
     }

@@ -1,0 +1,8 @@
+The average time for a size 32 matrix took 0.000009 seconds
+The average time for a size 64 matrix took 0.000017 seconds
+The average time for a size 128 matrix took 0.000085 seconds
+The average time for a size 256 matrix took 0.000240 seconds
+The average time for a size 512 matrix took 0.000820 seconds
+The average time for a size 1024 matrix took 0.003063 seconds
+The average time for a size 2048 matrix took 0.010953 seconds
+The average time for a size 4096 matrix took 0.043758 seconds
