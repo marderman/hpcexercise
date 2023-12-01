@@ -6,9 +6,9 @@
 #include <ncurses.h>
 #include <math.h>
 
-#define rows 12
-#define columns 12
-#define N_ITERATIONS 1000
+#define rows 8
+#define columns 8
+#define N_ITERATIONS 2
 
 void performComputation(float *currentGrid, float *outputGrid, int localSize, int leftNeighbor, int rightNeighbor, int numIteration);
 void output(MPI_Comm comm, float *partialGrid, int localSize);
@@ -67,6 +67,8 @@ int main(int argc, char *argv[])
 
     printf("Initialized Memory\n");
     fflush(stdout);
+    output(row_comm, partialGrid, rows_per_process * columns);
+
     MPI_Barrier(row_comm);
 
     // Calculate the dissipation
@@ -98,7 +100,7 @@ void output(MPI_Comm comm, float *partialGrid, int localSize)
     // Get the rows of each process (partial Grids) and combine to one large grid
     if (rank < rows)
     {
-        MPI_Gather(partialGrid, rows_per_process * columns, MPI_FLOAT,
+        MPI_Gather(partialGrid + columns, rows_per_process * columns, MPI_FLOAT,
                    recv_wholeGrid, rows_per_process * columns, MPI_FLOAT,
                    0, row_comm);
     }
@@ -134,25 +136,47 @@ void performComputation(float *currentGrid, float *outputGrid, int localSize, in
             MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &requestDown);      // Send last row
             MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &requestUp);                   // Send first row
             MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &statusDown); // Receive right ghost layer
+            printf("I am Process %d and received Message received from Down Process\n",rank);
+            fflush(stdout);
             MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &statusUp);                       // Receive left ghost layer
+            printf("I am Process %d and received Message from Upper Process\n",rank);
+            fflush(stdout);
         }
         else if (rightNeighbor == -2)
         {
             MPI_Isend(currentGrid+rows, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &requestUp); // Send first row
             MPI_Recv(currentGrid, columns, MPI_FLOAT, leftNeighbor, 0, row_comm, &statusUp);     // Receive left ghost layer
+            printf("I am Process %d and received Message from Upper Process\n",rank);
         }
         else if (leftNeighbor == -2)
         {
             MPI_Isend(currentGrid+(localSize * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &requestDown);      // Send last row
             MPI_Recv(currentGrid+((localSize + 1) * rows), columns, MPI_FLOAT, rightNeighbor, 0, row_comm, &statusDown); // Receive right ghost layer
+            printf("I am Process %d and received Message from Down Process\n",rank);
         }
     }
-
-    // For loop to go through the row of the partial grid and perform calculation
-    for (size_t i = columns; i < (localSize * columns) - columns; i++)
+    MPI_Barrier(row_comm);
+    //After Receive output Grid
+    for (size_t i = 0; i < (2+rows_per_process)*columns; i++)
     {
-        // Check for edgecase
-        if (i % columns == 0)   // No element to the left
+        printf("Process %d: Grid Data %f\n",rank, currentGrid[i]);
+    }
+    
+    MPI_Barrier(row_comm);
+    // For loop to go through the row of the partial grid and perform calculation
+    for (size_t i = columns+1; i < (localSize * columns) - columns -1; i++)
+    {
+        while (true)
+        {
+
+        }
+        if (rank == 0 && i < 2*columns && i > columns) {
+
+        }
+        else if (rank == n_processes-1 && i < 2*columns && i > columns) {
+
+        }
+        else if (i % columns == 0)   // No element to the left
         {
             outputGrid[i] = currentGrid[i] + 0.24 * ((-4.0) * currentGrid[i] + currentGrid[i + 1] + currentGrid[i - columns] + currentGrid[i + columns]);
         }
@@ -169,11 +193,11 @@ void performComputation(float *currentGrid, float *outputGrid, int localSize, in
 
 void initialDistribution(float *partialGrid, float *previousPartialGrid)
 {
-    for (size_t i = 0; i < rows_per_process * columns; i++)
+    for (size_t i = 0; i < (rows_per_process * columns); i++)
     {
         // partialGrid[i] = rank; // Check if process writes in correct addresspace
-        if (rank == 0 && (double)i >= (columns * rows_per_process / 4.0) && (double)i <= (columns * rows_per_process * 3.0) / 4.0)
-            partialGrid[i] = 127.0;
+        if (rank == 0 && (double)i >= ((columns * rows_per_process)+columns / 4.0) && (double)i <= ((columns * rows_per_process)+columns * 3.0) / 4.0)
+            partialGrid[i+columns] = 127.0;
         else
             partialGrid[i] = 0.0;
 
