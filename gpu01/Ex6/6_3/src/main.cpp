@@ -25,7 +25,6 @@ const static int DEFAULT_BLOCK_DIM   =  128;
 //
 void printHelp(char *);
 void printArray(int size, float *arr);
-
 extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, float* dataIn, float* dataOut);
 
 //
@@ -113,9 +112,9 @@ main(int argc, char * argv[])
     //
     for (int i = 0; i < numElements; i++) {
    
-        h_dataIn[i] = float(1);
-		printf("%f ", h_dataIn);
-        h_dataOut[i] = (1);
+        h_dataIn[i] = 1.0;
+		printf("%f ", h_dataIn[i]);
+        // h_dataOut[i] = 0.0;
     }
 
 	printf("\n\n");
@@ -167,7 +166,7 @@ main(int argc, char * argv[])
 
 	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataOut);
 
-	reduction_Kernel_Wrapper(1, grid_dim, numElements, d_dataOut, d_dataOut);
+	reduction_Kernel_Wrapper(1, grid_dim, numElements, d_dataIn, d_dataOut);
 
 	// Synchronize
 	cudaDeviceSynchronize();
@@ -191,13 +190,16 @@ main(int argc, char * argv[])
 	//
 	memCpyD2HTimer.start();
 
-	cudaMemcpy(h_dataOut, d_dataOut, 
-			static_cast<size_t>(sizeof(*d_dataOut)), 
-			cudaMemcpyDeviceToHost);
+	// cudaMemcpy(h_dataIn, d_dataIn,  
+	// 		static_cast<size_t>((*d_dataIn)), 
+	// 		cudaMemcpyDeviceToHost);
+
+	cudaMemcpy(h_dataIn, d_dataIn, numElements * sizeof(*d_dataIn), cudaMemcpyDeviceToHost);
 
 	memCpyD2HTimer.stop();
 
-	printArray(numElements, h_dataOut);
+	printArray(numElements, h_dataIn);
+
 	// Free Memory
 	if (!pinnedMemory)
 	{
