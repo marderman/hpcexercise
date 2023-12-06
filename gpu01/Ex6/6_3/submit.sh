@@ -11,7 +11,7 @@ module load devtoolset/10 cuda/11.6
 
 make
 
-./bin/reduction --size 1024 --tilewidth 32 --shared
+./bin/reduction --size 32 --tilewidth 8 --shared
 
 
 # for ((size = 32; size <= 1024; size*=2))

@@ -24,7 +24,7 @@ const static int DEFAULT_BLOCK_DIM   =  128;
 // Function Prototypes
 //
 void printHelp(char *);
-
+void printArray(int size, float *arr);
 
 extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, float* dataIn, float* dataOut);
 
@@ -108,6 +108,19 @@ main(int argc, char * argv[])
 
 		exit(-1);
 	}
+	//
+    // Init Matrices
+    //
+    for (int i = 0; i < numElements; i++) {
+   
+        h_dataIn[i] = float(1);
+		printf("%f ", h_dataIn);
+        h_dataOut[i] = (1);
+    }
+
+	printf("\n\n");
+
+	printArray(numElements, h_dataIn);
 
 	//
 	// Copy Data to the Device
@@ -122,6 +135,7 @@ main(int argc, char * argv[])
 			cudaMemcpyHostToDevice);
 
 	memCpyH2DTimer.stop();
+
 
 	//
 	// Get Kernel Launch Parameters
@@ -144,7 +158,7 @@ main(int argc, char * argv[])
 		exit(-1);
 	}
 
-	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize));
+	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize * 2));
 
 	dim3 grid_dim = dim3(gridSize);
 	dim3 block_dim = dim3(blockSize);
@@ -152,6 +166,8 @@ main(int argc, char * argv[])
 	kernelTimer.start();
 
 	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataOut);
+
+	reduction_Kernel_Wrapper(1, grid_dim, numElements, d_dataOut, d_dataOut);
 
 	// Synchronize
 	cudaDeviceSynchronize();
@@ -181,6 +197,7 @@ main(int argc, char * argv[])
 
 	memCpyD2HTimer.stop();
 
+	printArray(numElements, h_dataOut);
 	// Free Memory
 	if (!pinnedMemory)
 	{
@@ -234,4 +251,13 @@ printHelp(char * argv)
 			  	<< std::endl
 			  << "	The number of threads per block" << std::endl
 			  << "" << std::endl;
+}
+
+void printArray(int size, float *arr)
+{
+    for(int i = 0; i < size; i++)
+    {
+        printf("%f ", arr[i]);
+    }
+	printf("\n\n");
 }
