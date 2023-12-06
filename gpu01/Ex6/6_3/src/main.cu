@@ -43,15 +43,15 @@ __global__ void reduction_Kernel(int matrixSize, int tileSize, float *matrixA, f
         elementIdy < matrixSize)
     {
         shMem[threadIdx.y * tileSize + threadIdx.x] = matrixA[elementId];
-        _synchthreads()
+        __synchthreads();
         for(int i = 0; i < tileSize; i++)
         {
             for(int j = 0; i < tileSize; j++)
             {
-                sum += shMem[i * tileSize + j]
+                sum += shMem[i * tileSize + j];
             }
         }
-        _synchthreads()
+        __syncthreads();
         matrixRes[blockIdx.y * blockDim.y + blockIdx.x] = sum;
     }
 }
@@ -120,7 +120,6 @@ main(int argc, char * argv[])
             printf ( "cudaMemcpy failed: %s\n", cudaGetErrorString ( error11) );
         }
     }
-
 
     //
     // Device Memory
@@ -208,6 +207,7 @@ main(int argc, char * argv[])
     if (chCommandLineGetBool("shared", argc, argv)) {
         // shMatMul_Kernel<<<grid_dim, block_dim, sharedMemSize>>>(matrixWidth, d_matrixA, d_matrixRes);   
         reduction_Kernel<<<grid_dim, block_dim, sharedMemSize>>>(matrixWidth, tileSize, d_matrixA, d_matrixRes);
+
     } else {
         // matMul_Kernel<<<grid_dim, block_dim>>>(matrixWidth, d_matrixA, d_matrixRes);
     }
@@ -222,8 +222,8 @@ main(int argc, char * argv[])
     //
     cudaError_t cudaError = cudaGetLastError();
     if ( cudaError != cudaSuccess ) {
-        std::cout << "\033[31m***" << std::endl
-                  << "***ERROR*** " << cudaError << " - " << cudaGetErrorString(cudaError)
+        std::cout << "\033[***" << std::endl
+                  << "***ERROR3*** " << cudaError << " - " << cudaGetErrorString(cudaError)
                     << std::endl
                   << "***\033[0m" << std::endl;
 

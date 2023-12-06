@@ -2,7 +2,7 @@
 INC=-I./inc #-I. -I$(CUDA_ROOT)/include
 #LIB=-L$(CUDA_ROOT)/lib64
 #NVCC=$(CUDA_ROOT)/bin/nvcc
-NVCC_FLAGS=-O2 -arch=sm_75 --compiler-options "-O2 -Wall -Wextra"
+NVCC_FLAGS=-O2 -arch=sm_75 -Xptxas -flcm=cg -Xptxas -fscm=cg --compiler-options "-O2 -Wall -Wextra"
 
 .PHONY: build
 build: ./bin/reduction
@@ -14,5 +14,5 @@ clean:
 .PHONY: rebuild
 rebuild: clean build
 
-./bin/reduction: ./src/main.cu
-	$(NVCC) $(NVCC_FLAGS) -o $@ ./src/main.cu $(INC) $(LIB)
+./bin/matMul: ./src/main.cu
+	$(NVCC) $(NVCC_FLAGS) -o $@ ./src/main.cu ./src/mmult_cpu.c $(INC) $(LIB)
