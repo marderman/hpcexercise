@@ -1,1 +1,1 @@
-/opt/rh/devtoolset-8/root/usr/bin/c++ -g -Wl,-rpath -Wl,/share/bsoproni/openmpi4-pmi/lib -Wl,--enable-new-dtags -pthread CMakeFiles/programm.dir/src/main.cpp.o -o programm  /share/bsoproni/openmpi4-pmi/lib/libmpi.so 
+/opt/rh/devtoolset-8/root/usr/bin/c++  -O3 -g -Wl,-rpath -Wl,/share/bsoproni/openmpi4-pmi/lib -Wl,--enable-new-dtags -pthread CMakeFiles/programm.dir/src/main.cpp.o -o programm  /usr/lib64/libm.so /share/bsoproni/openmpi4-pmi/lib/libmpi.so 

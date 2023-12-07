@@ -122,7 +122,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Exercise4_2
+CMAKE_PROJECT_NAME:STATIC=Exercise5_1
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/opt/rh/devtoolset-8/root/usr/bin/ranlib
@@ -200,6 +200,18 @@ Exercise4_2_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 Exercise4_2_SOURCE_DIR:STATIC=/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1
+
+//Value Computed by CMake
+Exercise5_1_BINARY_DIR:STATIC=/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug
+
+//Value Computed by CMake
+Exercise5_1_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Exercise5_1_SOURCE_DIR:STATIC=/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1
+
+//Path to a library.
+MATH_LIBRARY:FILEPATH=/usr/lib64/libm.so
 
 //Executable for running MPI programs.
 MPIEXEC_EXECUTABLE:FILEPATH=/share/bsoproni/openmpi4-pmi/bin/mpiexec

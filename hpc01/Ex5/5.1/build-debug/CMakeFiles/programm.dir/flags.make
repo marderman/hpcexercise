@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/inc -isystem /share/bsoproni/openmpi4-pmi/include
 
-CXX_FLAGS = -g -pthread
+CXX_FLAGS =  -O3 -g -pthread
 

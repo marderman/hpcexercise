@@ -320,3 +320,74 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/hpc01/tools/cmake-3.27.7-linux-x86_64/share/cmake-3.27/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/home/hpc01/tools/cmake-3.27.7-linux-x86_64/share/cmake-3.27/Modules/FindMPI.cmake:1322 (_MPI_try_staged_settings)"
+      - "/home/hpc01/tools/cmake-3.27.7-linux-x86_64/share/cmake-3.27/Modules/FindMPI.cmake:1645 (_MPI_check_lang_works)"
+      - "CMakeLists.txt:19 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode normal"
+    directories:
+      source: "/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf"
+      binary: "/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf'
+        
+        Run Build Command(s): /home/hpc01/tools/cmake-3.27.7-linux-x86_64/bin/cmake -E env VERBOSE=1 /opt/rh/devtoolset-8/root/usr/bin/gmake -f Makefile cmTC_6386e/fast
+        gmake[1]: Entering directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf'
+        /opt/rh/devtoolset-8/root/usr/bin/gmake  -f CMakeFiles/cmTC_6386e.dir/build.make CMakeFiles/cmTC_6386e.dir/build
+        gmake[2]: Entering directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf'
+        Building CXX object CMakeFiles/cmTC_6386e.dir/test_mpi.cpp.o
+        /opt/rh/devtoolset-8/root/usr/bin/c++  -isystem /share/bsoproni/openmpi4-pmi/include -pthread -o CMakeFiles/cmTC_6386e.dir/test_mpi.cpp.o -c /home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf/test_mpi.cpp
+        Linking CXX executable cmTC_6386e
+        /home/hpc01/tools/cmake-3.27.7-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6386e.dir/link.txt --verbose=1
+        /opt/rh/devtoolset-8/root/usr/bin/c++ -Wl,-rpath -Wl,/share/bsoproni/openmpi4-pmi/lib -Wl,--enable-new-dtags -pthread CMakeFiles/cmTC_6386e.dir/test_mpi.cpp.o -o cmTC_6386e  /share/bsoproni/openmpi4-pmi/lib/libmpi.so 
+        gmake[2]: Leaving directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf'
+        gmake[1]: Leaving directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-HgAtHf'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/hpc01/tools/cmake-3.27.7-linux-x86_64/share/cmake-3.27/Modules/FindMPI.cmake:1278 (try_compile)"
+      - "/home/hpc01/tools/cmake-3.27.7-linux-x86_64/share/cmake-3.27/Modules/FindMPI.cmake:1672 (_MPI_try_staged_settings)"
+      - "CMakeLists.txt:19 (find_package)"
+    description: "The MPI test test_mpi for CXX in mode MPICXX"
+    directories:
+      source: "/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb"
+      binary: "/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "MPI_RESULT_CXX_test_mpi_MPICXX"
+      cached: true
+      stdout: |
+        Change Dir: '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb'
+        
+        Run Build Command(s): /home/hpc01/tools/cmake-3.27.7-linux-x86_64/bin/cmake -E env VERBOSE=1 /opt/rh/devtoolset-8/root/usr/bin/gmake -f Makefile cmTC_ee09b/fast
+        gmake[1]: Entering directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb'
+        /opt/rh/devtoolset-8/root/usr/bin/gmake  -f CMakeFiles/cmTC_ee09b.dir/build.make CMakeFiles/cmTC_ee09b.dir/build
+        gmake[2]: Entering directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb'
+        Building CXX object CMakeFiles/cmTC_ee09b.dir/test_mpi.cpp.o
+        /opt/rh/devtoolset-8/root/usr/bin/c++  -isystem /share/bsoproni/openmpi4-pmi/include -pthread -o CMakeFiles/cmTC_ee09b.dir/test_mpi.cpp.o -c /home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb/test_mpi.cpp
+        Linking CXX executable cmTC_ee09b
+        /home/hpc01/tools/cmake-3.27.7-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee09b.dir/link.txt --verbose=1
+        /opt/rh/devtoolset-8/root/usr/bin/c++ -Wl,-rpath -Wl,/share/bsoproni/openmpi4-pmi/lib -Wl,--enable-new-dtags -pthread CMakeFiles/cmTC_ee09b.dir/test_mpi.cpp.o -o cmTC_ee09b  /share/bsoproni/openmpi4-pmi/lib/libmpi.so 
+        gmake[2]: Leaving directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb'
+        gmake[1]: Leaving directory '/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/CMakeScratch/TryCompile-VdSNHb'
+        
+      exitCode: 0
+...

@@ -92,6 +92,7 @@ programm_EXTERNAL_OBJECTS =
 
 programm: CMakeFiles/programm.dir/src/main.cpp.o
 programm: CMakeFiles/programm.dir/build.make
+programm: /usr/lib64/libm.so
 programm: /share/bsoproni/openmpi4-pmi/lib/libmpi.so
 programm: CMakeFiles/programm.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable programm"

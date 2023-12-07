@@ -113,7 +113,7 @@ main(int argc, char * argv[])
     for (int i = 0; i < numElements; i++) {
    
         h_dataIn[i] = 1.0;
-		printf("%f ", h_dataIn[i]);
+		// printf("%f ", h_dataIn[i]);
         // h_dataOut[i] = 0.0;
     }
 
@@ -166,7 +166,7 @@ main(int argc, char * argv[])
 
 	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataOut);
 
-	reduction_Kernel_Wrapper(1, grid_dim, numElements, d_dataIn, d_dataOut);
+	reduction_Kernel_Wrapper(1, grid_dim, (numElements), d_dataIn, d_dataOut);
 
 	// Synchronize
 	cudaDeviceSynchronize();
@@ -198,6 +198,7 @@ main(int argc, char * argv[])
 
 	memCpyD2HTimer.stop();
 
+	printf("Result: %f\n", h_dataIn[0]);
 	printArray(numElements, h_dataIn);
 
 	// Free Memory
