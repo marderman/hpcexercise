@@ -28,7 +28,7 @@ __global__ void reduction_Kernel(int numElements, float* dataIn, float* dataOut)
         }
         //printf("%f ", dataIn[elementId * stride]);
         dataOut[0] = dataIn[elementId*stride];
-        printf("%d\n", dataOut[0]);
+        //printf("%d\n", dataOut[0]);
 	}
 }
 

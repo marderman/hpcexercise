@@ -159,6 +159,8 @@ main(int argc, char * argv[])
 
 	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize * 2));
 
+	float factor = (numElements*0.25)/blockSize;
+
 	dim3 grid_dim = dim3(gridSize);
 	dim3 block_dim = dim3(blockSize);
 
@@ -166,7 +168,7 @@ main(int argc, char * argv[])
 
 	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataOut);
 
-	reduction_Kernel_Wrapper(1, grid_dim, (numElements), d_dataIn, d_dataOut);
+	reduction_Kernel_Wrapper(dim3(1), grid_dim, numElements*factor, d_dataIn, d_dataOut);
 
 	// Synchronize
 	cudaDeviceSynchronize();
