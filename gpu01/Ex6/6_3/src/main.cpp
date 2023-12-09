@@ -16,6 +16,7 @@
 #include <chCommandLine.h>
 #include <chTimer.hpp>
 #include <cuda_runtime.h>
+#include <stdio.h>
 
 const static int DEFAULT_MATRIX_SIZE = 1024;
 const static int DEFAULT_BLOCK_DIM   =  128;
@@ -25,6 +26,8 @@ const static int DEFAULT_BLOCK_DIM   =  128;
 //
 void printHelp(char *);
 void printArray(int size, float *arr);
+
+
 extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, float* dataIn, float* dataOut);
 
 //
@@ -107,6 +110,8 @@ main(int argc, char * argv[])
 
 		exit(-1);
 	}
+
+	
 	//
     // Init Matrices
     //
@@ -116,8 +121,6 @@ main(int argc, char * argv[])
 		// printf("%f ", h_dataIn[i]);
         // h_dataOut[i] = 0.0;
     }
-
-	printf("\n\n");
 
 	//printArray(numElements, h_dataIn);
 
@@ -134,7 +137,6 @@ main(int argc, char * argv[])
 			cudaMemcpyHostToDevice);
 
 	memCpyH2DTimer.stop();
-
 
 	//
 	// Get Kernel Launch Parameters
@@ -157,18 +159,16 @@ main(int argc, char * argv[])
 		exit(-1);
 	}
 
-	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize * 2));
-
-	float factor = (numElements*0.25)/blockSize;
+	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize));
 
 	dim3 grid_dim = dim3(gridSize);
 	dim3 block_dim = dim3(blockSize);
 
 	kernelTimer.start();
 
-	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataOut);
+	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataIn);
 
-	reduction_Kernel_Wrapper(dim3(1), grid_dim, numElements*factor, d_dataIn, d_dataOut);
+	reduction_Kernel_Wrapper(1, grid_dim, numElements, d_dataIn, d_dataOut);
 
 	// Synchronize
 	cudaDeviceSynchronize();
@@ -192,15 +192,14 @@ main(int argc, char * argv[])
 	//
 	memCpyD2HTimer.start();
 
-	// cudaMemcpy(h_dataIn, d_dataIn,  
-	// 		static_cast<size_t>((*d_dataIn)), 
-	// 		cudaMemcpyDeviceToHost);
-
-	cudaMemcpy(h_dataIn, d_dataIn, numElements * sizeof(*d_dataIn), cudaMemcpyDeviceToHost);
+	cudaMemcpy(h_dataOut, d_dataOut, 
+			static_cast<size_t>(sizeof(*d_dataOut)), 
+			cudaMemcpyDeviceToHost);
 
 	memCpyD2HTimer.stop();
 
-	printf("Result: %f\n", h_dataIn[0]);
+	printf("Result: %f\n", h_dataOut[0]);
+
 	//printArray(numElements, h_dataIn);
 
 	// Free Memory

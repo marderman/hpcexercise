@@ -7,14 +7,11 @@
 #SBATCH -o slurm.out
 #SBATCH --error=slurm.err      # file to collect standard errors
 
-module load devtoolset/10 cuda/11.6
+module load devtoolset/10 cuda/11.4
 
 make
 
-./bin/reduction -s 500736 -t 1024
-
-
-# for ((size = 32; size <= 1024; size*=2))
-# do
-#     srun ./bin/matMul -s $size -t 32 --shared >> out_5_3_3.txt
-# done
+for ((i = 128; i <= 4096; i*=2))
+do
+./bin/reduction -s $i
+done
