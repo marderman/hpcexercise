@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <chTimer.hpp>
+
 
 double global_sum_reduction(int* array, int size) {
     double sum = 0.0;
@@ -25,27 +27,28 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Populate array with random values
+    // Populate array with ones
     srand(time(NULL));
     for (int i = 0; i < size; ++i) {
-        array[i] = rand();
+        array[i] = 1;
     }
 
-    clock_t start_time = clock();
+    ChTimer kernelTimer;
+
+    kernelTimer.start();
 
     // Perform global sum reduction with modification for computation
     double result = global_sum_reduction(array, size);
 
-    clock_t end_time = clock();
-    double cpu_time_used = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+    kernelTimer.stop();
 
     printf("Global sum: %f\n", result);
-    printf("Run time: %f seconds\n", cpu_time_used);
+    printf("Run time: %f milliseconds\n", 1e3 * kernelTimer.getTime());
 
-    if (cpu_time_used < 1e-9) {
+    if (kernelTimer.getTime() < 1e-9) {
         printf("Bandwidth: Infinite elements per second (very short run time)\n");
     } else {
-        printf("Bandwidth: %f elements per second\n", size / cpu_time_used);
+        printf("Bandwidth: %f elements per second\n", size / kernelTimer.getTime());
     }
 
     free(array);

@@ -18,7 +18,6 @@ __global__ void reduction_Kernel(int numElements, float* dataIn, float* dataOut)
 	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
 	int stride = numElements / (blockDim.x * gridDim.x);
     int halfstride = stride/2;
-    *dataOut = (float)16;
     //printf("elementId %d, stride %d, halfstride %d\n", elementId, stride, halfstride);
 	if (elementId < numElements)
 	{

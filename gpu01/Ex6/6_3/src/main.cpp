@@ -119,7 +119,7 @@ main(int argc, char * argv[])
 
 	printf("\n\n");
 
-	printArray(numElements, h_dataIn);
+	//printArray(numElements, h_dataIn);
 
 	//
 	// Copy Data to the Device
@@ -201,7 +201,7 @@ main(int argc, char * argv[])
 	memCpyD2HTimer.stop();
 
 	printf("Result: %f\n", h_dataIn[0]);
-	printArray(numElements, h_dataIn);
+	//printArray(numElements, h_dataIn);
 
 	// Free Memory
 	if (!pinnedMemory)

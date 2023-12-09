@@ -11,7 +11,7 @@ module load devtoolset/10 cuda/11.6
 
 make
 
-./bin/reduction #-s 16 -t 8
+./bin/reduction -s 500736 -t 1024
 
 
 # for ((size = 32; size <= 1024; size*=2))
