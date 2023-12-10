@@ -1,13 +1,24 @@
 #include <iostream>
 #include <thrust/device_vector.h>
 #include <thrust/reduce.h>
+#include <cstdlib>
 
-int main() {
+int main(int argc, char* argv[]) {
+
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <MB>" << std::endl;
+        return 1;
+    }
+
+    int mb = std::atoi(argv[1]);
+
+    std::cout << "Reducing: " << mb << "MB elements\n"; 
     // Size of the array
-    const int size = 4096;
+    int size = mb*1024*1024;
+    std::cout << size;
 
     // Create a device_vector on the GPU
-    thrust::device_vector<int> d_vec(size);
+    thrust::device_vector<float> d_vec(size);
 
     // Initialize the device_vector with some values
     for (int i = 0; i < size; ++i) {
