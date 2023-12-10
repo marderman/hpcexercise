@@ -1,3 +1,0 @@
-/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/programm.dir
-/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/edit_cache.dir
-/home/hpc01/projects/hpcexercise/hpc01/Ex5/5.1/build-debug/CMakeFiles/rebuild_cache.dir
