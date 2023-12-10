@@ -14,31 +14,37 @@
 // Reduction_Kernel
 //
 __global__ void
-reduction_Kernel(int numElements, float *dataIn, float *dataOut)
+reduction_Kernel(int numElements, int *dataIn, int *dataOut)
 {
-	extern __shared__ float sdata[];
-	// each thread loads one element from global to shared mem
-	unsigned int tid = threadIdx.x;
-	unsigned int elementId = blockIdx.x * blockDim.x + threadIdx.x;
-	sdata[tid] = dataIn[elementId];
-	__syncthreads();
-	// do reduction in shared mem
-	for (unsigned int s = 1; s < blockDim.x; s *= 2)
-	{
-		if (tid % (2 * s) == 0)
-		{
-			sdata[tid] += sdata[tid + s];
-		}
-		__syncthreads();
-	}
-	// write result for this block to global mem
-	if (tid == 0){
-		dataOut[blockIdx.x] = sdata[0];
-	}
+	extern __shared__ int sPartials[];
+    int sum = 0;
+    const int tid = threadIdx.x;
+    for ( size_t i = blockIdx.x*blockDim.x + tid;
+          i < numElements;
+          i += blockDim.x*gridDim.x ) {
+        sum += dataIn[i];
+		//printf("Block %d Thread %d accessing global at %d", blockIdx.x, tid, i);
+    }
+    sPartials[tid] = sum;
+    __syncthreads();
+
+    for ( int activeThreads = blockDim.x>>1; 
+              activeThreads; 
+              activeThreads >>= 1 ) {
+        if ( tid < activeThreads ) {
+            sPartials[tid] += sPartials[tid+activeThreads];
+        }
+        __syncthreads();
+    }
+
+    if ( tid == 0 ) {
+        dataOut[blockIdx.x] = sPartials[0];
+    }
 }
 
-void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, float *dataIn, float *dataOut)
+void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, int *dataIn, int *dataOut)
 {
-	int shared_mem = (numElements*sizeof(float))/gridSize.x;
+	int shared_mem = blockSize.x*sizeof(int);
 	reduction_Kernel<<<gridSize, blockSize, shared_mem>>>(numElements, dataIn, dataOut);
+	
 }

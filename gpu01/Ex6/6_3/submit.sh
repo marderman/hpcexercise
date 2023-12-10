@@ -11,7 +11,9 @@ module load devtoolset/10 cuda/11.4
 
 make
 
-for ((i = 128; i <= 4096; i*=2))
+for ((i = 1024; i <= 1024*1024; i*=2))
 do
 ./bin/reduction -s $i
 done
+
+./bin/reduction -s (10*1024*1024)
