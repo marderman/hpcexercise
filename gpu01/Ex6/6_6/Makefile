@@ -4,7 +4,7 @@ INC=-I./inc #-I. -I$(CUDA_ROOT)/include
 #NVCC=$(CUDA_ROOT)/bin/nvcc
 
 .PHONY: build
-build: ./bin/reduction
+build: ./bin/thrustReduction
 
 .PHONY: clean
 clean:
@@ -13,5 +13,5 @@ clean:
 .PHONY: rebuild
 rebuild: clean build
 
-./bin/reduction: ./src/main.cpp ./src/kernel.cu
+./bin/thrustReduction: ./src/main.cu
 	$(NVCC) -O2 -arch=compute_60 -code=sm_70 --compiler-options "-O2 -Wall -Wextra" -o $@ $^ $(INC) $(LIB)
