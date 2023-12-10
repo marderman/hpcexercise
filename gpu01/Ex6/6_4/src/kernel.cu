@@ -26,23 +26,24 @@ __global__ void reduction_Kernel(int numElements, float* dataIn, float* dataOut)
 
         if(gridDim.x > 1)
         {
-            atomicAdd_system(value, dataIn[elementId * stride]);
+            atomicAdd_system(value, dataIn[elementId * 2]);
             __syncthreads();
-            atomicAdd_system(value, dataIn[(elementId * stride) + halfstride]);
-            __syncthreads();
+            atomicAdd_system(value, dataIn[(elementId * 2) + 1]);
 
             if(threadIdx.x == 0)
             {
-                dataIn[elementId * stride] = value[0];
+                __syncthreads();
+                dataIn[blockIdx.x] = value[0];
             }
+            __syncthreads();
         }
         else
-        {
-           
-             __syncthreads();
-            atomicAdd_system(value, dataIn[elementId * stride]);
+        {   
+            atomicAdd_system(value, dataIn[elementId]);
+            // atomicAdd_system(value, dataIn[elementId * halfstride]);
             __syncthreads();
             *dataOut = value[0];
+            __syncthreads();
         }
 	}
 }

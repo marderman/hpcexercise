@@ -107,8 +107,8 @@ main(int argc, char * argv[])
 	//
     // Init Matrices
     //
-    for (int i = 0; i < numElements; i++) {
-   
+    for (int i = 0; i < numElements; i++) 
+	{
         h_dataIn[i] = 1.0;
     }
 
@@ -149,6 +149,10 @@ main(int argc, char * argv[])
 	}
 
 	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize * 2));
+	if(gridSize > 1024)
+	{
+		return -1;
+	}
 
 	dim3 grid_dim = dim3(gridSize);
 	dim3 block_dim = dim3(blockSize);
@@ -166,10 +170,10 @@ main(int argc, char * argv[])
 	cudaError_t cudaError = cudaGetLastError();
 	if (cudaError != cudaSuccess)
 	{
-		std::cout << "\033[31m***" << std::endl
-				  << "***ERROR*** " << cudaError << " - " << cudaGetErrorString(cudaError)
-				  	<< std::endl
-				  << "***\033[0m" << std::endl;
+		// std::cout << "\033[31m***" << std::endl
+		// 		  << "***ERROR*** " << cudaError << " - " << cudaGetErrorString(cudaError)
+		// 		  	<< std::endl
+		// 		  << "***\033[0m" << std::endl;
 
 		return -1;
 	}
@@ -190,6 +194,8 @@ main(int argc, char * argv[])
 	// Print Meassurement Results
 	std::cout 	<< "Num Elements;" << numElements
 				<< ";result;" << *h_dataOut
+				<< ";gridDim;" << grid_dim.x
+				<< ";blockDim;" << block_dim.x
 			  	<< ";Time to Copy to Device;" << 1e3 * memCpyH2DTimer.getTime()
 				<< ";ms"
 				<< ";Copy Bandwidth;" 
