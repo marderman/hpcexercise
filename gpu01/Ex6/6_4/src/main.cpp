@@ -25,8 +25,8 @@ const static int DEFAULT_BLOCK_DIM   =  128;
 // Function Prototypes
 //
 void printHelp(char *);
-void printArray(int size, float *arr);
-extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, float* dataIn, float* dataOut);
+void printArray(int size, int *arr);
+extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, int* dataIn, int* dataOut);
 
 //
 // Main
@@ -66,14 +66,14 @@ main(int argc, char * argv[])
 		pinnedMemory = chCommandLineGetBool("pinned-memory",argc,argv);
 	}
 
-	float* h_dataIn = NULL;
-	float* h_dataOut = NULL;
+	int* h_dataIn = NULL;
+	int* h_dataOut = NULL;
 	if (!pinnedMemory)
 	{
 		// Pageable
-		h_dataIn = static_cast<float*>
+		h_dataIn = static_cast<int*>
 				(malloc(static_cast<size_t>(numElements * sizeof(*h_dataIn))));
-		h_dataOut = static_cast<float*>
+		h_dataOut = static_cast<int*>
 				(malloc(static_cast<size_t>(sizeof(*h_dataOut))));
 	}
 	else
@@ -88,8 +88,8 @@ main(int argc, char * argv[])
 	*h_dataOut = 0;
 
 	// Device Memory
-	float* d_dataIn = NULL;
-	float* d_dataOut = NULL;
+	int* d_dataIn = NULL;
+	int* d_dataOut = NULL;
 	cudaMalloc(&d_dataIn, 
 			static_cast<size_t>(numElements * sizeof(*d_dataIn)));
 	cudaMalloc(&d_dataOut, 
@@ -148,7 +148,7 @@ main(int argc, char * argv[])
 		exit(-1);
 	}
 
-	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize * 2));
+	gridSize = ceil(static_cast<int>(numElements) / static_cast<int>(blockSize * 2));
 	if(gridSize > 1024)
 	{
 		return -1;
@@ -247,7 +247,7 @@ printHelp(char * argv)
 			  << "" << std::endl;
 }
 
-void printArray(int size, float *arr)
+void printArray(int size, int *arr)
 {
     for(int i = 0; i < size; i++)
     {
