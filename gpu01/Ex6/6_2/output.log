@@ -1,0 +1,24 @@
+Running with array size: 128
+Global sum: 128.000000
+Run time: 0.000400 milliseconds
+Bandwidth: 320000000.000000 elements per second
+Running with array size: 256
+Global sum: 256.000000
+Run time: 0.000650 milliseconds
+Bandwidth: 393846153.846154 elements per second
+Running with array size: 512
+Global sum: 512.000000
+Run time: 0.001160 milliseconds
+Bandwidth: 441379310.344828 elements per second
+Running with array size: 1024
+Global sum: 1024.000000
+Run time: 0.002200 milliseconds
+Bandwidth: 465454545.454545 elements per second
+Running with array size: 2048
+Global sum: 2048.000000
+Run time: 0.004240 milliseconds
+Bandwidth: 483018867.924528 elements per second
+Running with array size: 4096
+Global sum: 4096.000000
+Run time: 0.008340 milliseconds
+Bandwidth: 491127098.321343 elements per second

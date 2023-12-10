@@ -7,7 +7,7 @@
 #include <math.h>
 #include <unistd.h>
 
-// #define DEBUG
+//#define DEBUG
 
 void performComputation(float *currentGrid, float *outputGrid, int localSize, int leftNeighbor, int rightNeighbor, int numIteration);
 void output(MPI_Comm comm, float *partialGrid, int localSize);
@@ -277,16 +277,18 @@ void initialDistribution(float *partialGrid, float *previousPartialGrid)
         partialGrid[i] = 0.0;
         previousPartialGrid[i] = 0.0;
     }
-
-    for (size_t i = 0; i < columns; i++)
+    if (rank == 0)
     {
-        // partialGrid[i] = rank; // Check if process writes in correct addresspace
-        if (rank == 0 && (double)i >= ((columns) / 4.0) && (double)i <= ((columns) * 3.0) / 4.0)
+        for (size_t i = 0; i < columns; i++)
         {
+            // partialGrid[i] = rank; // Check if process writes in correct addresspace
+            if ((double)i >= ((columns) / 4.0) && (double)i <= ((columns) * 3.0) / 4.0)
+            {
 #ifdef DEBUG
-            printf("%d Initializing add Memory Point in row 0", i);
+                printf("%d Initializing add Memory Point in row 0", i);
 #endif
-            partialGrid[i + columns] = 127.0;
+                partialGrid[i + columns] = 127.0;
+            }
         }
     }
 }
