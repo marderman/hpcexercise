@@ -25,10 +25,10 @@ const static int DEFAULT_BLOCK_DIM   =  128;
 // Function Prototypes
 //
 void printHelp(char *);
-void printArray(int size, float *arr);
+void printArray(int size, int *arr);
 
 
-extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, float* dataIn, float* dataOut);
+extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, int* dataIn, int* dataOut);
 
 //
 // Main
@@ -72,14 +72,14 @@ main(int argc, char * argv[])
 		pinnedMemory = chCommandLineGetBool("pinned-memory",argc,argv);
 	}
 
-	float* h_dataIn = NULL;
-	float* h_dataOut = NULL;
+	int* h_dataIn = NULL;
+	int* h_dataOut = NULL;
 	if (!pinnedMemory)
 	{
 		// Pageable
-		h_dataIn = static_cast<float*>
+		h_dataIn = static_cast<int*>
 				(malloc(static_cast<size_t>(numElements * sizeof(*h_dataIn))));
-		h_dataOut = static_cast<float*>
+		h_dataOut = static_cast<int*>
 				(malloc(static_cast<size_t>(sizeof(*h_dataOut))));
 	}
 	else
@@ -94,15 +94,20 @@ main(int argc, char * argv[])
 	*h_dataOut = 0;
 
 	// Device Memory
-	float* d_dataIn = NULL;
-	float* d_dataOut = NULL;
+	int* d_dataIn = NULL;
+	int* d_dataOut = NULL;
+	int* d_partialSums;
 	cudaMalloc(&d_dataIn, 
 			static_cast<size_t>(numElements * sizeof(*d_dataIn)));
 	cudaMalloc(&d_dataOut, 
 			static_cast<size_t>(sizeof(*d_dataOut)));
 
+	// Allocate device memory for partial sums
+	cudaMalloc(&d_partialSums, sizeof(*d_dataOut));
+
 	if (h_dataIn == NULL || h_dataOut == NULL ||
-		d_dataIn == NULL || d_dataOut == NULL)
+		d_dataIn == NULL || d_dataOut == NULL ||
+		d_partialSums == NULL)
 	{
 		std::cout << "\033[31m***" << std::endl
 		          << "*** Error - Memory allocation failed" << std::endl
@@ -117,7 +122,7 @@ main(int argc, char * argv[])
     //
     for (int i = 0; i < numElements; i++) {
    
-        h_dataIn[i] = 1.0;
+        h_dataIn[i] = 1;
 		// printf("%f ", h_dataIn[i]);
         // h_dataOut[i] = 0.0;
     }
@@ -159,16 +164,24 @@ main(int argc, char * argv[])
 		exit(-1);
 	}
 
-	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize));
+	gridSize = ceil(static_cast<int>(numElements) / static_cast<int>(blockSize));
 
 	dim3 grid_dim = dim3(gridSize);
 	dim3 block_dim = dim3(blockSize);
 
 	kernelTimer.start();
 
-	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataIn);
 
-	reduction_Kernel_Wrapper(1, grid_dim, numElements, d_dataIn, d_dataOut);
+	printf("Grid : {%d, %d, %d} blocks. Blocks : {%d, %d, %d} threads.\n", 
+	grid_dim.x, grid_dim.y, grid_dim.z, block_dim.x, block_dim.y, block_dim.z);
+
+	fflush(stdout);
+
+	//Do Partial Sums
+	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_partialSums);
+
+	//Get Final Results
+	reduction_Kernel_Wrapper(1, block_dim, numElements, d_dataIn, d_dataOut);
 
 	// Synchronize
 	cudaDeviceSynchronize();
@@ -198,7 +211,7 @@ main(int argc, char * argv[])
 
 	memCpyD2HTimer.stop();
 
-	printf("Result: %f\n", h_dataOut[0]);
+	printf("Result: %d\n", h_dataOut[0]);
 
 	//printArray(numElements, h_dataIn);
 
@@ -215,6 +228,7 @@ main(int argc, char * argv[])
 	}
 	cudaFree(d_dataIn);
 	cudaFree(d_dataOut);
+	cudaFree(d_partialSums);
 	
 	// Print Meassurement Results
 	std::cout << "***" << std::endl
@@ -257,11 +271,11 @@ printHelp(char * argv)
 			  << "" << std::endl;
 }
 
-void printArray(int size, float *arr)
+void printArray(int size, int *arr)
 {
     for(int i = 0; i < size; i++)
     {
-        printf("%f ", arr[i]);
+        printf("%d ", arr[i]);
     }
 	printf("\n\n");
 }
