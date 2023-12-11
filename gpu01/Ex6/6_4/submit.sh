@@ -13,7 +13,13 @@ make
 
 # ./bin/reduction
 
-for ((i = 128; i <= 4096; i*=2))
+for ((t = 2; t <= 1024; t*=2))
 do
-./bin/reduction -s $i
+    for ((i = 128; i <= 50000000; i*=2))
+    do
+    ./bin/reduction -s $i -t $t
+    done
 done
+
+
+# ./bin/reduction -s 16 -t 4

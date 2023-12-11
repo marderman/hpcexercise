@@ -2,7 +2,7 @@
  *
  *       Computer Engineering Group, Heidelberg University - GPU Computing Exercise 06
  *
- *                 Gruppe : 01
+ *                 Gruppe : TODO
  *
  *                   File : main.cpp
  *
@@ -25,8 +25,10 @@ const static int DEFAULT_BLOCK_DIM   =  128;
 // Function Prototypes
 //
 void printHelp(char *);
-void printArray(int size, int *arr);
-extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, int* dataIn, int* dataOut);
+void printArray(int size, float *arr);
+
+
+extern void reduction_Kernel_Wrapper(dim3 gridSize, dim3 blockSize, int numElements, float* dataIn, float* dataOut);
 
 //
 // Main
@@ -45,6 +47,10 @@ main(int argc, char * argv[])
 		printHelp(argv[0]);
 		exit(0);
 	}
+
+	std::cout << "***" << std::endl
+			  << "*** Starting ..." << std::endl
+			  << "***" << std::endl;
 
 	ChTimer memCpyH2DTimer, memCpyD2HTimer;
 	ChTimer kernelTimer;
@@ -66,14 +72,14 @@ main(int argc, char * argv[])
 		pinnedMemory = chCommandLineGetBool("pinned-memory",argc,argv);
 	}
 
-	int* h_dataIn = NULL;
-	int* h_dataOut = NULL;
+	float* h_dataIn = NULL;
+	float* h_dataOut = NULL;
 	if (!pinnedMemory)
 	{
 		// Pageable
-		h_dataIn = static_cast<int*>
+		h_dataIn = static_cast<float*>
 				(malloc(static_cast<size_t>(numElements * sizeof(*h_dataIn))));
-		h_dataOut = static_cast<int*>
+		h_dataOut = static_cast<float*>
 				(malloc(static_cast<size_t>(sizeof(*h_dataOut))));
 	}
 	else
@@ -88,8 +94,8 @@ main(int argc, char * argv[])
 	*h_dataOut = 0;
 
 	// Device Memory
-	int* d_dataIn = NULL;
-	int* d_dataOut = NULL;
+	float* d_dataIn = NULL;
+	float* d_dataOut = NULL;
 	cudaMalloc(&d_dataIn, 
 			static_cast<size_t>(numElements * sizeof(*d_dataIn)));
 	cudaMalloc(&d_dataOut, 
@@ -104,13 +110,19 @@ main(int argc, char * argv[])
 
 		exit(-1);
 	}
+
+	
 	//
     // Init Matrices
     //
-    for (int i = 0; i < numElements; i++) 
-	{
+    for (int i = 0; i < numElements; i++) {
+   
         h_dataIn[i] = 1.0;
+		// printf("%f ", h_dataIn[i]);
+        // h_dataOut[i] = 0.0;
     }
+
+	//printArray(numElements, h_dataIn);
 
 	//
 	// Copy Data to the Device
@@ -125,7 +137,6 @@ main(int argc, char * argv[])
 			cudaMemcpyHostToDevice);
 
 	memCpyH2DTimer.stop();
-
 
 	//
 	// Get Kernel Launch Parameters
@@ -148,15 +159,11 @@ main(int argc, char * argv[])
 		exit(-1);
 	}
 
-	gridSize = ceil(static_cast<int>(numElements) / static_cast<int>(blockSize * 2));
-	if(gridSize > 1024)
-	{
-		return -1;
-	}
+	gridSize = ceil(static_cast<float>(numElements) / static_cast<float>(blockSize));
 
 	dim3 grid_dim = dim3(gridSize);
 	dim3 block_dim = dim3(blockSize);
-	
+
 	kernelTimer.start();
 
 	reduction_Kernel_Wrapper(grid_dim, block_dim, numElements, d_dataIn, d_dataIn);
@@ -170,10 +177,10 @@ main(int argc, char * argv[])
 	cudaError_t cudaError = cudaGetLastError();
 	if (cudaError != cudaSuccess)
 	{
-		// std::cout << "\033[31m***" << std::endl
-		// 		  << "***ERROR*** " << cudaError << " - " << cudaGetErrorString(cudaError)
-		// 		  	<< std::endl
-		// 		  << "***\033[0m" << std::endl;
+		std::cout << "\033[31m***" << std::endl
+				  << "***ERROR*** " << cudaError << " - " << cudaGetErrorString(cudaError)
+				  	<< std::endl
+				  << "***\033[0m" << std::endl;
 
 		return -1;
 	}
@@ -185,29 +192,15 @@ main(int argc, char * argv[])
 	//
 	memCpyD2HTimer.start();
 
-	cudaMemcpy(h_dataOut, d_dataOut,  
+	cudaMemcpy(h_dataOut, d_dataOut, 
 			static_cast<size_t>(sizeof(*d_dataOut)), 
 			cudaMemcpyDeviceToHost);
 
 	memCpyD2HTimer.stop();
 
-	// Print Meassurement Results
-	std::cout 	<< "Num Elements;" << numElements
-				<< ";result;" << *h_dataOut
-				<< ";gridDim;" << grid_dim.x
-				<< ";blockDim;" << block_dim.x
-			  	<< ";Time to Copy to Device;" << 1e3 * memCpyH2DTimer.getTime()
-				<< ";ms"
-				<< ";Copy Bandwidth;" 
-				<< 1e-9 * memCpyH2DTimer.getBandwidth(numElements * sizeof(*h_dataIn))
-				<< ";GB/s"
-				<< ";Time to Copy from Device;" << 1e3 * memCpyD2HTimer.getTime()
-				<< ";ms"
-				<< ";Copy Bandwidth;" 
-				<< 1e-9 * memCpyD2HTimer.getBandwidth(sizeof(*h_dataOut))
-				<< ";GB/s"
-				<< ";Time for Reduction;" << 1e3 * kernelTimer.getTime()
-				<< ";ms" << std::endl;
+	printf("Result: %f\n", h_dataOut[0]);
+
+	//printArray(numElements, h_dataIn);
 
 	// Free Memory
 	if (!pinnedMemory)
@@ -223,6 +216,23 @@ main(int argc, char * argv[])
 	cudaFree(d_dataIn);
 	cudaFree(d_dataOut);
 	
+	// Print Meassurement Results
+	std::cout << "***" << std::endl
+			  << "*** Results:" << std::endl
+			  << "***    Num Elements: " << numElements << std::endl
+			  << "***    Time to Copy to Device: " << 1e3 * memCpyH2DTimer.getTime()
+			  	<< " ms" << std::endl
+			  << "***    Copy Bandwidth: " 
+			  	<< 1e-9 * memCpyH2DTimer.getBandwidth(numElements * sizeof(*h_dataIn))
+			  	<< " GB/s" << std::endl
+			  << "***    Time to Copy from Device: " << 1e3 * memCpyD2HTimer.getTime()
+			  	<< " ms" << std::endl
+			  << "***    Copy Bandwidth: " 
+			  	<< 1e-9 * memCpyD2HTimer.getBandwidth(sizeof(*h_dataOut))
+				<< " GB/s" << std::endl
+			  << "***    Time for Reduction: " << 1e3 * kernelTimer.getTime()
+				  << " ms" << std::endl
+			  << "***" << std::endl;
 
 	return 0;
 }
@@ -247,7 +257,7 @@ printHelp(char * argv)
 			  << "" << std::endl;
 }
 
-void printArray(int size, int *arr)
+void printArray(int size, float *arr)
 {
     for(int i = 0; i < size; i++)
     {
