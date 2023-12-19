@@ -38,7 +38,7 @@ struct Body_t {
 	                  /* w = Mass */
 	float3* velocity; /* x = v_x */
 	                  /* y = v_y */
-	                  /* z= v_z */
+	                  /* z = v_z */
 	
 	Body_t(): posMass(NULL), velocity(NULL) {}
 	};
@@ -83,6 +83,10 @@ bodyBodyInteraction(float4 bodyA, float4 bodyB, float3& force)
 __device__ void
 calculateSpeed(float mass, float3& currentSpeed, float3 force)
 {
+
+	currentSpeed.x += (force.x / mass) * TIMESTEP;
+	currentSpeed.y += (force.y / mass) * TIMESTEP;
+	currentSpeed.z += (force.z / mass) * TIMESTEP;
 	// TODO: Calculate the new velocity of a particle
 }
 
