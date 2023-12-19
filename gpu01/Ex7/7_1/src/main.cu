@@ -73,7 +73,9 @@ bodyBodyInteraction(float4 bodyA, float4 bodyB, float3& force)
 	if (distance==0) 
 		return;
 
-
+	force.x = -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.x - bodyA.x)
+	force.y = -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.y - bodyA.y)
+	force.z = -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.z - bodyA.z)
 	// TODO: Calc Force
 }
 
