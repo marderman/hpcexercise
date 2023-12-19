@@ -19,6 +19,8 @@ reduction_Kernel(int numElements, int *dataIn, int *dataOut)
 	extern __shared__ int sPartials[];
     int sum = 0;
     const int tid = threadIdx.x;
+
+    //Sum Up All Elements the Thread should reduce
     for ( size_t i = blockIdx.x*blockDim.x + tid;
           i < numElements;
           i += blockDim.x*gridDim.x ) {
@@ -27,7 +29,7 @@ reduction_Kernel(int numElements, int *dataIn, int *dataOut)
     }
     sPartials[tid] = sum;
     __syncthreads();
-
+    //Half the Threads for each Iteration (Binary Tree Reduction)
     for ( int activeThreads = blockDim.x>>1; 
               activeThreads; 
               activeThreads >>= 1 ) {
