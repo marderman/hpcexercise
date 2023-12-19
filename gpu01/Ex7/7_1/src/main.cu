@@ -59,7 +59,12 @@ void printElement(Body_t, int, int);
 __device__ float
 getDistance(float4 a, float4 b)
 {
-	// TODO: Calculate distance of two particles
+	float dx = a.x - b.x;
+	float dy = a.y - b.y;
+	float dz = a.z - b.z;
+
+	return sqrtf(dx*dx + dy*dy + dz*dz);
+	//Calculate distance of two particles
 }
 
 //
