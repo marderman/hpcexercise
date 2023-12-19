@@ -155,6 +155,7 @@ updatePosition_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 		elementPosMass.x += elementSpeed.x * TIMESTEP;
 		elementPosMass.y += elementSpeed.y * TIMESTEP;
 		elementPosMass.z += elementSpeed.z * TIMESTEP;
+		bodyPos[elementId] = elementPosMass;
 	}
 }
 
