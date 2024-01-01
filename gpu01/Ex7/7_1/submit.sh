@@ -11,9 +11,8 @@ module load devtoolset/10 cuda/11.4
 
 make
 
-#for ((i = 1024; i <= 1024*1024; i*=2))
-#do
-#./bin/reduction -s $i
-#done
+for ((i = 1024; i <= 1024*1024; i*=2))
+do
+    ./bin/nbody -s $i
+done
 
-./bin/nbody

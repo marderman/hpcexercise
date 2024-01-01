@@ -23,7 +23,7 @@ const static int DEFAULT_NUM_ELEMENTS = 1024;
 const static int DEFAULT_NUM_ITERATIONS = 5;
 const static int DEFAULT_BLOCK_DIM = 128;
 
-const static float TIMESTEP = 1e-6;	  // s
+const static float TIMESTEP = 1e-3;	  // s
 const static float GAMMA = 6.673e-11; // (Nm^2)/(kg^2)
 
 //
@@ -138,7 +138,7 @@ sharedNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 
 //
 // n-Body Kernel to update the position
-// Neended to prevent write-after-read-hazards
+// Needed to prevent write-after-read-hazards
 //
 __global__ void
 updatePosition_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
