@@ -1,5 +1,5 @@
 
-MPICC=gcc
+MPICC=mpic++
 
 .PHONY: build
 build: ./bin/nBody
@@ -11,5 +11,5 @@ clean:
 .PHONY: rebuild
 rebuild: clean build
 
-./bin/nBody: ./main.c
-	$(MPICC) -Wall -O3 -lm -lncurses -o $@ $^ $(INC) $(LIB)
+./bin/nBody: ./src/main.cpp
+	$(MPICC) -Wall -O3 -lm -o $@ $^ $(INC) $(LIB)

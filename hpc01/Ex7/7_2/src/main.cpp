@@ -1,5 +1,6 @@
 #include <iomanip>
 #include <iostream>
+#include <cstdlib>
 #include <mpi.h>
 #include <getopt.h>
 #include <math.h>
@@ -142,9 +143,9 @@ int main(int argc, char *argv[])
     if (rank == 0)
     {
         #ifdef DEBUG
-        printf("Start Data");
+        std::cout << "Start data" << std::endl;
         showAllData(BODIES.data(), NUM_BODIES, rank);
-        printf("\n****Start CALCULATION****\n");
+        std::cout << std::endl << "****Start CALCULATION****" << std::endl << std::endl;
         #endif
         start = MPI_Wtime();
     }
@@ -162,11 +163,12 @@ int main(int argc, char *argv[])
     {
         stop = MPI_Wtime();
         if (print_result){
-        printf("Data after Simulation\n");
-        showAllData(BODIES.data(), NUM_BODIES, rank);
+            std::cout << "Data after Simulation" << std::endl;
+            showAllData(BODIES.data(), NUM_BODIES, rank);
         }
         double time_taken = (stop - start) / N_ITERATIONS;
-        printf("The time for a n-body problem with %d bodies took %lf seconds\n", NUM_BODIES, time_taken);
+        // std::cout << "The time for a n-body problem with " << NUM_BODIES << " bodies took " << time_taken << std::endl;
+        std::cout << n_processes << "," << NUM_BODIES << "," << time_taken << std::endl;
     }
     
     MPI_Type_free(&MPI_BODY_POS_VEL);
@@ -177,14 +179,14 @@ int main(int argc, char *argv[])
 
 void communicate()
 {
-    MPI_Allgather(BODIES.data() + (rank*objects_per_process), objects_per_process, MPI_BODY_POS_VEL,
+        MPI_Allgather(BODIES.data() + (rank*objects_per_process), objects_per_process, MPI_BODY_POS_VEL,
                 BODIES.data(),objects_per_process,MPI_BODY_POS_VEL,MPI_COMM_WORLD);
         // Received Data
         MPI_Barrier(MPI_COMM_WORLD);
         #ifdef DEBUG
         if(rank == 0){
-        printf("Data received\n");
-        showAllData(BODIES.data(),NUM_BODIES,0);
+            std::cout << "Data recievied" << std::endl;
+            showAllData(BODIES.data(),NUM_BODIES,0);
         }
         #endif
 }
@@ -221,7 +223,7 @@ void initializeBodies()
         char error_string[100];
         int length_of_error_string;
         MPI_Error_string(err, error_string, &length_of_error_string);
-        fprintf(stderr, "%s\n", error_string);
+        std::cerr << error_string << std::endl;
         // Exit or take corrective action
     }
 }
@@ -248,10 +250,10 @@ void computeBodies()
     }
     #ifdef DEBUG
     if (rank == 0){
-    printf("After calculation\n");
-    showAllData(BODIES.data(),NUM_BODIES,0);
+        std::cout << "After calculation" << std::endl;
+        showAllData(BODIES.data(),NUM_BODIES,0);
 
-}
+    }
     #endif
     communicate();
 }
@@ -298,12 +300,29 @@ void showAllData(Body_t *Body, int size, int rank)
     int a;
     for (a = 0; a < size; a++)
     {
-        printf("id %d pos_x %.4f pos_y %.4f pos_z %.4f v_x %.1f v_y %.1f v_z %.1f a_x %.1f a_y %.1f a_z %.1f m %.1f F_x %.1f F_y %.1f F_z %.1f\n",
-               Body[a].id, Body[a].posMass.x, Body[a].posMass.y, Body[a].posMass.z,
-               Body[a].velocity.x, Body[a].velocity.y, Body[a].velocity.z,
-               Body[a].acceleration.x, Body[a].acceleration.y, Body[a].acceleration.z,
-               Body[a].posMass.w,
-               Body[a].force.x, Body[a].force.y, Body[a].force.z);
+        // printf("id %d pos_x %.4f pos_y %.4f pos_z %.4f v_x %.1f v_y %.1f v_z %.1f a_x %.1f a_y %.1f a_z %.1f m %.1f F_x %.1f F_y %.1f F_z %.1f\n",
+        //        Body[a].id, Body[a].posMass.x, Body[a].posMass.y, Body[a].posMass.z,
+        //        Body[a].velocity.x, Body[a].velocity.y, Body[a].velocity.z,
+        //        Body[a].acceleration.x, Body[a].acceleration.y, Body[a].acceleration.z,
+        //        Body[a].posMass.w,
+        //        Body[a].force.x, Body[a].force.y, Body[a].force.z);
+        std::cout << "id " << Body[a].id
+            << std::setprecision(2)
+            << ", pos_x " << Body[a].posMass.x
+            << ", pos_y " << Body[a].posMass.y
+            << ", pos_z " << Body[a].posMass.z
+            << ", v_x " << Body[a].velocity.x
+            << ", v_y " << Body[a].velocity.y
+            << ", v_z " << Body[a].velocity.z
+            << ", a_x " << Body[a].acceleration.x
+            << ", a_y " << Body[a].acceleration.y
+            << ", a_z " << Body[a].acceleration.z
+            << ", m " << Body[a].posMass.w
+            << ", F_x " << Body[a].force.x
+            << ", F_y " << Body[a].force.y
+            << ", F_z " << Body[a].force.z
+            << std::endl;
+
     }
-    printf("\n\n");
+    std::cout << std::endl << std::endl;
 }
