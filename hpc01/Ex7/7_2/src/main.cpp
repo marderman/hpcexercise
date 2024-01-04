@@ -106,13 +106,24 @@ int main(int argc, char *argv[])
         }
     }
 
+ 
     MPI_Init(&argc, &argv);
     // Get the global rank and global size
     MPI_Comm_size(MPI_COMM_WORLD, &n_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
+    if (rank == 0)
+{
+        if (NUM_BODIES < n_processes)
+    {
+        printf("Starting with more processes than bodies!!!! Wrong configuration");
+        MPI_Finalize();
+        return -1;
+    }
+}
+    printf("Running with %d processes\n", n_processes);
     // Calculate the amount of rows each process has to compute (Set to minimum of 1)
     objects_per_process = std::max(NUM_BODIES / n_processes, 1);
+
 
     // Create an MPI type for float3
     MPI_Type_contiguous(3, MPI_FLOAT, &MPI_FLOAT3);
