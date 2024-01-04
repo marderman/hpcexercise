@@ -14,6 +14,8 @@ const static float TIMESTEP = 1e-3;   // s
 const static float GAMMA = 6.673e-11; // (Nm^2)/(kg^2)
 int NUM_BODIES, N_ITERATIONS, n_processes, rank, objects_per_process;
 
+
+//Struct for 
 struct float3
 {
     float x, y, z;
@@ -37,7 +39,7 @@ struct float4
     float4(float xVal, float yVal, float zVal, float wVal)
         : x(xVal), y(yVal), z(zVal), w(wVal) {}
 };
-
+//Struct Definition for Bodies
 typedef struct Body_t
 {
     int id;
@@ -57,14 +59,20 @@ typedef struct Body_t
 } Body_t;
 
 // Define functions
+//This are functions defined for Steps in the programm.
+// 1. Initialize
+// 2. Calculate
+// 3. Update new Positions 
 void initializeBodies();
 void computeBodies();
-void bodyBodyInteraction(Body_t &calculatedBody, Body_t interactingBody);
+void updatePosition(Body_t &body);
 
 // Body Calculation Functions
+// Functions used for the specific calculations needed for the new Position for the bodys
 void calculateSpeed(float mass, float3 &currentSpeed, float3 force);
 float getDistance(float4 a, float4 b);
-void updatePosition(Body_t &body);
+void bodyBodyInteraction(Body_t &calculatedBody, Body_t interactingBody);
+
 
 // Log Functions
 void showAllData(Body_t *Body, int size, int rank);
@@ -109,6 +117,7 @@ int main(int argc, char *argv[])
 
  
     MPI_Init(&argc, &argv);
+
     // Get the global rank and global size
     MPI_Comm_size(MPI_COMM_WORLD, &n_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -121,7 +130,9 @@ int main(int argc, char *argv[])
         return -1;
     }
 }
+    #ifdef DEBUG
     printf("Running with %d processes\n", n_processes);
+    #endif
     // Calculate the amount of rows each process has to compute (Set to minimum of 1)
     objects_per_process = std::max(NUM_BODIES / n_processes, 1);
 
@@ -134,8 +145,9 @@ int main(int argc, char *argv[])
     MPI_Type_contiguous(4, MPI_FLOAT, &MPI_FLOAT4);
     MPI_Type_commit(&MPI_FLOAT4);
 
-    // Create MPI Datatype for Body information that is distributed
-
+    // Create MPI Datatype for the information that is distributed
+    // It uses information stored in the struct so we need only one struct and update the information in the struct
+    // So only updated informations has to be distributed.
     int blockLengths[3] = {1, 3, 3};
     MPI_Aint offsets[3];
     offsets[0] = offsetof(Body_t, id);
@@ -146,7 +158,7 @@ int main(int argc, char *argv[])
     MPI_Type_create_struct(3, blockLengths, offsets, types, &MPI_BODY_POS_VEL);
     MPI_Type_commit(&MPI_BODY_POS_VEL);
 
-    // Initialize with Data Distribution. Data is distributed throgh root process.
+    // Initialize with Data Distribution. Data is distributed throgh root process. With MPI_Bcast
     initializeBodies();
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -162,6 +174,7 @@ int main(int argc, char *argv[])
     }
 
     // Calculate the Bodies
+    // Each Process calculates only a subset of bodies. Determined with the amount of MPI Processes (objects_per_process)
     for (size_t i = 0; i < N_ITERATIONS; i++)
     {
         computeBodies();
@@ -190,6 +203,8 @@ int main(int argc, char *argv[])
 
 void communicate()
 {
+        //Use MPI_Allgather to gather information from each process Each process sends only their specific supset 
+        //
         MPI_Allgather(BODIES.data() + (rank*objects_per_process), objects_per_process, MPI_BODY_POS_VEL,
                 BODIES.data(),objects_per_process,MPI_BODY_POS_VEL,MPI_COMM_WORLD);
         // Received Data
@@ -275,6 +290,7 @@ void updatePosition(Body_t &body)
     body.posMass.y += body.velocity.y * TIMESTEP;
     body.posMass.z += body.velocity.z * TIMESTEP;
 }
+
 void calculateSpeed(float mass, float3 &currentSpeed, float3 force)
 {
 
