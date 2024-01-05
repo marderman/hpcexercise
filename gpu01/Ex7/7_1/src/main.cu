@@ -44,6 +44,17 @@ struct Body_t
 	Body_t() : posMass(NULL), velocity(NULL) {}
 };
 
+struct Body_t_soa
+{
+	float* x;
+	float* y;
+	float* z;
+	float* w;
+
+	float* vx;
+	float* vy;
+	float* vz;
+};
 //
 // Function Prototypes
 //
@@ -79,9 +90,9 @@ bodyBodyInteraction(float4 bodyA, float4 bodyB, float3 &force)
 	if (distance == 0)
 		return;
 
-	force.x = -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.x - bodyA.x);
-	force.y = -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.y - bodyA.y);
-	force.z = -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.z - bodyA.z);
+	force.x += -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.x - bodyA.x);
+	force.y += -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.y - bodyA.y);
+	force.z += -GAMMA * ((bodyA.w * bodyB.w) / pow(distance, 2)) * (bodyB.z - bodyA.z);
 }
 
 //
@@ -90,7 +101,6 @@ bodyBodyInteraction(float4 bodyA, float4 bodyB, float3 &force)
 __device__ void
 calculateSpeed(float mass, float3 &currentSpeed, float3 force)
 {
-
 	currentSpeed.x += (force.x / mass) * TIMESTEP;
 	currentSpeed.y += (force.y / mass) * TIMESTEP;
 	currentSpeed.z += (force.z / mass) * TIMESTEP;
@@ -159,6 +169,19 @@ updatePosition_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 	}
 }
 
+void allocateAOS(bool pinnedMemory, Body_t &h_particles, int numElements);
+
+void allocateSOA(bool pinnedMemory, Body_t_soa &h_particles,int numElements);
+
+void initializeAOS(int numElements, Body_t &h_particles);
+
+void initializeSOA(int numElements, Body_t_soa &h_particles);
+
+void allocateDeviceMemoryAOS(Body_t &d_particles, int numElements, Body_t &h_particles);
+
+void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_soa &h_particles);
+
+
 //
 // Main
 //
@@ -198,57 +221,32 @@ int main(int argc, char *argv[])
 	{
 		pinnedMemory = chCommandLineGetBool("pinned-memory", argc, argv);
 	}
-
 	Body_t h_particles;
-	if (!pinnedMemory)
-	{
-		// Pageable
-		h_particles.posMass = static_cast<float4 *>(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.posMass)))));
-		h_particles.velocity = static_cast<float3 *>(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.velocity)))));
-	}
-	else
-	{
-		// Pinned
-		cudaMallocHost(&(h_particles.posMass),
-					   static_cast<size_t>(numElements * sizeof(*(h_particles.posMass))));
-		cudaMallocHost(&(h_particles.velocity),
-					   static_cast<size_t>(numElements * sizeof(*(h_particles.velocity))));
-	}
-
-	// Init Particles
-	//	srand(static_cast<unsigned>(time(0)));
-	srand(0); // Always the same random numbers
-	for (int i = 0; i < numElements; i++)
-	{
-		h_particles.posMass[i].x = 1e-8 * static_cast<float>(rand()); // Modify the random values to
-		h_particles.posMass[i].y = 1e-8 * static_cast<float>(rand()); // increase the position changes
-		h_particles.posMass[i].z = 1e-8 * static_cast<float>(rand()); // and the velocity
-		h_particles.posMass[i].w = 1e4 * static_cast<float>(rand());
-		h_particles.velocity[i].x = 0.0f;
-		h_particles.velocity[i].y = 0.0f;
-		h_particles.velocity[i].z = 0.0f;
-	}
-
-	printElement(h_particles, 0, 0);
-
-	// Device Memory
+	Body_t_soa h_particles_soa;
 	Body_t d_particles;
-	cudaMalloc(&(d_particles.posMass),
-			   static_cast<size_t>(numElements * sizeof(*(d_particles.posMass))));
-	cudaMalloc(&(d_particles.velocity),
-			   static_cast<size_t>(numElements * sizeof(*(d_particles.velocity))));
+	Body_t_soa d_particles_soa;
 
-	if (h_particles.posMass == NULL || h_particles.velocity == NULL ||
-		d_particles.posMass == NULL || d_particles.velocity == NULL)
+    bool memoryLayout = chCommandLineGetBool("soa" , argc, argv);
+	if (memoryLayout)
 	{
-		std::cout << "\033[31m***" << std::endl
-				  << "*** Error - Memory allocation failed" << std::endl
-				  << "***\033[0m" << std::endl;
+        allocateAOS(pinnedMemory, h_particles, numElements);
+		initializeAOS(numElements, h_particles);
+    	allocateDeviceMemoryAOS(d_particles, numElements, h_particles);
 
-		exit(-1);
+    }
+	if (!memoryLayout)
+	{
+        allocateSOA(pinnedMemory,h_particles_soa, numElements);	
+		initializeSOA(numElements, h_particles_soa);
+		allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
+    }
+	while (true)
+	{
+		int a=a+1;
 	}
 
-	//
+
+    //
 	// Copy Data to the Device
 	//
 	memCpyH2DTimer.start();
@@ -348,6 +346,8 @@ int main(int argc, char *argv[])
 
 	memCpyD2HTimer.stop();
 
+	if (memoryLayout)
+	{
 	// Free Memory
 	if (!pinnedMemory)
 	{
@@ -358,6 +358,7 @@ int main(int argc, char *argv[])
 	{
 		cudaFreeHost(h_particles.posMass);
 		cudaFreeHost(h_particles.velocity);
+	}
 	}
 
 	cudaFree(d_particles.posMass);
@@ -386,6 +387,131 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+void allocateDeviceMemoryAOS(Body_t &d_particles, int numElements, Body_t &h_particles)
+{
+    cudaMalloc(&(d_particles.posMass),
+               static_cast<size_t>(numElements * sizeof(*(d_particles.posMass))));
+    cudaMalloc(&(d_particles.velocity),
+               static_cast<size_t>(numElements * sizeof(*(d_particles.velocity))));
+
+    if (h_particles.posMass == NULL || h_particles.velocity == NULL ||
+        d_particles.posMass == NULL || d_particles.velocity == NULL)
+    {
+        std::cout << "\033[31m***" << std::endl
+                  << "*** Error - Memory allocation failed" << std::endl
+                  << "***\033[0m" << std::endl;
+
+        exit(-1);
+    }
+}
+
+void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_soa &h_particles)
+{
+	cudaMalloc(&(d_particles.x),
+		static_cast<size_t>(numElements*sizeof(*(d_particles.x))));
+	cudaMalloc(&(d_particles.y),
+		static_cast<size_t>(numElements*sizeof(*(d_particles.y))));
+	cudaMalloc(&(d_particles.z),
+		static_cast<size_t>(numElements*sizeof(*(d_particles.z))));
+	cudaMalloc(&(d_particles.w),
+		static_cast<size_t>(numElements*sizeof(*(d_particles.w))));
+	cudaMalloc(&(d_particles.vx),
+		static_cast<size_t>(numElements*sizeof(*(d_particles.vx))));
+	cudaMalloc(&(d_particles.vy),
+		static_cast<size_t>(numElements*sizeof(*(d_particles.vy))));
+	cudaMalloc(&(d_particles.vz),
+		static_cast<size_t>(numElements*sizeof(*(d_particles.vz))));
+
+	if (h_particles.x == NULL || h_particles.y == NULL ||
+        d_particles.x == NULL || d_particles.y == NULL ||
+		
+		h_particles.z == NULL || h_particles.w == NULL ||
+        d_particles.z == NULL || d_particles.w == NULL ||
+
+		h_particles.vx == NULL || h_particles.vy == NULL ||
+        d_particles.vx == NULL || d_particles.vy == NULL ||
+
+		h_particles.vz == NULL ||
+        d_particles.vz == NULL
+		)
+    {
+        std::cout << "\033[31m***" << std::endl
+                  << "*** Error - Memory allocation failed" << std::endl
+                  << "***\033[0m" << std::endl;
+
+        exit(-1);
+    }
+}
+
+void initializeAOS(int numElements, Body_t &h_particles)
+{
+    // Init Particles
+    //	srand(static_cast<unsigned>(time(0)));
+    srand(0); // Always the same random numbers
+    for (int i = 0; i < numElements; i++)
+    {
+        h_particles.posMass[i].x = 1e-8 * static_cast<float>(rand()); // Modify the random values to
+        h_particles.posMass[i].y = 1e-8 * static_cast<float>(rand()); // increase the position changes
+        h_particles.posMass[i].z = 1e-8 * static_cast<float>(rand()); // and the velocity
+        h_particles.posMass[i].w = 1e4 * static_cast<float>(rand());
+        h_particles.velocity[i].x = 0.0f;
+        h_particles.velocity[i].y = 0.0f;
+        h_particles.velocity[i].z = 0.0f;
+    }
+
+    printElement(h_particles, 0, 0);
+}
+
+void initializeSOA(int numElements, Body_t_soa &h_particles)
+{
+	srand(0);
+	for (int i = 0;i < numElements;i++)
+	{
+		h_particles.x[i] = 1e-8 * static_cast<float>(rand()); // Modify the random values to
+		h_particles.y[i] = 1e-8 * static_cast<float>(rand()); // increase the position changes
+        h_particles.z[i] = 1e-8 * static_cast<float>(rand()); // and the velocity
+        h_particles.w[i] = 1e4 * static_cast<float>(rand());
+        h_particles.x[i] = 0.0f;
+        h_particles.y[i] = 0.0f;
+        h_particles.z[i] = 0.0f;
+	}
+}
+
+void allocateSOA(bool pinnedMemory, Body_t_soa &h_particles, int numElements)
+{
+    if (!pinnedMemory)
+    {
+    }
+    else
+    {
+		h_particles.x = static_cast<float *>(malloc(static_cast<size_t>(numElements* sizeof(*(h_particles.x)))));
+		h_particles.y = static_cast<float *>(malloc(static_cast<size_t>(numElements*sizeof(*(h_particles.y)))));
+		h_particles.z = static_cast<float *>(malloc(static_cast<size_t>(numElements*sizeof(*(h_particles.z)))));
+		h_particles.w = static_cast<float *>(malloc(static_cast<size_t>(numElements*sizeof(*(h_particles.w)))));
+		h_particles.vx = static_cast<float*>(malloc(static_cast<size_t>(numElements*sizeof(*(h_particles.vx)))));
+		h_particles.vy = static_cast<float*>(malloc(static_cast<size_t>(numElements*sizeof(*(h_particles.vy)))));
+		h_particles.vz = static_cast<float*>(malloc(static_cast<size_t>(numElements*sizeof(*(h_particles.vz)))));
+    }
+}
+
+void allocateAOS(bool pinnedMemory, Body_t &h_particles, int numElements)
+{
+    if (!pinnedMemory)
+    {
+        // Pageable
+        h_particles.posMass = static_cast<float4 *>(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.posMass)))));
+        h_particles.velocity = static_cast<float3 *>(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.velocity)))));
+    }
+    else
+    {
+        // Pinned
+        cudaMallocHost(&(h_particles.posMass),
+                       static_cast<size_t>(numElements * sizeof(*(h_particles.posMass))));
+        cudaMallocHost(&(h_particles.velocity),
+                       static_cast<size_t>(numElements * sizeof(*(h_particles.velocity))));
+    }
+}
+
 void printHelp(char *argv)
 {
 	std::cout << "Help:" << std::endl
@@ -395,6 +521,9 @@ void printHelp(char *argv)
 			  << "" << std::endl
 			  << "  -p|--pinned-memory" << std::endl
 			  << "    Use pinned Memory instead of pageable memory" << std::endl
+  			  << "" << std::endl
+			  << "  --soa" << std::endl
+			  << "    Use SOA Allocation instead of AOS Allocation" << std::endl
 			  << "" << std::endl
 			  << "  -s <num-elements>|--size <num-elements>" << std::endl
 			  << "    Number of elements (particles)" << std::endl
