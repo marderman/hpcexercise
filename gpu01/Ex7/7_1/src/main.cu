@@ -142,9 +142,30 @@ __global__ void
 sharedNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 {
 	// Use the packed values and SOA to optimize load and store operations
+	__shared__ float4 oldPosMass[256];
+	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
 
+	float4 elementPosMass;
+	float3 elementForce;
+	float3 elementSpeed;
+
+	if (elementId < numElements)
+	{
+
+		for (size_t i = 0; i < 256; i++)
+		{
+			if (i != elementId)
+		{
+			//bodyBodyInteraction()
+		}/* code */
+		}
+		
+		
+	}
 	/*TODO Kernel Code*/
 }
+
+
 
 //
 // n-Body Kernel to update the position
@@ -229,16 +250,16 @@ int main(int argc, char *argv[])
     bool memoryLayout = chCommandLineGetBool("soa" , argc, argv);
 	if (memoryLayout)
 	{
-        allocateAOS(pinnedMemory, h_particles, numElements);
-		initializeAOS(numElements, h_particles);
-    	allocateDeviceMemoryAOS(d_particles, numElements, h_particles);
-
+     	allocateSOA(pinnedMemory,h_particles_soa, numElements);	
+		initializeSOA(numElements, h_particles_soa);
+		allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
     }
 	if (!memoryLayout)
 	{
-        allocateSOA(pinnedMemory,h_particles_soa, numElements);	
-		initializeSOA(numElements, h_particles_soa);
-		allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
+		allocateAOS(pinnedMemory, h_particles, numElements);
+		initializeAOS(numElements, h_particles);
+    	allocateDeviceMemoryAOS(d_particles, numElements, h_particles);
+       
     }
 	while (true)
 	{
