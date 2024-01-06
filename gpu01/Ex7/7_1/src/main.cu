@@ -136,6 +136,7 @@ simpleNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 
 		bodySpeed[elementId] = elementSpeed;
 	}
+	printf("sizeof(float3) %d sizeof(float4) %d sizeof(body) %d\n", sizeof(float3), sizeof(float4), sizeof(Body_t));
 }
 
 __global__ void
@@ -163,6 +164,7 @@ sharedNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 		
 	}
 	/*TODO Kernel Code*/
+	printf("sizeof(float3) %d sizeof(float4) %d sizeof(Body_t_soa) %d\n", sizeof(float3), sizeof(float4), sizeof(Body_t_soa));
 }
 
 
@@ -250,21 +252,33 @@ int main(int argc, char *argv[])
     bool memoryLayout = chCommandLineGetBool("soa" , argc, argv);
 	if (memoryLayout)
 	{
-     	allocateSOA(pinnedMemory,h_particles_soa, numElements);	
+		std::cout << "soa allocateSOA mem" << std::endl;
+		// std::fflush;
+     	allocateSOA(pinnedMemory, h_particles_soa, numElements);
+		std::cout << "soa initializeSOA mem" << std::endl;	
 		initializeSOA(numElements, h_particles_soa);
+		std::cout << "soa allocateDeviceMemorySOA mem" << std::endl;
 		allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
+		std::cout << "soa ready allocated mem" << std::endl;
+		// std::fflush;
     }
 	if (!memoryLayout)
 	{
+		std::cout << "aos allocate mem" << std::endl;
+		// std::fflush;
 		allocateAOS(pinnedMemory, h_particles, numElements);
 		initializeAOS(numElements, h_particles);
     	allocateDeviceMemoryAOS(d_particles, numElements, h_particles);
+		std::cout << "aos ready allocated mem" << std::endl;
+		// std::fflush;
        
     }
-	while (true)
-	{
-		int a=a+1;
-	}
+	// while (true)
+	// {
+	// 	int a=a+1;
+	// }
+
+
 
 
     //
@@ -323,17 +337,34 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < numIterations; i++)
 	{
-		simpleNbody_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
-													d_particles.velocity);
-		updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
-													   d_particles.velocity);
-
-		cudaMemcpy(h_particles.posMass, d_particles.posMass, sizeof(float4), cudaMemcpyDeviceToHost);
-		cudaMemcpy(h_particles.velocity, d_particles.velocity, sizeof(float3), cudaMemcpyDeviceToHost);
-		if (!silent)
+		if(memoryLayout)
 		{
-			printElement(h_particles, 0, i + 1);
+			sharedNbody_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
+													d_particles.velocity);
+			// updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
+			// 											d_particles.velocity);
+
+			// cudaMemcpy(h_particles.posMass, d_particles.posMass, sizeof(float4), cudaMemcpyDeviceToHost);
+			// cudaMemcpy(h_particles.velocity, d_particles.velocity, sizeof(float3), cudaMemcpyDeviceToHost);
+			// if (!silent)
+			// {
+			// 	printElement(h_particles, 0, i + 1);
+			// }
 		}
+		else{
+			simpleNbody_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
+													d_particles.velocity);
+			updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
+														d_particles.velocity);
+
+			cudaMemcpy(h_particles.posMass, d_particles.posMass, sizeof(float4), cudaMemcpyDeviceToHost);
+			cudaMemcpy(h_particles.velocity, d_particles.velocity, sizeof(float3), cudaMemcpyDeviceToHost);
+			if (!silent)
+			{
+				printElement(h_particles, 0, i + 1);
+			}
+		}
+		
 	}
 
 	// Synchronize
