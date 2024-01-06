@@ -54,6 +54,8 @@ struct Body_t_soa
 	float* vx;
 	float* vy;
 	float* vz;
+
+	Body_t_soa() : x(NULL), y(NULL), z(NULL),w(NULL), vx(NULL),vy(NULL), vz(NULL) {}
 };
 //
 // Function Prototypes
@@ -139,53 +141,67 @@ simpleNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 }
 
 __global__ void
-sharedNbody_Kernel(int numElements, Body_t_soa dBody, int numShMemIter)
+sharedNbody_Kernel(int numElements, Body_t_soa* dBody)
 {
 	// Use the packed values and SOA to optimize load and store operations
-	//int elementPerBlock = numElements / grid_dim;
-	int elementPerThread = elementPerBlock / blockDim.x
-
-	extern __shared__ Body_t_soa shBody[];
-	Body_t_soa regBody;
-
+	int elementPerBlock = numElements / gridDim.x;
+	int elementPerThread = elementPerBlock / blockDim.x;
 	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
+
+
+	__shared__ float x[877];
+	__shared__ float y[877];
+	__shared__ float z[877];
+	__shared__ float w[877];
+	__shared__ float vx[877];
+	__shared__ float vz[877];
+	__shared__ float vy[877];
+
+	//Berechnete Werte
+	float elementPosX,elementPosY,elementPosZ;
+	float elementAccelX, elementAccelY, elementAccellZ;
+
+	float3 elementForce = make_float3(0,0,0);
 
 	if (elementId < numElements)
 	{
-        regBody.x = dBody[elementId].x;
-        regBody.y = dBody[elementId].y;
-        regBody.z = dBody[elementId].z;
-        regBody.w = dBody[elementId].w;
-        regBody.vx = dBody[elementId].vx;
-        regBody.vy = dBody[elementId].vy;
-        regBody.vz = dBody[elementId].vz;
+		float4 bodyB = make_float4(dBody->x[elementId], dBody->y[elementId],dBody->z[elementId], dBody->w[elementId]);
+		float3 elementSpeed = make_float3(dBody->vx[elementId], dBody->vy[elementId], dBody->vz[elementId]);
 
-		for(size_t i = 0; i < numElements / 512; i++){
-
-			shBody[elementId].x = dBody[elementId + (i*512)].x;
-        	shBody[elementId].y = dBody[elementId + (i*512)].y;
-        	shBody[elementId].z = dBody[elementId + (i*512)].z;
-        	shBody[elementId].w = dBody[elementId + (i*512)].w;
-
-        	shBody[elementId].vx = dBody[elementId + (i*512)].vx;
-        	shBody[elementId].vy = dBody[elementId + (i*512)].vy;
-        	shBody[elementId].vz = dBody[elementId + (i*512)].vz;
-
-			cudaDeviceSynchronize();
+		for (size_t i = 0; i < gridDim.x; i++)
+		{
+			/* code */
+			x[threadIdx.x] = dBody->x[threadIdx.x +  i*blockDim.x];
+			y[threadIdx.x] = dBody->y[threadIdx.x +  i*blockDim.x];
+			z[threadIdx.x] = dBody->z[threadIdx.x +  i*blockDim.x];
+			vx[threadIdx.x] = dBody->vx[threadIdx.x +i*blockDim.x];
+			vy[threadIdx.x] = dBody->vy[threadIdx.x +i*blockDim.x];
+			vz[threadIdx.x] = dBody->vz[threadIdx.x +i*blockDim.x];
+			__syncthreads();
 
 			for (size_t i = 0; i < 877; i++)
-			{
-            	bodyBodyInteraction(elementPosMass, bodyPos[i], elementForce);
-			
-		
-				//bodyBodyInteraction()
-				/* code */
+			{	
+				float4 bodyA = make_float4(x[threadIdx.x], y[threadIdx.x], z[threadIdx.x], w[threadIdx.x]);
+				bodyBodyInteraction(bodyA, bodyB, elementForce);
 			}
 
+			calculateSpeed(bodyB.w, elementSpeed,elementForce);
+			dBody->x[elementId] = bodyB.x;
+			dBody->y[elementId] = bodyB.y;
+			dBody->z[elementId] = bodyB.z;
+			dBody->vx[elementId] = elementSpeed.x + vx[threadIdx.x];
+			dBody->vy[elementId] = elementSpeed.y + vy[threadIdx.y];
+			dBody->vz[elementId] = elementSpeed.z + vz[threadIdx.z];
+			__syncthreads();
+			
+
+		}
+			/* code */
 		}
 
-	}
 }
+
+
 
 
 
@@ -294,12 +310,29 @@ int sizeShMem = 49152;
 	//
 	memCpyH2DTimer.start();
 
-	cudaMemcpy(d_particles.posMass, h_particles.posMass,
+	if (memoryLayout)
+	{
+		cudaMemcpy(d_particles_soa.x, h_particles_soa.x,
+				static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyHostToDevice);
+		cudaMemcpy(d_particles_soa.y, h_particles_soa.y,
+				static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyHostToDevice);
+		cudaMemcpy(d_particles_soa.z, h_particles_soa.z,
+				static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyHostToDevice);
+		cudaMemcpy(d_particles_soa.vx, h_particles_soa.vx,
+				static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyHostToDevice);
+		cudaMemcpy(d_particles_soa.vy, h_particles_soa.vy,
+				static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyHostToDevice);
+		cudaMemcpy(d_particles_soa.vz, h_particles_soa.vz,
+				static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyHostToDevice);
+	}
+	else {
+		cudaMemcpy(d_particles.posMass, h_particles.posMass,
 			   static_cast<size_t>(numElements * sizeof(float4)),
 			   cudaMemcpyHostToDevice);
-	cudaMemcpy(d_particles.velocity, h_particles.velocity,
+		cudaMemcpy(d_particles.velocity, h_particles.velocity,
 			   static_cast<size_t>(numElements * sizeof(float3)),
 			   cudaMemcpyHostToDevice);
+	}
 
 	memCpyH2DTimer.stop();
 
@@ -341,16 +374,6 @@ int sizeShMem = 49152;
 
 	bool silent = chCommandLineGetBool("silent", argc, argv);
 
-	int shMemIterations = 1;
-
-	if(numElements < 877){
-		sizeShMem = numElements * sizeof(Body_t_soa);
-	}
-	else{
-		sizeShMem = 512 * sizeof(Body_t_soa);
-		shMemIterations = numElements / 512;
-	}
-
 	kernelTimer.start();
 
 	for (int i = 0; i < numIterations; i++)
@@ -358,7 +381,7 @@ int sizeShMem = 49152;
 		if(memoryLayout)
 		{
 			int elmentPerBlock = sizeShMem / sizeof(Body_t_soa);
-			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, d_particles);
+			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, &d_particles_soa);
 			// updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
 			// 											d_particles.velocity);
 
@@ -478,7 +501,7 @@ void allocateDeviceMemoryAOS(Body_t &d_particles, int numElements, Body_t &h_par
 
 void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_soa &h_particles)
 {
-	printf("*** Allocating Device Memory\n")
+	printf("*** Allocating Device Memory\n");
 	cudaMalloc(&(d_particles.x),
 		static_cast<size_t>(numElements*sizeof(*(d_particles.x))));
 	cudaMalloc(&(d_particles.y),
@@ -569,7 +592,7 @@ void allocateSOA(bool pinnedMemory, Body_t_soa &h_particles, int numElements)
 
 void allocateAOS(bool pinnedMemory, Body_t &h_particles, int numElements)
 {
-	printf("*** Allocate Host Memory")
+	printf("*** Allocate Host Memory");
     if(!pinnedMemory)
     {
         // Pageable
