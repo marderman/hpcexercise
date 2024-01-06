@@ -136,19 +136,19 @@ simpleNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 
 		bodySpeed[elementId] = elementSpeed;
 	}
-	printf("sizeof(float3) %d sizeof(float4) %d sizeof(body) %d\n", sizeof(float3), sizeof(float4), sizeof(Body_t));
 }
 
 __global__ void
 sharedNbody_Kernel(int numElements, Body_t_soa SoA)
 {
 	// Use the packed values and SOA to optimize load and store operations
-	extern __shared__ smem[];
-	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
+	int elementPerBlock = numElements / grid_dim;
+	int elementPerThread = elementPerBlock / blockDim.x
 
-	float4 elementPosMass;
-	float3 elementForce;
-	float3 elementSpeed;
+	extern __shared__ Body_t_soa shBody[elementPerBlock];
+	extern register Body_t_soa regBody[elementPerBlock];
+
+	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
 
 	if (elementId < numElements)
 	{
@@ -164,7 +164,6 @@ sharedNbody_Kernel(int numElements, Body_t_soa SoA)
 		
 	}
 	/*TODO Kernel Code*/
-	printf("sizeof(float3) %d sizeof(float4) %d sizeof(Body_t_soa) %d\n", sizeof(float3), sizeof(float4), sizeof(Body_t_soa));
 }
 
 
@@ -210,6 +209,7 @@ void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_so
 //
 int main(int argc, char *argv[])
 {
+int sizeShMem = 49152;
 	bool showHelp = chCommandLineGetBool("h", argc, argv);
 	if (!showHelp)
 	{
@@ -252,15 +252,9 @@ int main(int argc, char *argv[])
     bool memoryLayout = chCommandLineGetBool("soa" , argc, argv);
 	if (memoryLayout)
 	{
-		std::cout << "soa allocateSOA mem" << std::endl;
-		// std::fflush;
-     	allocateSOA(pinnedMemory, h_particles_soa, numElements);
-		std::cout << "soa initializeSOA mem" << std::endl;	
-		initializeSOA(numElements, h_particles_soa);
-		std::cout << "soa allocateDeviceMemorySOA mem" << std::endl;
-		allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
-		std::cout << "soa ready allocated mem" << std::endl;
-		// std::fflush;
+		     	allocateSOA(pinnedMemory, h_particles_soa, numElements);
+				initializeSOA(numElements, h_particles_soa);
+				allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
     }
 	if (!memoryLayout)
 	{
@@ -269,7 +263,6 @@ int main(int argc, char *argv[])
 		initializeAOS(numElements, h_particles);
     	allocateDeviceMemoryAOS(d_particles, numElements, h_particles);
 		std::cout << "aos ready allocated mem" << std::endl;
-		// std::fflush;
        
     }
 
@@ -341,8 +334,8 @@ int main(int argc, char *argv[])
 	{
 		if(memoryLayout)
 		{
-			sharedNbody_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
-													d_particles.velocity);
+			int elmentPerBlock = sizeShMem / sizeof(Body_t_soa);
+			sharedNbody_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles);
 			// updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
 			// 											d_particles.velocity);
 
@@ -530,9 +523,9 @@ void initializeSOA(int numElements, Body_t_soa &h_particles)
 		h_particles.y[i] = 1e-8 * static_cast<float>(rand()); // increase the position changes
         h_particles.z[i] = 1e-8 * static_cast<float>(rand()); // and the velocity
         h_particles.w[i] = 1e4 * static_cast<float>(rand());
-        h_particles.x[i] = 0.0f;
-        h_particles.y[i] = 0.0f;
-        h_particles.z[i] = 0.0f;
+        h_particles.vx[i] = 0.0f;
+        h_particles.vy[i] = 0.0f;
+        h_particles.vz[i] = 0.0f;
 	}
 }
 
@@ -540,9 +533,6 @@ void allocateSOA(bool pinnedMemory, Body_t_soa &h_particles, int numElements)
 {
 	printf("*** Allocate Host Memory");
     if (!pinnedMemory)
-    {
-    }
-    else
     {
 		h_particles.x = static_cast<float *>(malloc(static_cast<size_t>(numElements* sizeof(*(h_particles.x)))));
 		h_particles.y = static_cast<float *>(malloc(static_cast<size_t>(numElements*sizeof(*(h_particles.y)))));
