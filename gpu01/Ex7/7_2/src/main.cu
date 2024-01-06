@@ -139,14 +139,14 @@ simpleNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 }
 
 __global__ void
-sharedNbody_Kernel(int numElements, Body_t_soa dBody)
+sharedNbody_Kernel(int numElements, Body_t_soa dBody, int numShMemIter)
 {
 	// Use the packed values and SOA to optimize load and store operations
-	int elementPerBlock = numElements / grid_dim;
+	//int elementPerBlock = numElements / grid_dim;
 	int elementPerThread = elementPerBlock / blockDim.x
 
 	extern __shared__ Body_t_soa shBody[];
-	Body_t_soa regBody[];
+	Body_t_soa regBody;
 
 	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -160,27 +160,30 @@ sharedNbody_Kernel(int numElements, Body_t_soa dBody)
         regBody.vy = dBody[elementId].vy;
         regBody.vz = dBody[elementId].vz;
 
+		for(size_t i = 0; i < numElements / 512; i++){
 
-		shBody[elementId].x = dBody[elementId].x;
-        shBody[elementId].y = dBody[elementId].y;
-        shBody[elementId].z = dBody[elementId].z;
-        shBody[elementId].w = dBody[elementId].w;
+			shBody[elementId].x = dBody[elementId + (i*512)].x;
+        	shBody[elementId].y = dBody[elementId + (i*512)].y;
+        	shBody[elementId].z = dBody[elementId + (i*512)].z;
+        	shBody[elementId].w = dBody[elementId + (i*512)].w;
 
-        shBody[elementId].vx = dBody[elementId].vx;
-        shBody[elementId].vy = dBody[elementId].vy;
-        shBody[elementId].vz = dBody[elementId].vz;
+        	shBody[elementId].vx = dBody[elementId + (i*512)].vx;
+        	shBody[elementId].vy = dBody[elementId + (i*512)].vy;
+        	shBody[elementId].vz = dBody[elementId + (i*512)].vz;
 
+			cudaDeviceSynchronize();
 
-		for (size_t i = 0; i < 877; i++)
-		{
-            bodyBodyInteraction(elementPosMass, bodyPos[i], elementForce);
+			for (size_t i = 0; i < 877; i++)
+			{
+            	bodyBodyInteraction(elementPosMass, bodyPos[i], elementForce);
 			
-		{
-			//bodyBodyInteraction()
-		}/* code */
+		
+				//bodyBodyInteraction()
+				/* code */
+			}
+
 		}
-		
-		
+
 	}
 }
 
@@ -338,13 +341,14 @@ int sizeShMem = 49152;
 
 	bool silent = chCommandLineGetBool("silent", argc, argv);
 
-	if(numElements < 877){
-		kernelAufruf(sharedMem = numElements)
+	int shMemIterations = 1;
 
+	if(numElements < 877){
+		sizeShMem = numElements * sizeof(Body_t_soa);
 	}
 	else{
-		berechnung
-		kernelAufruf(sharedMem = ergebnis, anzahl durchläufe)
+		sizeShMem = 512 * sizeof(Body_t_soa);
+		shMemIterations = numElements / 512;
 	}
 
 	kernelTimer.start();
@@ -354,7 +358,7 @@ int sizeShMem = 49152;
 		if(memoryLayout)
 		{
 			int elmentPerBlock = sizeShMem / sizeof(Body_t_soa);
-			sharedNbody_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles);
+			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, d_particles);
 			// updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
 			// 											d_particles.velocity);
 

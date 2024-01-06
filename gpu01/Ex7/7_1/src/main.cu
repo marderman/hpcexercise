@@ -21,7 +21,7 @@ const static int DEFAULT_NUM_ELEMENTS = 1024;
 const static int DEFAULT_NUM_ITERATIONS = 5;
 const static int DEFAULT_BLOCK_DIM = 128;
 
-const static float TIMESTEP = 1e-6;	  // s
+//const static float TIMESTEP = 1e-6;	  // s
 const static float TIMESTEP = 1e-3;	  // s
 const static float GAMMA = 6.673e-11; // (Nm^2)/(kg^2)
 
