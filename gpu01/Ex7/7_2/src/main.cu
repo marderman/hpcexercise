@@ -144,10 +144,7 @@ __global__ void
 sharedNbody_Kernel(int numElements, Body_t_soa* dBody)
 {
 	// Use the packed values and SOA to optimize load and store operations
-	int elementPerBlock = numElements / gridDim.x;
-	int elementPerThread = elementPerBlock / blockDim.x;
 	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
-
 
 	__shared__ float x[877];
 	__shared__ float y[877];
@@ -165,19 +162,30 @@ sharedNbody_Kernel(int numElements, Body_t_soa* dBody)
 
 	if (elementId < numElements)
 	{
+		printf("sizeof(dBody) %d ", sizeof(dBody->x[elementId]));
+
+		printf("dBody->x[elementId] %f", dBody->x[elementId]);
+		printf("dBody->y[elementId] %f", dBody->y[elementId]);
+		printf("dBody->z[elementId] %f", dBody->z[elementId]);
+		printf("dBody->w[elementId] %f", dBody->w[elementId]);
 		float4 bodyB = make_float4(dBody->x[elementId], dBody->y[elementId],dBody->z[elementId], dBody->w[elementId]);
+		printf("bodyB");
 		float3 elementSpeed = make_float3(dBody->vx[elementId], dBody->vy[elementId], dBody->vz[elementId]);
+		printf("elementSpeed");
+		
 
 		for (size_t i = 0; i < gridDim.x; i++)
 		{
 			/* code */
+			printf("x[threadIdx.x]");
 			x[threadIdx.x] = dBody->x[threadIdx.x +  i*blockDim.x];
 			y[threadIdx.x] = dBody->y[threadIdx.x +  i*blockDim.x];
 			z[threadIdx.x] = dBody->z[threadIdx.x +  i*blockDim.x];
-			vx[threadIdx.x] = dBody->vx[threadIdx.x +i*blockDim.x];
-			vy[threadIdx.x] = dBody->vy[threadIdx.x +i*blockDim.x];
-			vz[threadIdx.x] = dBody->vz[threadIdx.x +i*blockDim.x];
+			vx[threadIdx.x] = dBody->vx[threadIdx.x + i*blockDim.x];
+			vy[threadIdx.x] = dBody->vy[threadIdx.x + i*blockDim.x];
+			vz[threadIdx.x] = dBody->vz[threadIdx.x + i*blockDim.x];
 			__syncthreads();
+			printf("write value");
 
 			for (size_t i = 0; i < 877; i++)
 			{	
@@ -193,11 +201,11 @@ sharedNbody_Kernel(int numElements, Body_t_soa* dBody)
 			dBody->vy[elementId] = elementSpeed.y + vy[threadIdx.y];
 			dBody->vz[elementId] = elementSpeed.z + vz[threadIdx.z];
 			__syncthreads();
-			
 
+			
 		}
-			/* code */
-		}
+/* code */
+	}
 
 }
 
@@ -380,8 +388,7 @@ int sizeShMem = 49152;
 	{
 		if(memoryLayout)
 		{
-			int elmentPerBlock = sizeShMem / sizeof(Body_t_soa);
-			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, &d_particles_soa);
+			sharedNbody_Kernel<<<grid_dim, block_dim>>>(numElements, &d_particles_soa);
 			// updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
 			// 											d_particles.velocity);
 
