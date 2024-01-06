@@ -237,6 +237,20 @@ updatePosition_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 	}
 }
 
+__global__ void
+SoAUpdatePosition_Kernel(int numElements, Body_t_soa * SoA)
+{
+	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
+
+	if (elementId < numElements)
+	{
+		SoA->x[elementId] += SoA->vx[elementId] * TIMESTEP;
+		SoA->y[elementId] += SoA->vy[elementId] * TIMESTEP;
+		SoA->z[elementId] += SoA->vz[elementId] * TIMESTEP;
+	}
+}
+
+
 void allocateAOS(bool pinnedMemory, Body_t &h_particles, int numElements);
 
 void allocateSOA(bool pinnedMemory, Body_t_soa &h_particles,int numElements);
@@ -388,9 +402,8 @@ int sizeShMem = 49152;
 	{
 		if(memoryLayout)
 		{
-			sharedNbody_Kernel<<<grid_dim, block_dim>>>(numElements, &d_particles_soa);
-			// updatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles.posMass,
-			// 											d_particles.velocity);
+			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, &d_particles_soa);
+			SoAUpdatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, &d_particles_soa);
 
 			// cudaMemcpy(h_particles.posMass, d_particles.posMass, sizeof(float4), cudaMemcpyDeviceToHost);
 			// cudaMemcpy(h_particles.velocity, d_particles.velocity, sizeof(float3), cudaMemcpyDeviceToHost);
