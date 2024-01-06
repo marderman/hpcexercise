@@ -139,23 +139,42 @@ simpleNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 }
 
 __global__ void
-sharedNbody_Kernel(int numElements, Body_t_soa SoA)
+sharedNbody_Kernel(int numElements, Body_t_soa dBody)
 {
 	// Use the packed values and SOA to optimize load and store operations
 	int elementPerBlock = numElements / grid_dim;
 	int elementPerThread = elementPerBlock / blockDim.x
 
-	extern __shared__ Body_t_soa shBody[elementPerBlock];
-	extern register Body_t_soa regBody[elementPerBlock];
+	extern __shared__ Body_t_soa shBody[];
+	Body_t_soa regBody[];
 
 	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
 
 	if (elementId < numElements)
 	{
+        regBody.x = dBody[elementId].x;
+        regBody.y = dBody[elementId].y;
+        regBody.z = dBody[elementId].z;
+        regBody.w = dBody[elementId].w;
+        regBody.vx = dBody[elementId].vx;
+        regBody.vy = dBody[elementId].vy;
+        regBody.vz = dBody[elementId].vz;
 
-		for (size_t i = 0; i < 256; i++)
+
+		shBody[elementId].x = dBody[elementId].x;
+        shBody[elementId].y = dBody[elementId].y;
+        shBody[elementId].z = dBody[elementId].z;
+        shBody[elementId].w = dBody[elementId].w;
+
+        shBody[elementId].vx = dBody[elementId].vx;
+        shBody[elementId].vy = dBody[elementId].vy;
+        shBody[elementId].vz = dBody[elementId].vz;
+
+
+		for (size_t i = 0; i < 877; i++)
 		{
-			if (i != elementId)
+            bodyBodyInteraction(elementPosMass, bodyPos[i], elementForce);
+			
 		{
 			//bodyBodyInteraction()
 		}/* code */
@@ -163,8 +182,8 @@ sharedNbody_Kernel(int numElements, Body_t_soa SoA)
 		
 		
 	}
-	/*TODO Kernel Code*/
 }
+
 
 
 
