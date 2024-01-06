@@ -250,21 +250,19 @@ int main(int argc, char *argv[])
     bool memoryLayout = chCommandLineGetBool("soa" , argc, argv);
 	if (memoryLayout)
 	{
+		printf("Using SOA");
      	allocateSOA(pinnedMemory,h_particles_soa, numElements);	
 		initializeSOA(numElements, h_particles_soa);
 		allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
     }
 	if (!memoryLayout)
 	{
+		printf("*** Using AOS");
 		allocateAOS(pinnedMemory, h_particles, numElements);
 		initializeAOS(numElements, h_particles);
     	allocateDeviceMemoryAOS(d_particles, numElements, h_particles);
        
     }
-	while (true)
-	{
-		int a=a+1;
-	}
 
 
     //
@@ -410,10 +408,11 @@ int main(int argc, char *argv[])
 
 void allocateDeviceMemoryAOS(Body_t &d_particles, int numElements, Body_t &h_particles)
 {
-    cudaMalloc(&(d_particles.posMass),
-               static_cast<size_t>(numElements * sizeof(*(d_particles.posMass))));
-    cudaMalloc(&(d_particles.velocity),
-               static_cast<size_t>(numElements * sizeof(*(d_particles.velocity))));
+	printf("*** Allocating Device Memory\n");
+    cudaMalloc(&(d_particles.posMass),static_cast<size_t>(numElements * sizeof(*(d_particles.posMass))));
+    cudaMalloc(&(d_particles.velocity),static_cast<size_t>(numElements * sizeof(*(d_particles.velocity))));
+	
+	//printf("h_particles.posMass %d, d_particles.posMass %d\n h_particles.velocity %d, d_particles.velocity", h_particles.posMass, d_particles.posMass, h_particles.velocity, d_particles.velocity);
 
     if (h_particles.posMass == NULL || h_particles.velocity == NULL ||
         d_particles.posMass == NULL || d_particles.velocity == NULL)
@@ -428,6 +427,7 @@ void allocateDeviceMemoryAOS(Body_t &d_particles, int numElements, Body_t &h_par
 
 void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_soa &h_particles)
 {
+	printf("*** Allocating Device Memory\n")
 	cudaMalloc(&(d_particles.x),
 		static_cast<size_t>(numElements*sizeof(*(d_particles.x))));
 	cudaMalloc(&(d_particles.y),
@@ -466,6 +466,8 @@ void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_so
 
 void initializeAOS(int numElements, Body_t &h_particles)
 {
+	printf("*** Initialize Data");
+
     // Init Particles
     //	srand(static_cast<unsigned>(time(0)));
     srand(0); // Always the same random numbers
@@ -485,6 +487,7 @@ void initializeAOS(int numElements, Body_t &h_particles)
 
 void initializeSOA(int numElements, Body_t_soa &h_particles)
 {
+	printf("*** Initialize Data");
 	srand(0);
 	for (int i = 0;i < numElements;i++)
 	{
@@ -500,6 +503,7 @@ void initializeSOA(int numElements, Body_t_soa &h_particles)
 
 void allocateSOA(bool pinnedMemory, Body_t_soa &h_particles, int numElements)
 {
+	printf("*** Allocate Host Memory");
     if (!pinnedMemory)
     {
     }
@@ -517,11 +521,14 @@ void allocateSOA(bool pinnedMemory, Body_t_soa &h_particles, int numElements)
 
 void allocateAOS(bool pinnedMemory, Body_t &h_particles, int numElements)
 {
+	printf("*** Allocate Host Memory")
     if (!pinnedMemory)
     {
         // Pageable
-        h_particles.posMass = static_cast<float4 *>(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.posMass)))));
-        h_particles.velocity = static_cast<float3 *>(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.velocity)))));
+        h_particles.posMass = static_cast<float4 *>
+		(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.posMass)))));
+        h_particles.velocity = static_cast<float3 *>
+		(malloc(static_cast<size_t>(numElements * sizeof(*(h_particles.velocity)))));
     }
     else
     {
