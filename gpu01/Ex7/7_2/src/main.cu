@@ -141,65 +141,61 @@ simpleNbody_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 }
 
 __global__ void
-sharedNbody_Kernel(int numElements, Body_t_soa* dBody)
+sharedNbody_Kernel(int numElements, Body_t_soa dBody, size_t numIter)
 {
 	// Use the packed values and SOA to optimize load and store operations
 	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
 
-	__shared__ float x[877];
-	__shared__ float y[877];
-	__shared__ float z[877];
-	__shared__ float w[877];
-	__shared__ float vx[877];
-	__shared__ float vz[877];
-	__shared__ float vy[877];
+	__shared__ float x[512];
+	__shared__ float y[512];
+	__shared__ float z[512];
+	__shared__ float w[512];
+	__shared__ float vx[512];
+	__shared__ float vz[512];
+	__shared__ float vy[512];
 
 	//Berechnete Werte
-	float elementPosX,elementPosY,elementPosZ;
-	float elementAccelX, elementAccelY, elementAccellZ;
+	//float elementPosX,elementPosY,elementPosZ;
+	//float elementAccelX, elementAccelY, elementAccellZ;
 
 	float3 elementForce = make_float3(0,0,0);
 
 	if (elementId < numElements)
 	{
-		printf("sizeof(dBody) %d ", sizeof(dBody->x[elementId]));
-
-		printf("dBody->x[elementId] %f", dBody->x[elementId]);
-		printf("dBody->y[elementId] %f", dBody->y[elementId]);
-		printf("dBody->z[elementId] %f", dBody->z[elementId]);
-		printf("dBody->w[elementId] %f", dBody->w[elementId]);
-		float4 bodyB = make_float4(dBody->x[elementId], dBody->y[elementId],dBody->z[elementId], dBody->w[elementId]);
+		printf("Test %f", dBody.x[0]);
+		float4 bodyB = make_float4(dBody.x[elementId], dBody.y[elementId],dBody.z[elementId], dBody.w[elementId]);
 		printf("bodyB");
-		float3 elementSpeed = make_float3(dBody->vx[elementId], dBody->vy[elementId], dBody->vz[elementId]);
+		float3 elementSpeed = make_float3(dBody.vx[elementId], dBody.vy[elementId], dBody.vz[elementId]);
 		printf("elementSpeed");
 		
 
-		for (size_t i = 0; i < gridDim.x; i++)
+		for (size_t i = 0; i < numIter; i++)
 		{
-			/* code */
-			printf("x[threadIdx.x]");
-			x[threadIdx.x] = dBody->x[threadIdx.x +  i*blockDim.x];
-			y[threadIdx.x] = dBody->y[threadIdx.x +  i*blockDim.x];
-			z[threadIdx.x] = dBody->z[threadIdx.x +  i*blockDim.x];
-			vx[threadIdx.x] = dBody->vx[threadIdx.x + i*blockDim.x];
-			vy[threadIdx.x] = dBody->vy[threadIdx.x + i*blockDim.x];
-			vz[threadIdx.x] = dBody->vz[threadIdx.x + i*blockDim.x];
+			
+			for(size_t j = 0; j < 512 / blockDim.x; j++){
+			x[threadIdx.x+j*blockDim.x] = dBody.x[threadIdx.x +  i*512];
+			y[threadIdx.x+j*blockDim.x] = dBody.y[threadIdx.x +  i*512];
+			z[threadIdx.x+j*blockDim.x] = dBody.z[threadIdx.x +  i*512];
+			vx[threadIdx.x+j*blockDim.x] = dBody.vx[threadIdx.x + i*512];
+			vy[threadIdx.x+j*blockDim.x] = dBody.vy[threadIdx.x + i*512];
+			vz[threadIdx.x+j*blockDim.x] = dBody.vz[threadIdx.x + i*512];
+			}
 			__syncthreads();
 			printf("write value");
 
-			for (size_t i = 0; i < 877; i++)
+			for (size_t j = 0; j < 512; j++)
 			{	
-				float4 bodyA = make_float4(x[threadIdx.x], y[threadIdx.x], z[threadIdx.x], w[threadIdx.x]);
+				float4 bodyA = make_float4(x[j], y[j], z[j], w[j]);
 				bodyBodyInteraction(bodyA, bodyB, elementForce);
 			}
 
 			calculateSpeed(bodyB.w, elementSpeed,elementForce);
-			dBody->x[elementId] = bodyB.x;
-			dBody->y[elementId] = bodyB.y;
-			dBody->z[elementId] = bodyB.z;
-			dBody->vx[elementId] = elementSpeed.x + vx[threadIdx.x];
-			dBody->vy[elementId] = elementSpeed.y + vy[threadIdx.y];
-			dBody->vz[elementId] = elementSpeed.z + vz[threadIdx.z];
+			//dBody->x[elementId] = bodyB.x;
+			//dBody->y[elementId] = bodyB.y;
+			//dBody->z[elementId] = bodyB.z;
+			dBody.vx[elementId] = elementSpeed.x + vx[threadIdx.x];
+			dBody.vy[elementId] = elementSpeed.y + vy[threadIdx.y];
+			dBody.vz[elementId] = elementSpeed.z + vz[threadIdx.z];
 			__syncthreads();
 
 			
@@ -312,18 +308,17 @@ int sizeShMem = 49152;
     bool memoryLayout = chCommandLineGetBool("soa" , argc, argv);
 	if (memoryLayout)
 	{
-		     	allocateSOA(pinnedMemory, h_particles_soa, numElements);
-				initializeSOA(numElements, h_particles_soa);
-				allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
+		allocateSOA(pinnedMemory, h_particles_soa, numElements);
+		initializeSOA(numElements, h_particles_soa);
+		allocateDeviceMemorySOA(d_particles_soa, numElements, h_particles_soa);
     }
 	if (!memoryLayout)
 	{
-		printf("*** Using AOS");
+		printf("*** Using AOS\n");
 		allocateAOS(pinnedMemory, h_particles, numElements);
 		initializeAOS(numElements, h_particles);
     	allocateDeviceMemoryAOS(d_particles, numElements, h_particles);
-		std::cout << "aos ready allocated mem" << std::endl;
-       
+      
     }
 
 
@@ -402,8 +397,14 @@ int sizeShMem = 49152;
 	{
 		if(memoryLayout)
 		{
-			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, &d_particles_soa);
-			SoAUpdatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, &d_particles_soa);
+			if(numElements % 512 != 0){
+				printf("Please execute the programm with a body count of N * 512");
+				return 1;
+			}
+			size_t numShMemIter = numElements / 512;
+			sizeShMem = 512 * sizeof(Body_t_soa);
+			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, d_particles_soa, numShMemIter);
+			//SoAUpdatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, &d_particles_soa);
 
 			// cudaMemcpy(h_particles.posMass, d_particles.posMass, sizeof(float4), cudaMemcpyDeviceToHost);
 			// cudaMemcpy(h_particles.velocity, d_particles.velocity, sizeof(float3), cudaMemcpyDeviceToHost);
@@ -461,17 +462,20 @@ int sizeShMem = 49152;
 
 	if (memoryLayout)
 	{
-	// Free Memory
-	if (!pinnedMemory)
-	{
 		free(h_particles.posMass);
 		free(h_particles.velocity);
 	}
-	else
-	{
-		cudaFreeHost(h_particles.posMass);
-		cudaFreeHost(h_particles.velocity);
-	}
+	else if(!memoryLayout){
+		if (!pinnedMemory)
+		{
+			free(h_particles.posMass);
+			free(h_particles.velocity);
+		}
+		else
+		{
+			cudaFreeHost(h_particles.posMass);
+			cudaFreeHost(h_particles.velocity);
+		}
 	}
 
 	cudaFree(d_particles.posMass);
@@ -522,6 +526,7 @@ void allocateDeviceMemoryAOS(Body_t &d_particles, int numElements, Body_t &h_par
 void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_soa &h_particles)
 {
 	printf("*** Allocating Device Memory\n");
+	//cudaMalloc((void**)&d_particles, static_cast<size_t>(numElements * sizeof(struct Body_t_soa)));
 	cudaMalloc(&(d_particles.x),
 		static_cast<size_t>(numElements*sizeof(*(d_particles.x))));
 	cudaMalloc(&(d_particles.y),
@@ -536,6 +541,7 @@ void allocateDeviceMemorySOA(Body_t_soa &d_particles, int numElements, Body_t_so
 		static_cast<size_t>(numElements*sizeof(*(d_particles.vy))));
 	cudaMalloc(&(d_particles.vz),
 		static_cast<size_t>(numElements*sizeof(*(d_particles.vz))));
+	
 
 	if (h_particles.x == NULL || h_particles.y == NULL ||
         d_particles.x == NULL || d_particles.y == NULL ||
