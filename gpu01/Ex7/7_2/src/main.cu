@@ -162,11 +162,8 @@ sharedNbody_Kernel(int numElements, Body_t_soa dBody, size_t numIter)
 
 	if (elementId < numElements)
 	{
-		printf("Test %f", dBody.x[0]);
 		float4 bodyB = make_float4(dBody.x[elementId], dBody.y[elementId],dBody.z[elementId], dBody.w[elementId]);
-		printf("bodyB");
 		float3 elementSpeed = make_float3(dBody.vx[elementId], dBody.vy[elementId], dBody.vz[elementId]);
-		printf("elementSpeed");
 		
 
 		for (size_t i = 0; i < numIter; i++)
@@ -181,7 +178,6 @@ sharedNbody_Kernel(int numElements, Body_t_soa dBody, size_t numIter)
 			vz[threadIdx.x+j*blockDim.x] = dBody.vz[threadIdx.x + i*512];
 			}
 			__syncthreads();
-			printf("write value");
 
 			for (size_t j = 0; j < 512; j++)
 			{	
@@ -200,7 +196,6 @@ sharedNbody_Kernel(int numElements, Body_t_soa dBody, size_t numIter)
 
 			
 		}
-/* code */
 	}
 
 }
@@ -234,15 +229,15 @@ updatePosition_Kernel(int numElements, float4 *bodyPos, float3 *bodySpeed)
 }
 
 __global__ void
-SoAUpdatePosition_Kernel(int numElements, Body_t_soa * SoA)
+SoAUpdatePosition_Kernel(int numElements, Body_t_soa SoA)
 {
 	int elementId = blockIdx.x * blockDim.x + threadIdx.x;
 
 	if (elementId < numElements)
 	{
-		SoA->x[elementId] += SoA->vx[elementId] * TIMESTEP;
-		SoA->y[elementId] += SoA->vy[elementId] * TIMESTEP;
-		SoA->z[elementId] += SoA->vz[elementId] * TIMESTEP;
+		SoA.x[elementId] += SoA.vx[elementId] * TIMESTEP;
+		SoA.y[elementId] += SoA.vy[elementId] * TIMESTEP;
+		SoA.z[elementId] += SoA.vz[elementId] * TIMESTEP;
 	}
 }
 
@@ -391,23 +386,27 @@ int sizeShMem = 49152;
 
 	bool silent = chCommandLineGetBool("silent", argc, argv);
 
+	if(memoryLayout)
+		{
+			if(numElements % 512 != 0){
+				printf("Please execute the programm with a body count of N * 512\n");
+				return 1;
+			}
+		}
+	
+	size_t numShMemIter = numElements / 512;
+	sizeShMem = 512 * sizeof(Body_t_soa);
+
 	kernelTimer.start();
 
 	for (int i = 0; i < numIterations; i++)
 	{
 		if(memoryLayout)
 		{
-			if(numElements % 512 != 0){
-				printf("Please execute the programm with a body count of N * 512");
-				return 1;
-			}
-			size_t numShMemIter = numElements / 512;
-			sizeShMem = 512 * sizeof(Body_t_soa);
-			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, d_particles_soa, numShMemIter);
-			//SoAUpdatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, &d_particles_soa);
 
-			// cudaMemcpy(h_particles.posMass, d_particles.posMass, sizeof(float4), cudaMemcpyDeviceToHost);
-			// cudaMemcpy(h_particles.velocity, d_particles.velocity, sizeof(float3), cudaMemcpyDeviceToHost);
+			sharedNbody_Kernel<<<grid_dim, block_dim, sizeShMem>>>(numElements, d_particles_soa, numShMemIter);
+			SoAUpdatePosition_Kernel<<<grid_dim, block_dim>>>(numElements, d_particles_soa);
+
 			// if (!silent)
 			// {
 			// 	printElement(h_particles, 0, i + 1);
@@ -449,15 +448,32 @@ int sizeShMem = 49152;
 	//
 	// Copy Back Data
 	//
+
 	memCpyD2HTimer.start();
 
-	cudaMemcpy(h_particles.posMass, d_particles.posMass,
+	if(memoryLayout){
+		cudaMemcpy(h_particles_soa.x, d_particles_soa.x,
+			static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyDeviceToHost);
+		cudaMemcpy(h_particles_soa.y, d_particles_soa.y,
+			static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyDeviceToHost);
+		cudaMemcpy(h_particles_soa.z, d_particles_soa.z,
+			static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyDeviceToHost);
+		cudaMemcpy(h_particles_soa.vx, d_particles_soa.vx,
+			static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyDeviceToHost);
+		cudaMemcpy(h_particles_soa.vy, d_particles_soa.vy,
+			static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyDeviceToHost);
+		cudaMemcpy(h_particles_soa.vz, d_particles_soa.vz,
+			static_cast<size_t>(numElements * sizeof(float)),cudaMemcpyDeviceToHost);
+	}
+	else{
+		cudaMemcpy(h_particles.posMass, d_particles.posMass,
 			   static_cast<size_t>(numElements * sizeof(*(h_particles.posMass))),
 			   cudaMemcpyDeviceToHost);
-	cudaMemcpy(h_particles.velocity, d_particles.velocity,
+		cudaMemcpy(h_particles.velocity, d_particles.velocity,
 			   static_cast<size_t>(numElements * sizeof(*(h_particles.velocity))),
 			   cudaMemcpyDeviceToHost);
-
+	}
+	
 	memCpyD2HTimer.stop();
 
 	if (memoryLayout)

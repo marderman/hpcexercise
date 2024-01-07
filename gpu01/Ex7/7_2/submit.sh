@@ -13,6 +13,6 @@ make
 
 for ((i = 1024; i <= 1024*1024; i*=2))
 do
-    ./bin/nbody -s $i
+    ./bin/nbody -s $i --soa
 done
 
