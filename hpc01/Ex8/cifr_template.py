@@ -1,13 +1,9 @@
-
 import torch
 import torchvision
 import torchvision.transforms as transforms
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-
-from time import time
-from argparse import ArgumentParser
 
 class Net(nn.Module):
 
@@ -29,7 +25,7 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
-def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
+def main():
 
     # 1. Load and normalize CIFAR10
     transform = transforms.Compose(
@@ -38,6 +34,8 @@ def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
     )
+
+    batch_size = 4
 
     trainset = torchvision.datasets.CIFAR10(
         root="./data", train=True, download=True, transform=transform
@@ -57,25 +55,20 @@ def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
 
     # 2. Define a Convolutional Neural Network
     net = Net()
-    net.to(device)
 
     # 3. Define a Loss function and optimizer
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9)
-
-    train_results = []
+    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
     # 4. Train the network
-    train_start = time()
-    for epoch in range(nr_epochs):  # loop over the dataset multiple times
+    for epoch in range(2):  # loop over the dataset multiple times
 
         running_loss = 0.0
 
         for i, data in enumerate(trainloader, 0):
 
             # get the inputs; data is a list of [inputs, labels]
-            # inputs, labels = data
-            inputs, labels = data[0].to(device), data[1].to(device)
+            inputs, labels = data
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -89,32 +82,23 @@ def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
             # print statistics
             running_loss += loss.item()
 
-            if i % (int(len(trainloader) * 0.16)) == (int(len(trainloader) * 0.16) - 1):
-                # print(
-                #     f"[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}"
-                # )
-                train_results = train_results + [(batch_size, lr, epoch+1, i+1, running_loss/int(len(trainloader) * 0.16))]
+            if i % 2000 == 1999:  # print every 2000 mini-batches
+                print(
+                    f"[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}"
+                )
                 running_loss = 0.0
 
-    train_end = time()
-
-    for res in train_results:
-        print("TRA,{},{},{},{},{:.3f}".format(res[0], res[1], res[2], res[3], res[4]))
-
-    print("TRA_TIM,{},{},{},{:.2f}".format(batch_size, lr, nr_epochs, train_end - train_start))
+    print("Finished Training")
 
     # 5. Test the network on the test data
     correct = 0
     total = 0
 
     # since we're not training, we don't need to calculate the gradients for our outputs
-    test_start = time()
     with torch.no_grad():
         for data in testloader:
 
-            # images, labels = data
-            images, labels = data[0].to(device), data[1].to(device)
-
+            images, labels = data
             # calculate outputs by running images through the network
             outputs = net(images)
             # the class with the highest energy is what we choose as prediction
@@ -122,25 +106,10 @@ def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
-    test_end = time()
-    print("TST,{},{},{},{:.2f},{:.2f}".format(batch_size, lr, nr_epochs, 100*correct / total, test_end - test_start))
+    print(
+        f"Accuracy of the network on the 10000 test images: {100 * correct // total} %"
+    )
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description='Train and test a neural network on CIFAR-10.')
-    parser.add_argument('--cuda', action='store_true', help='Use CUDA for training if available')
-    args = parser.parse_args()
 
-    pos_learning_rates = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5]
-    pos_batch_sizes    = [4, 10, 64, 256]
-    pos_epochs    = [2, 4, 6]
-
-    device = torch.device('cuda:0' if args.cuda else 'cpu')
-
-    for batch_size in pos_batch_sizes:
-        for lr in pos_learning_rates:
-            for epochs in pos_epochs:
-                train_n_test(
-                    device = device,
-                    batch_size = batch_size,
-                    lr=lr,
-                    nr_epochs = epochs)
+    main()
