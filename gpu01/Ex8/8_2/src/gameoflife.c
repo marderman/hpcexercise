@@ -114,20 +114,22 @@ int main(int argc, char* argv[])
         }
  
        // Can't switch pointers so we mannually have to copy array over
-       #pragma acc loop independent
+       #pragma acc loop independent 
        for(i = 1; i <= dim; i++) {
            for(j = 1; j <= dim; j++) {
                grid[idx(i,j)] = newGrid[idx(i,j)];
            }
-       }
-    } // End ACC kernels region
+            //#pragma acc update host(grid[0:fullSize]) async (iter)
 
-    #pragma acc update self(grid[0:fullSize])
-    #pragma acc wait
-    writeGridToStdout(grid, iter, maxIter);
+       }
+        //#pragma acc wait(iter)
+        //writeGridToStdout(grid, iter, maxIter);
+    } // End ACC kernels region
+    
 
     
     } // End main game loop
+    //writeGridToStdout(grid,iter,maxIter)
     gameTimer.stop();
     // Sum up alive cells
     #pragma acc parallel
