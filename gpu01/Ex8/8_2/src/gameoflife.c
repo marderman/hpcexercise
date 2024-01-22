@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <chTimer.hpp>
+#include <nvToolsExt.h>
  
 #define SRAND_VALUE 1985
  
@@ -80,7 +81,7 @@ int main(int argc, char* argv[])
     #pragma acc kernels
     {
         // Left-Right columns
-        #pragma acc loop independent
+        #pragma acc loop independent 
         for (i = 1; i <= dim; i++) {
             grid[idx(i,0)] = grid[idx(i,dim)];   //Copy first real column to right ghost column
             grid[idx(i,dim+1)] = grid[idx(i,1)]; //Copy last real column to left ghost column
@@ -119,17 +120,15 @@ int main(int argc, char* argv[])
            for(j = 1; j <= dim; j++) {
                grid[idx(i,j)] = newGrid[idx(i,j)];
            }
-            //#pragma acc update host(grid[0:fullSize]) async (iter)
 
        }
         //#pragma acc wait(iter)
         //writeGridToStdout(grid, iter, maxIter);
     } // End ACC kernels region
-    
-
-    
     } // End main game loop
-    //writeGridToStdout(grid,iter,maxIter)
+
+
+
     gameTimer.stop();
     // Sum up alive cells
     #pragma acc parallel
@@ -143,8 +142,7 @@ int main(int argc, char* argv[])
         }
     }
   } // End ACC Data region
-
-    //printf("%d;%d;%lf\n",dim,total, gameTimer.getTime());
+    printf("%d;%d;%lf\n",dim,total, gameTimer.getTime());
     fflush(stdout);
  
     // Release memory

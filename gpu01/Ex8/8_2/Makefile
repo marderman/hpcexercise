@@ -1,5 +1,5 @@
 CC=pgc++
-ACCFLAGS = -acc -ta=tesla,time -Minfo=accel -Minline
+ACCFLAGS = -acc -ta=tesla,time -Minfo=accel -Minline -lnvToolsExt
 INC=-I./inc
 LIB=
 

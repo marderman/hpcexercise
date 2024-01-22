@@ -13,7 +13,9 @@ module load devtoolset/10 cuda/11.6 nvhpc/21.9
 
 make
 
-for ((i = 128; i <= 8192; i*=2))
+echo "Grid Size;Total Alive Cells;Total Execution Time"
+
+for ((i = 128; i <= 65536; i*=2))
 do
     ./bin/gameoflife $i
 done
