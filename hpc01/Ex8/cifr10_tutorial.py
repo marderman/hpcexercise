@@ -65,6 +65,11 @@ def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
 
     train_results = []
 
+    # Track the ratio of weight updates over weight magnitudes
+    track_ratio = True
+    if track_ratio:
+        initial_weights = {name: param.clone().detach() for name, param in net.named_parameters()}
+
     # 4. Train the network
     train_start = time()
     for epoch in range(nr_epochs):  # loop over the dataset multiple times
@@ -89,6 +94,17 @@ def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
             # print statistics
             running_loss += loss.item()
 
+            # Calculate the ratio of weight updates over weight magnitudes
+            if track_ratio and i == 0:
+                current_weights = {name: param.clone().detach() for name, param in net.named_parameters()}
+                max_name_length = max(len(name) for name in initial_weights.keys())
+                print(f"Epoch: {epoch} - weight update ratios:")
+                for name in initial_weights:
+                    weight_update = current_weights[name] - initial_weights[name]
+                    weight_magnitude = torch.norm(current_weights[name])
+                    update_magnitude_ratio = torch.norm(weight_update) / weight_magnitude
+                    print(f"{name.ljust(max_name_length)}: {update_magnitude_ratio.item():.5f}")
+
             if i % (int(len(trainloader) * 0.16)) == (int(len(trainloader) * 0.16) - 1):
                 # print(
                 #     f"[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}"
@@ -99,7 +115,7 @@ def train_n_test(device, batch_size = 4, lr = 0.001, nr_epochs = 2):
     train_end = time()
 
     for res in train_results:
-        print("TRA,{},{},{},{},{:.3f}".format(res[0], res[1], res[2], res[3], res[4]))
+        print("TRA,{},{},{},{},{},{:.3f}".format(res[0], res[1], res[2], nr_epochs, res[3], res[4]))
 
     print("TRA_TIM,{},{},{},{:.2f}".format(batch_size, lr, nr_epochs, train_end - train_start))
 
@@ -136,11 +152,17 @@ if __name__ == "__main__":
 
     device = torch.device('cuda:0' if args.cuda else 'cpu')
 
-    for batch_size in pos_batch_sizes:
-        for lr in pos_learning_rates:
-            for epochs in pos_epochs:
-                train_n_test(
-                    device = device,
-                    batch_size = batch_size,
-                    lr=lr,
-                    nr_epochs = epochs)
+    # for batch_size in pos_batch_sizes:
+    #     for lr in pos_learning_rates:
+    #         for epochs in pos_epochs:
+    #             train_n_test(
+    #                 device = device,
+    #                 batch_size = batch_size,
+    #                 lr=lr,
+    #                 nr_epochs = epochs)
+
+    train_n_test(
+        device = device,
+        batch_size = 64,
+        lr=0.01,
+        nr_epochs = 10)
